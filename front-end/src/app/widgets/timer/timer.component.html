@@ -1,1 +1,43 @@
-<p>timer works!</p>
+<!-- Weather info block element -->
+<div class="widget">
+  <!-- The weather information - content -->
+  <div class="widget__timer-content">
+    <!-- Timer -->
+    <section #timerProgress id="timerProgress" class="circular-progress">
+      <p class="widget__timer-value user-select-none">
+        {{ timeFormatter.formatTime(currentValue) }}
+      </p>
+    </section>
+
+    <section class="widget__timer-buttons">
+      <button
+        #timerStateBtn
+        id="timerStateBtn"
+        class="btn btn-secondary border-0"
+        title="timer.start"
+        (click)="toggleTimer()"
+      >
+        <section class="img-container--large">
+          <img src="/assets/timer/play.svg" class="color-inverted" />
+        </section>
+      </button>
+
+      <button
+        #timerStopBtn
+        id="timerStopBtn"
+        class="btn btn-secondary border-0"
+        title="timer.stop"
+        disabled
+        (click)="stopTimer()"
+      >
+        <section class="img-container--large">
+          <img
+            src="/assets/timer/stop.svg"
+            alt="Timer stop icon"
+            class="color-inverted"
+          />
+        </section>
+      </button>
+    </section>
+  </div>
+</div>
