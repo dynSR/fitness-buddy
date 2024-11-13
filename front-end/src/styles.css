@@ -1,0 +1,155 @@
+/* Make sure to add properties as @property when you need to override their value. */
+
+/* Main ratio used to calculate the font, element sizes, affected by this value. */
+@property --main-ratio {
+  syntax: "<number>";
+  inherits: false;
+  initial-value: 1;
+}
+
+:root {
+  font-family: var(--font-family-title);
+
+  --color-light: rgba(225, 225, 225, 1);
+  --color-dark: rgba(25, 25, 25, 1);
+  --color-grey: rgb(135, 135, 135, 1);
+  --color-transparent: rgba(25, 25, 25, 0.15);
+  --color-primary: rgba(255, 245, 8, 1);
+  --color-secondary: rgba(40, 40, 40, 1);
+  --color-success: rgba(140, 255, 150, 1);
+  --color-danger: rgba(255, 140, 140, 1);
+  --color-warning: rgba(255, 205, 140, 1);
+  --color-info: rgba(130, 250, 255, 1);
+  --color-disabled: rgba(60, 60, 60, 1);
+
+  --gradient-dark: linear-gradient(
+    45deg,
+    rgba(15, 15, 15, 0.9) 0%,
+    rgba(15, 15, 15, 1) 80%
+  );
+
+  /* Partials and widgets size properties */
+  --header-height: calc(3.5rem * var(--main-ratio));
+  --sidebar-width-idle: calc(3rem * var(--main-ratio));
+  --sidebar-width-open: calc(3.5rem * var(--main-ratio));
+  --widget-height: calc(10rem * var(--main-ratio));
+
+  --font-family-title: "Poppins", sans-serif;
+  --font-family-body: "Manrope", sans-serif;
+  --font-family-numbers: "Roboto", sans-serif;
+
+  --font-size-title: calc(var(--size-large) * var(--main-ratio));
+  --font-size-subtitle: calc(1.5rem * var(--main-ratio));
+  --font-size-body: calc(var(--size-medium) * var(--main-ratio));
+  --font-size-medium: calc(0.9rem * var(--main-ratio));
+  --font-size-small: calc(0.75rem * var(--main-ratio));
+
+  --font-weight-title: 900;
+  --font-weight-subtitle: 700;
+  --font-weight-body: 400;
+  --font-weight-light: 200;
+
+  /* 
+    These values define sizes for multiple elements such as:
+        - padding
+        - margin
+        - border (radius, width)
+        - gap
+    */
+  --size-extra-small: 0.125rem; /* 2px */
+  --size-very-small: 0.25rem; /* 4px */
+  --size-small: 0.5rem; /* 8px */
+  --size-medium: 1rem; /* 16px */
+  --size-large: 2rem; /* 32px */
+  --size-very-large: 4rem; /* 64px */
+  --size-extra-large: 8rem; /* 128px */
+
+  --box-shadow-soft: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
+    rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+  --box-shadow-dark: rgba(50, 50, 93, 0.5) 0px 2px 5px -1px,
+    rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+
+  --opacity-disabled: 0.35;
+  --opacity-active: 0.5;
+  --opacity-hover: 0.725;
+}
+
+main.container-fluid {
+  width: calc(100% - var(--sidebar-width-idle));
+  margin-top: var(--size-small);
+  margin-left: var(--sidebar-width-idle);
+}
+
+h1,
+h2,
+h3,
+.title {
+  font-family: var(--font-family-title);
+  font-weight: var(--font-weight-title);
+  font-size: var(--font-size-title);
+}
+
+h4,
+h5,
+h6,
+.subtitle {
+  font-family: var(--font-family-subtitle);
+  font-weight: var(--font-weight-subtitle);
+  font-size: var(--font-size-subtitle);
+}
+
+p,
+a,
+li,
+small {
+  font-family: var(--font-family-body);
+  font-weight: var(--font-weight-body);
+}
+
+p,
+a,
+li {
+  font-size: var(--font-size-body);
+}
+
+small {
+  font-size: var(--font-size-small);
+}
+
+.img-container,
+.img-container--small,
+.img-container--medium,
+.img-container--large {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  width: var(--size-large);
+  height: 100%;
+}
+
+.img-container--small {
+  width: var(--size-small);
+  height: var(--size-small);
+}
+
+.img-container--medium {
+  width: var(--size-medium);
+  height: var(--size-medium);
+}
+
+.img-container--large {
+  width: var(--size-large);
+  height: var(--size-large);
+}
+
+.img-container > img {
+  width: auto;
+  height: 100%;
+}
+
+.color-inverted {
+  -webkit-filter: invert(1) sepia(1) saturate(10) hue-rotate(10deg)
+    brightness(1.2); /* Safari/Chrome */
+  filter: invert(1) sepia(1) saturate(10) hue-rotate(10deg) brightness(1.2);
+}

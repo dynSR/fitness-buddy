@@ -1,0 +1,16 @@
+.widget {
+  height: var(--widget-height);
+  width: calc(100dvw - var(--sidebar-width-idle));
+  position: relative;
+  background: var(--gradient-dark);
+  border-radius: var(--size-small);
+  box-shadow: var(--box-shadow-dark);
+}
+
+.widget > .widget-content {
+  display: flex;
+  flex-direction: column;
+  padding: var(--size-medium);
+  color: var(--color-light);
+  height: 100%;
+}
