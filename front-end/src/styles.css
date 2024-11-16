@@ -15,6 +15,7 @@
   --color-grey: rgb(135, 135, 135, 1);
   --color-transparent: rgba(25, 25, 25, 0.15);
   --color-primary: rgba(255, 245, 8, 1);
+  --color-primary-dark: rgba(255, 245, 8, 0.85);
   --color-secondary: rgba(40, 40, 40, 1);
   --color-success: rgba(140, 255, 150, 1);
   --color-danger: rgba(255, 140, 140, 1);
@@ -70,8 +71,9 @@
     rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
 
   --opacity-disabled: 0.35;
-  --opacity-active: 0.5;
-  --opacity-hover: 0.725;
+  --opacity-idle: 0.85;
+  --opacity-hover: 0.95;
+  --opacity-active: 1;
 }
 
 main.container-fluid {
@@ -83,15 +85,15 @@ main.container-fluid {
 h1,
 h2,
 h3,
+h4,
+h5,
+h6,
 .title {
   font-family: var(--font-family-title);
   font-weight: var(--font-weight-title);
   font-size: var(--font-size-title);
 }
 
-h4,
-h5,
-h6,
 .subtitle {
   font-family: var(--font-family-subtitle);
   font-weight: var(--font-weight-subtitle);
@@ -152,4 +154,63 @@ small {
   -webkit-filter: invert(1) sepia(1) saturate(10) hue-rotate(10deg)
     brightness(1.2); /* Safari/Chrome */
   filter: invert(1) sepia(1) saturate(10) hue-rotate(10deg) brightness(1.2);
+}
+
+.numeric {
+  font-family: var(--font-family-numbers);
+}
+
+.underlined--very-small,
+.underlined--small,
+.underlined--medium {
+  text-decoration: underline;
+  text-underline-offset: var(--size-very-small);
+  text-decoration-color: var(--color-primary);
+}
+
+.underlined--very-small {
+  text-decoration-thickness: var(--size-very-small);
+}
+.underlined--small {
+  text-decoration-thickness: var(--size-small);
+}
+.underlined--medium {
+  text-decoration-thickness: var(--size-medium);
+}
+
+/* .highlighted {
+  max-width: fit-content;
+  height: 50%;
+  z-index: 1;
+
+  &::before {
+    content: "";
+    display: block;
+    position: relative;
+    bottom: calc(var(--size-medium) * -2.25);
+    min-width: 100.5%;
+    height: var(--size-medium);
+    background-color: var(--color-light);
+    opacity: 0.85;
+    z-index: -1; /* Should always be -1, use the highlighted class z-index to push it forward */
+/* }
+} */
+
+.selectable {
+  cursor: pointer;
+  opacity: var(--opacity-idle);
+  border: solid var(--size-extra-small) var(--color-transparent);
+  border-bottom: solid var(--size-small) var(--color-transparent);
+
+  &:hover {
+    opacity: var(--opacity-hover);
+    border: solid var(--size-extra-small) var(--color-primary);
+    border-bottom: solid var(--size-small) var(--color-primary);
+  }
+}
+
+.selectable--active {
+  opacity: var(--opacity-active);
+  border: solid var(--size-extra-small) var(--color-primary);
+  border-bottom: solid var(--size-small) var(--color-primary);
 }
