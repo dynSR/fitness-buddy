@@ -1,11 +1,13 @@
 <aside class="sidebar">
   <div class="sidebar-top"></div>
   <div class="sidebar-bottom">
-    <button
-      class="img-container--large btn btn-secondary p-1"
-      title="user.logout"
-    >
-      <img [src]="logOutIconSrc" alt="Log out icon" class="color-inverted" />
+    <button class="btn btn-secondary p-1" title="user.logout">
+      <app-icon
+        [src]="logOutIconSrc"
+        [alt]="'Log out icon'"
+        [class]="'img-container--medium color-inverted'"
+        [title]="'user.log-out'"
+      ></app-icon>
     </button>
   </div>
 </aside>

@@ -10,6 +10,15 @@ export const routes: Routes = [
     title: 'Home',
   },
   {
+    // Exercise list page
+    path: 'exercises',
+    loadComponent: () =>
+      import('./features/exercise/exercise-list/exercise-list.component').then(
+        (m) => m.ExerciseListComponent
+      ),
+    title: 'Exercises',
+  },
+  {
     // Wildcard route - 404
     path: '**',
     pathMatch: 'full',

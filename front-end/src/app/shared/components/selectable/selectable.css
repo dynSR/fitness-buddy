@@ -1,0 +1,27 @@
+.selectable--idle {
+  opacity: var(--opacity-idle);
+  border: solid var(--size-extra-small) var(--color-transparent);
+  border-bottom: solid var(--size-small) var(--color-transparent);
+
+  &:hover {
+    opacity: var(--opacity-hover);
+    border: solid var(--size-extra-small) var(--color-primary);
+    border-bottom: solid var(--size-small) var(--color-primary);
+  }
+}
+
+.selectable--selected {
+  opacity: var(--opacity-active);
+  border: solid var(--size-extra-small) var(--color-primary);
+  border-bottom: solid var(--size-small) var(--color-primary);
+}
+
+.selectable--idle:hover,
+.selectable--selected:hover {
+  cursor: pointer;
+}
+
+.selectable--idle:active,
+.selectable--selected:active {
+  transform: scale(0.975);
+}

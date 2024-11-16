@@ -77,26 +77,6 @@ ul {
   padding: 0;
   transition: all ease-out 150ms;
 
-  &:not(:disabled):hover {
-    transform: scale(1.01);
-
-    /* 
-      Remove the filter applied to any image nested inside a button.
-      It is applied to the image itself, not the parent button.
-      It guarantees that the image will be visible when the button is hovered, especially if a filter already applied.
-    */
-    img.color-inverted {
-      -webkit-filter: none;
-      filter: none;
-      opacity: var(--opacity-hover);
-    }
-  }
-
-  &:not(:disabled):active {
-    opacity: var(--opacity-active);
-    transform: scale(0.98);
-  }
-
   &:disabled {
     background-color: var(--color-transparent);
     border-color: var(--color-disabled);
@@ -107,6 +87,26 @@ ul {
       opacity: var(--opacity-hover);
     }
   }
+}
+
+.btn:not(:disabled):hover {
+  transform: scale(1.25);
+
+  /* 
+      Remove the filter applied to any image nested inside a button.
+      It is applied to the image itself, not the parent button.
+      It guarantees that the image will be visible when the button is hovered, especially if a filter already applied.
+    */
+  .color-inverted {
+    -webkit-filter: none;
+    filter: none;
+    opacity: var(--opacity-hover);
+  }
+}
+
+.btn:not(:disabled):active {
+  opacity: var(--opacity-active);
+  transform: scale(0.998);
 }
 
 .btn-secondary {

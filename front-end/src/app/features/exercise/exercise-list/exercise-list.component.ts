@@ -1,22 +1,35 @@
 import { CommonModule } from '@angular/common';
-import { Component, ElementRef, inject, ViewChild } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  inject,
+  QueryList,
+  ViewChild,
+  ViewChildren,
+} from '@angular/core';
 import { TimeFormatter } from '../../../shared/utils/time-formatter';
 import { Exercise } from '../../../models/exercise.model';
-import {
-  MuscleGroup,
-  MuscleGroupService,
-} from '../../muscle-group/muscle-group.service';
+import { MuscleGroupService } from '../../muscle-group/muscle-group.service';
+import { ExerciseCardComponent } from '../exercise-card/exercise-card.component';
+import { SelectableContainer } from '../../../shared/components/selectable/selectable-container.interface';
 
 @Component({
   selector: 'app-exercise-list',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, ExerciseCardComponent],
   templateUrl: './exercise-list.component.html',
   styleUrl: './exercise-list.component.css',
 })
-export class ExerciseListComponent {
+export class ExerciseListComponent
+  implements SelectableContainer<ExerciseCardComponent>
+{
   @ViewChild('exerciseContainer')
   declare container: ElementRef<HTMLDivElement>;
+
+  @ViewChildren(ExerciseCardComponent)
+  selectables!: QueryList<ExerciseCardComponent>;
+  canSelectMultiple: boolean = false;
+  selections: Array<ExerciseCardComponent> = [];
 
   readonly timeFormatter = inject(TimeFormatter);
   readonly muscleGroupService = inject(MuscleGroupService);
@@ -85,7 +98,46 @@ export class ExerciseListComponent {
 
   constructor() {}
 
-  ngAfterViewInit() {}
+  ngAfterViewInit() {
+    this.init();
+  }
+
+  init(): void {
+    this.canSelectMultiple = false;
+    this.selectables.forEach((s) => {
+      s.element.nativeElement.addEventListener('click', () => {
+        this.selectOne(s);
+      });
+    });
+
+    console.log(this.selectables.toArray());
+  }
+
+  selectOne(selectable: ExerciseCardComponent): void {
+    if (this.canSelectMultiple) {
+      selectable.toggle();
+      return;
+    }
+
+    this.unselectAll();
+    selectable.select();
+  }
+
+  selectAll(): void {
+    this.selectables.forEach((s) => {
+      if (s instanceof ExerciseCardComponent) {
+        s.select();
+      }
+    });
+  }
+
+  unselectAll(): void {
+    this.selectables.forEach((s) => {
+      if (s instanceof ExerciseCardComponent) {
+        s.unselect();
+      }
+    });
+  }
 
   getExercisesByMuscleGroup(muscleGroup: string): Array<Exercise> {
     return this.exercises.filter(

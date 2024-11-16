@@ -1,0 +1,36 @@
+<div #selectable class="exercise-card selectable--idle user-select-none">
+  <div class="exercise-card-top">
+    <section class="exercise-card-top-left">
+      <h1 class="exercise-card-title">{{ exercise.name }}</h1>
+      <p class="exercise-card-description">{{ exercise.description }}</p>
+    </section>
+
+    <section class="exercise-card-top-right">
+      <app-icon
+        [src]="'assets/icons/default.svg'"
+        [alt]="exercise.muscleGroup"
+        [class]="'img-container--large color-inverted'"
+        [title]="exercise.muscleGroup"
+      ></app-icon>
+    </section>
+  </div>
+
+  <div class="exercise-card-bottom">
+    <app-icon-text
+      [src]="'assets/icons/timer/refresh.svg'"
+      [alt]="'Refresh icon'"
+      [class]="'img-container--medium color-inverted'"
+      [text]="getExerciseRepetitions()"
+      [textClass]="'numeric'"
+    >
+    </app-icon-text>
+
+    <app-icon-text
+      [src]="'assets/icons/timer/clock-stopwatch.svg'"
+      [alt]="'Timer icon'"
+      [class]="'img-container--medium color-inverted'"
+      [text]="getRecoveryTime()"
+      [textClass]="'numeric'"
+    ></app-icon-text>
+  </div>
+</div>
