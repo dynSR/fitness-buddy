@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { SelectorComponent } from './selector.component';
+import { IconTextComponent } from './icon-text.component';
 
-describe('SelectorComponent', () => {
-  let component: SelectorComponent;
-  let fixture: ComponentFixture<SelectorComponent>;
+describe('IconTextComponent', () => {
+  let component: IconTextComponent;
+  let fixture: ComponentFixture<IconTextComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [SelectorComponent]
+      imports: [IconTextComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(SelectorComponent);
+    fixture = TestBed.createComponent(IconTextComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

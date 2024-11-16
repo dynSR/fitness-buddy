@@ -1,66 +1,14 @@
-<app-selector
-  [elements]="exercises"
-  [filters]="muscleGroupService.getMuscleGroups()"
-></app-selector>
-
-<div #exerciseContainer class="container-fluid">
-  @for (muscleGroup of muscleGroupService.getMuscleGroups(); track $index) {
-  <div class="exercise-container container-fluid">
+<div #exerciseContainer class="container-fluid mt-3">
+  <!-- Muscle Groups -->
+  @for (muscleGroup of muscleGroupService.getMuscleGroups(); track muscleGroup)
+  {
+  <div class="exercise-container">
+    <!-- Exercises -->
     @for (exercise of getExercisesByMuscleGroup(muscleGroup); track exercise.id)
     {
-    <button class="btn exercise-card selectable">
-      <div class="exercise-card-top">
-        <section class="exercise-card-top-left">
-          <h1 class="exercise-card-title">{{ exercise.name | uppercase }}</h1>
-          <p class="exercise-card-description">{{ exercise.description }}</p>
-        </section>
-
-        <section class="exercise-card-top-right">
-          <section class="img-container--large">
-            <img
-              src="assets/icons/default.svg"
-              alt="Exercise icon"
-              class="color-inverted"
-            />
-          </section>
-        </section>
-      </div>
-
-      <!-- <div class="exercise-card-center"></div> -->
-
-      <div class="exercise-card-bottom">
-        <section class="d-flex align-items-center gap-2">
-          <section class="img-container--medium">
-            <img
-              src="assets/icons/timer/refresh.svg"
-              alt="Muscle group icon"
-              class="color-inverted"
-            />
-          </section>
-
-          <p class="numeric">
-            {{ exercise.series + "x" + exercise.repetitions }}
-          </p>
-        </section>
-
-        <section class="d-flex align-items-center gap-2">
-          <section class="img-container--medium">
-            <img
-              src="assets/icons/timer/clock-stopwatch.svg"
-              alt="Muscle group icon"
-              class="color-inverted"
-            />
-          </section>
-
-          <p class="numeric">
-            {{
-              timeFormatter.formatToSecondsMinutes(exercise.recoveryTime) + '"'
-            }}
-          </p>
-        </section>
-      </div>
-    </button>
+    <app-exercise-card [exercise]="exercise"></app-exercise-card>
     }
   </div>
+  <hr />
   }
 </div>

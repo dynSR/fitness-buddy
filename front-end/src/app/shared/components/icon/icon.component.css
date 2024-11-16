@@ -1,0 +1,31 @@
+.img-container,
+.img-container--small,
+.img-container--medium,
+.img-container--large {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  width: var(--size-large);
+  height: 100%;
+}
+
+.img-container--small {
+  width: var(--size-small);
+  height: var(--size-small);
+}
+
+.img-container--medium {
+  width: var(--size-medium);
+  height: var(--size-medium);
+}
+
+.img-container--large {
+  width: var(--size-large);
+  height: var(--size-large);
+}
+
+.img-container > img {
+  width: auto;
+  height: 100%;
+}

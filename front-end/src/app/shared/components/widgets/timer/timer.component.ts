@@ -1,13 +1,13 @@
 import { Component, ElementRef, inject, Input, ViewChild } from '@angular/core';
-import { TimeFormatter } from '../../utils/time-formatter';
 import { Timer, TimerState } from './timer';
+import { TimeFormatter } from '../../../utils/time-formatter';
 
 @Component({
   selector: 'app-timer',
   standalone: true,
   imports: [],
   templateUrl: './timer.component.html',
-  styleUrls: ['./timer.component.css', '../../css/widget.css'],
+  styleUrls: ['./timer.component.css', '../../../css/widget.css'],
 })
 export class TimerComponent implements Timer {
   private _maxDuration = 0;
