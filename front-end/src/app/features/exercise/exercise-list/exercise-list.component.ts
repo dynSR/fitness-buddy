@@ -1,22 +1,20 @@
 import { CommonModule } from '@angular/common';
 import { Component, ElementRef, inject, ViewChild } from '@angular/core';
 import { TimeFormatter } from '../../../shared/utils/time-formatter';
-import { SelectorComponent } from '../../../shared/partials/selector/selector.component';
 import { Exercise } from '../../../models/exercise.model';
 import {
   MuscleGroup,
   MuscleGroupService,
 } from '../../muscle-group/muscle-group.service';
-import { SelectableContainer } from '../../../shared/selectable/selectable-container';
 
 @Component({
   selector: 'app-exercise-list',
   standalone: true,
-  imports: [CommonModule, SelectorComponent],
+  imports: [CommonModule],
   templateUrl: './exercise-list.component.html',
   styleUrl: './exercise-list.component.css',
 })
-export class ExerciseListComponent extends SelectableContainer {
+export class ExerciseListComponent {
   @ViewChild('exerciseContainer')
   declare container: ElementRef<HTMLDivElement>;
 
@@ -85,13 +83,9 @@ export class ExerciseListComponent extends SelectableContainer {
     },
   ];
 
-  constructor() {
-    super();
-  }
+  constructor() {}
 
-  ngAfterViewInit() {
-    this.init(this.container);
-  }
+  ngAfterViewInit() {}
 
   getExercisesByMuscleGroup(muscleGroup: string): Array<Exercise> {
     return this.exercises.filter(
