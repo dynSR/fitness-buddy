@@ -1,0 +1,7 @@
+<div #container class="container-fluid d-flex flex-wrap gap-3 mt-3">
+  @for (filter of filters; track $index) {
+  <button type="button" class="btn btn-secondary p-1 selectable">
+    <p class="color-inverted">{{ filter | uppercase }}</p>
+  </button>
+  }
+</div>

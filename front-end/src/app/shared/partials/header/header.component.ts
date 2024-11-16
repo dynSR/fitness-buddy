@@ -9,5 +9,6 @@ import { RouterLink } from '@angular/router';
   styleUrl: './header.component.css',
 })
 export class HeaderComponent {
-  public appTitle: string = 'Fitness Buddy';
+  readonly appTitle: string = "Fitness Buddy's logo - redirects to home page.";
+  readonly appLogoSrc: string = 'assets/images/logo.png';
 }

@@ -9,7 +9,7 @@ export class TimeFormatter {
    * @param {number} time - The time in seconds to be formatted.
    * @returns {string} The formatted time as a string.
    */
-  public formatTime(time: number): string {
+  public formatToSecondsMinutes(time: number): string {
     const minutes = Math.floor(time / 60);
     const seconds = time % 60;
 
@@ -18,5 +18,19 @@ export class TimeFormatter {
     const formattedSeconds = seconds.toString().padStart(2, '0');
 
     return `${formattedMinutes}:${formattedSeconds}`;
+  }
+
+  public formatToSecondsMinutesMilliseconds(time: number): string {
+    const milliseconds = time % 1000;
+    const totalSeconds = Math.floor(time / 1000);
+    const minutes = Math.floor(totalSeconds / 60);
+    const seconds = totalSeconds % 60;
+
+    // Format (00:00:000)
+    const formattedMinutes = minutes.toString().padStart(2, '0');
+    const formattedSeconds = seconds.toString().padStart(2, '0');
+    const formattedMilliseconds = milliseconds.toString().padStart(3, '0');
+
+    return `${formattedMinutes}:${formattedSeconds}:${formattedMilliseconds}`;
   }
 }

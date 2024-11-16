@@ -10,12 +10,12 @@
 
 .widget__timer-value {
   position: relative;
-  font-size: var(--size-large);
+  font-size: calc(var(--size-medium) * 1.5);
   font-family: var(--font-family-numbers);
   font-weight: var(--font-weight-light);
 }
 
-.circular-progress {
+.circular-progress--displayed {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -26,7 +26,13 @@
   border-radius: 50%;
 }
 
-.circular-progress::before {
+.circular-progress--hidden,
+.circular-progress--hidden::before {
+  background: none;
+}
+
+.circular-progress--displayed::before,
+.circular-progress--hidden::before {
   content: "";
   position: absolute;
   top: 50%;
@@ -38,6 +44,11 @@
   border-radius: 50%;
 }
 
+.circular-progress--hidden::before {
+  opacity: 0;
+  background: none;
+}
+
 .widget__timer-buttons {
   display: flex;
   align-items: center;
@@ -45,5 +56,5 @@
   position: absolute;
   bottom: 0;
   width: 100%;
-  padding: var(--size-small);
+  padding: var(--size-medium);
 }
