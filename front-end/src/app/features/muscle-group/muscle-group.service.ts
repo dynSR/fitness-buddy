@@ -3,11 +3,10 @@ import { Injectable } from '@angular/core';
 export enum MuscleGroup {
   Biceps = 'Biceps',
   Triceps = 'Triceps',
-  // Chest = 'Chest',
-  // Back = 'Back',
-  // Shoulders = 'Shoulders',
-  // Arms = 'Arms',
-  // Legs = 'Legs',
+  Chest = 'Chest',
+  Back = 'Back',
+  Shoulders = 'Shoulders',
+  Legs = 'Legs',
 }
 
 @Injectable({ providedIn: 'root' })

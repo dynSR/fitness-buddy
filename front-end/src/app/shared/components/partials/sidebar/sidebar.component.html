@@ -1,11 +1,27 @@
 <aside class="sidebar">
-  <div class="sidebar-top"></div>
+  <nav class="sidebar-top">
+    @for (route of routes; track $index) {
+
+    <a
+      routerLink="{{ route.path }}"
+      [routerLinkActive]="['is-active', 'to-primary']"
+      class="link"
+    >
+      <app-icon
+        [src]="route.icon"
+        [alt]="route.title"
+        [class]="'img-container--medium to-grey'"
+        [title]="route.title"
+      ></app-icon>
+    </a>
+    }
+  </nav>
   <div class="sidebar-bottom">
-    <button class="btn btn-secondary p-1" title="user.logout">
+    <button class="btn btn-secondary p-1">
       <app-icon
         [src]="logOutIconSrc"
         [alt]="'Log out icon'"
-        [class]="'img-container--medium color-inverted'"
+        [class]="'img-container--small-medium to-white'"
         [title]="'user.log-out'"
       ></app-icon>
     </button>

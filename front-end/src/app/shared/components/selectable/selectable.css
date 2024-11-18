@@ -1,27 +1,32 @@
 .selectable--idle {
   opacity: var(--opacity-idle);
-  border: solid var(--size-extra-small) var(--color-transparent);
-  border-bottom: solid var(--size-small) var(--color-transparent);
-
-  &:hover {
-    opacity: var(--opacity-hover);
-    border: solid var(--size-extra-small) var(--color-primary);
-    border-bottom: solid var(--size-small) var(--color-primary);
-  }
+  border: solid 1px var(--color-dark-transparent);
+  border-bottom: solid var(--size-small) var(--color-dark-transparent);
 }
 
 .selectable--selected {
   opacity: var(--opacity-active);
-  border: solid var(--size-extra-small) var(--color-primary);
+  border: solid 1px var(--color-primary);
   border-bottom: solid var(--size-small) var(--color-primary);
 }
 
 .selectable--idle:hover,
 .selectable--selected:hover {
   cursor: pointer;
+  transform: scale(1.008);
+
+  opacity: var(--opacity-hover);
+  border: solid 1px var(--color-primary);
+  border-bottom: solid var(--size-small) var(--color-primary);
 }
 
 .selectable--idle:active,
 .selectable--selected:active {
-  transform: scale(0.975);
+  transform: scale(0.998);
+  border-bottom: solid var(--size-small) var(--color-primary-dark);
+}
+
+.selectable--disabled {
+  pointer-events: none;
+  opacity: var(--opacity-active);
 }

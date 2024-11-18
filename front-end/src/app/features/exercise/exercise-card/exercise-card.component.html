@@ -7,30 +7,33 @@
 
     <section class="exercise-card-top-right">
       <app-icon
-        [src]="'assets/icons/default.svg'"
+        [src]="
+          'assets/icons/muscle-groups/' +
+          (exercise.muscleGroup | lowercase) +
+          '.png'
+        "
         [alt]="exercise.muscleGroup"
-        [class]="'img-container--large color-inverted'"
+        [class]="'icon img-container--large'"
         [title]="exercise.muscleGroup"
       ></app-icon>
     </section>
   </div>
 
   <div class="exercise-card-bottom">
-    <app-icon-text
-      [src]="'assets/icons/timer/refresh.svg'"
-      [alt]="'Refresh icon'"
-      [class]="'img-container--medium color-inverted'"
-      [text]="getExerciseRepetitions()"
-      [textClass]="'numeric'"
-    >
-    </app-icon-text>
+    <div class="d-flex justify-content-between w-100">
+      <section class="d-flex align-items-center gap-1">
+        <app-icon
+          *ngFor="let _ of exercise.series | numToArray; let i = index"
+          [src]="'assets/icons/circle.png'"
+          [alt]="''"
+          [class]="'icon img-container--medium to-white'"
+        ></app-icon>
+      </section>
 
-    <app-icon-text
-      [src]="'assets/icons/timer/clock-stopwatch.svg'"
-      [alt]="'Timer icon'"
-      [class]="'img-container--medium color-inverted'"
-      [text]="getRecoveryTime()"
-      [textClass]="'numeric'"
-    ></app-icon-text>
+      <p class="numeric">
+        {{ exercise.repetitions }}
+      </p>
+      <p class="numeric">{{ getRecoveryTime() }}</p>
+    </div>
   </div>
 </div>

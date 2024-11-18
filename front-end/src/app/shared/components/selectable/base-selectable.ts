@@ -3,6 +3,7 @@ import { ElementRef } from '@angular/core';
 export interface Selectable {
   element: ElementRef;
   isSelected: boolean;
+  canBeSelected: boolean;
 
   unselectedClassName: string;
   selectedClassName: string;
@@ -10,6 +11,9 @@ export interface Selectable {
   select(): void;
   unselect(): void;
   toggle(): void;
+
+  enable(): void;
+  disable(): void;
 }
 
 export class BaseSelectable implements Selectable {
@@ -17,14 +21,16 @@ export class BaseSelectable implements Selectable {
 
   parent: Element | null = null;
   isSelected: boolean = false;
+  canBeSelected!: boolean;
 
   unselectedClassName: string = 'selectable--idle';
   selectedClassName: string = 'selectable--selected';
+  disabledClassName: string = 'selectable--disabled';
 
   constructor() {}
 
   select(): void {
-    if (this.isSelected) {
+    if (!this.canBeSelected || this.isSelected) {
       return;
     }
 
@@ -39,7 +45,7 @@ export class BaseSelectable implements Selectable {
   }
 
   unselect(): void {
-    if (!this.isSelected) {
+    if (!this.canBeSelected || !this.isSelected) {
       return;
     }
 
@@ -54,11 +60,34 @@ export class BaseSelectable implements Selectable {
   }
 
   toggle(): void {
+    if (!this.canBeSelected) {
+      return;
+    }
+
     if (this.isSelected) {
       this.unselect();
       return;
     }
 
     this.select();
+  }
+
+  enable(): void {
+    this.element.nativeElement.classList.remove([
+      this.unselectedClassName,
+      this.selectedClassName,
+      this.disabledClassName,
+    ]);
+
+    this.element.nativeElement.classList.add(this.unselectedClassName);
+  }
+
+  disable(): void {
+    this.element.nativeElement.classList.remove([
+      this.unselectedClassName,
+      this.selectedClassName,
+    ]);
+
+    this.element.nativeElement.classList.add(this.disabledClassName);
   }
 }

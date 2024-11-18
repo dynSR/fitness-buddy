@@ -2,7 +2,7 @@
   height: var(--widget-height);
   /* width: calc(100dvw - var(--sidebar-width-idle)); */
   position: relative;
-  background: var(--gradient-dark);
+  background: var(--gradient-dark-default);
   border-radius: var(--size-small);
   box-shadow: var(--box-shadow-dark);
   margin-top: var(--size-medium);

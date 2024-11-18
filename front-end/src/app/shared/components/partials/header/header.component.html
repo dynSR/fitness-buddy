@@ -1,13 +1,16 @@
 <header>
-  <div class="header-left">
-    <a routerLink="/" class="color-inverted">
+  <div class="app-logo">
+    <a routerLink="/home" class="to-primary">
       <app-icon
         [src]="appLogoSrc"
         [alt]="'logo'"
-        [class]="'img-container--large'"
+        [class]="'img-container--medium-large'"
         [title]="appTitle"
       ></app-icon>
     </a>
+  </div>
+  <div class="header-left">
+    <p>header works!</p>
   </div>
   <div class="header-right">
     <p>header works!</p>

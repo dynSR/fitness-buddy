@@ -3,6 +3,7 @@ import {
   Component,
   ElementRef,
   inject,
+  Input,
   QueryList,
   ViewChild,
   ViewChildren,
@@ -12,11 +13,12 @@ import { Exercise } from '../../../models/exercise.model';
 import { MuscleGroupService } from '../../muscle-group/muscle-group.service';
 import { ExerciseCardComponent } from '../exercise-card/exercise-card.component';
 import { SelectableContainer } from '../../../shared/components/selectable/selectable-container.interface';
+import { IconTextComponent } from '../../../shared/components/icon/icon-text/icon-text.component';
 
 @Component({
   selector: 'app-exercise-list',
   standalone: true,
-  imports: [CommonModule, ExerciseCardComponent],
+  imports: [CommonModule, ExerciseCardComponent, IconTextComponent],
   templateUrl: './exercise-list.component.html',
   styleUrl: './exercise-list.component.css',
 })
@@ -28,11 +30,12 @@ export class ExerciseListComponent
 
   @ViewChildren(ExerciseCardComponent)
   selectables!: QueryList<ExerciseCardComponent>;
-  canSelectMultiple: boolean = false;
-  selections: Array<ExerciseCardComponent> = [];
+  @Input({ required: true }) canSelectMultiple: boolean = false;
+  @Input({ required: true }) isInteractive: boolean = true;
+  // selections: Array<ExerciseCardComponent> = [];
 
   readonly timeFormatter = inject(TimeFormatter);
-  readonly muscleGroupService = inject(MuscleGroupService);
+  private readonly _muscleGroupService = inject(MuscleGroupService);
   readonly exercises: Array<Exercise> = [
     {
       id: 1,
@@ -68,7 +71,7 @@ export class ExerciseListComponent
       id: 4,
       name: 'Triceps Pushdown',
       description:
-        'This exercise uses a resistance band anchored to a high point. With elbows close to the body, you pull the handles downward until your arms are fully extended, targeting the triceps.',
+        'Uses a resistance band anchored to a high point. With elbows close to the body, you pull the handles downward until your arms are fully extended, targeting the triceps.',
       series: 4,
       repetitions: 12,
       recoveryTime: 180,
@@ -78,7 +81,7 @@ export class ExerciseListComponent
       id: 5,
       name: 'EZ Bar Skull Crushers',
       description:
-        'Lying on a bench, you hold an EZ bar above your chest, then lower it toward your forehead or slightly behind your head before pressing it back up. This exercise focuses on the triceps.',
+        'Lying on a bench, you hold an EZ bar above your chest, then lower it toward your forehead or slightly behind your head before pressing it back up.',
       series: 4,
       repetitions: 12,
       recoveryTime: 180,
@@ -88,7 +91,7 @@ export class ExerciseListComponent
       id: 6,
       name: 'Overhead Triceps Extension',
       description:
-        'Holding a kettlebell behind your head, you extend your arms upward, as if performing a "touchdown" motion. This isolates the triceps while improving arm strength.',
+        'Holding a kettlebell behind your head, you extend your arms upward, as if performing a "touchdown" motion.',
       series: 4,
       repetitions: 12,
       recoveryTime: 180,
@@ -103,14 +106,20 @@ export class ExerciseListComponent
   }
 
   init(): void {
-    this.canSelectMultiple = false;
+    if (!this.isInteractive) {
+      return;
+    }
+
     this.selectables.forEach((s) => {
+      if (!s.canBeSelected) {
+        s.disable();
+        return;
+      }
+
       s.element.nativeElement.addEventListener('click', () => {
         this.selectOne(s);
       });
     });
-
-    console.log(this.selectables.toArray());
   }
 
   selectOne(selectable: ExerciseCardComponent): void {
@@ -139,9 +148,18 @@ export class ExerciseListComponent
     });
   }
 
+  getMuscleGroups(): Array<string> {
+    return this._muscleGroupService.getMuscleGroups();
+  }
+
   getExercisesByMuscleGroup(muscleGroup: string): Array<Exercise> {
     return this.exercises.filter(
       (exercise) => exercise.muscleGroup === muscleGroup
     );
+  }
+
+  // TODO: will be deported into a pipe
+  isLastIndexOf(array: Array<any>, index: number): boolean {
+    return index === array.length - 1;
   }
 }

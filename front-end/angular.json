@@ -27,7 +27,9 @@
             "styles": [
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
               "src/styles.css",
-              "src/app/shared/css/reset.css"
+              "src/app/shared/css/reset.css",
+              "src/app/shared/css/link.css",
+              "src/app/shared/css/button.css"
             ],
             "scripts": [
               "node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"
@@ -86,7 +88,9 @@
             "styles": [
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
               "src/styles.css",
-              "src/app/shared/css/reset.css"
+              "src/app/shared/css/reset.css",
+              "src/app/shared/css/link.css",
+              "src/app/shared/css/button.css"
             ],
             "scripts": [
               "node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"

@@ -4,5 +4,8 @@
   padding: 0;
   color: var(--color-dark);
   height: 100%;
-  margin-bottom: var(--size-medium);
+}
+
+.exercise-container > #exerciseCard {
+  flex: 1;
 }

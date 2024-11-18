@@ -1,11 +1,13 @@
 import { Component, ElementRef, inject, Input, ViewChild } from '@angular/core';
 import { Timer, TimerState } from './timer';
 import { TimeFormatter } from '../../../utils/time-formatter';
+import { IconComponent } from '../../icon/icon.component';
+import { Icon } from '../../icon/icon.interface';
 
 @Component({
   selector: 'app-timer',
   standalone: true,
-  imports: [],
+  imports: [IconComponent],
   templateUrl: './timer.component.html',
   styleUrls: ['./timer.component.css', '../../../css/widget.css'],
 })
@@ -26,7 +28,7 @@ export class TimerComponent implements Timer {
     }
   }
 
-  @ViewChild('timerStateBtn') timerStateBtn!: ElementRef<HTMLButtonElement>;
+  @ViewChild('timerStateIcon') timerStateIcon!: IconComponent;
   @ViewChild('timerRefreshBtn')
   timerRefreshBtn!: ElementRef<HTMLButtonElement>;
   @ViewChild('timerProgress') timerProgress!: ElementRef<HTMLDivElement>;
@@ -51,6 +53,14 @@ export class TimerComponent implements Timer {
 
   ngAfterViewInit() {
     this.setCircularProgressUIClass();
+
+    console.log(this.timerStateIcon);
+
+    // const child = this.timerStateBtn.nativeElement.children[0];
+    // console.log(child);
+    // if (child instanceof IconComponent) {
+    //   console.log('this is an icon, marked as app-icon');
+    // }
   }
 
   ngOnChanges() {}
@@ -58,7 +68,7 @@ export class TimerComponent implements Timer {
   start(): void {
     // console.log('Start timer');
     this.state = TimerState.RUNNING;
-    this.setStateBtnIcon();
+    this.setStateIcon();
     this.setDisabledBtnState(this.timerRefreshBtn, false);
 
     // ms is used to adjust the speed of the timer
@@ -86,7 +96,7 @@ export class TimerComponent implements Timer {
 
   pause(): void {
     this.state = TimerState.PAUSED;
-    this.setStateBtnIcon();
+    this.setStateIcon();
 
     window.clearInterval(this.interval);
     this.interval = undefined;
@@ -94,7 +104,7 @@ export class TimerComponent implements Timer {
 
   refresh(): void {
     this.state = TimerState.IDLE;
-    this.setStateBtnIcon();
+    this.setStateIcon();
 
     this.currentValue = this.initialValue;
     this.updateTimerProgressBar(this.currentValue, this.maxDuration);
@@ -134,10 +144,8 @@ export class TimerComponent implements Timer {
     btn.disabled = flag;
   }
 
-  private setStateBtnIcon() {
-    const btn: HTMLButtonElement = this.timerStateBtn.nativeElement;
-    const imgContainer: Element = btn.children[0];
-    const img: HTMLImageElement = imgContainer.children[0] as HTMLImageElement;
+  private setStateIcon() {
+    const icon: Icon = this.timerStateIcon;
 
     let title = '';
     let imgSource = '';
@@ -165,9 +173,9 @@ export class TimerComponent implements Timer {
 
     // console.log('Image', img);
 
-    img.src = imgSource;
-    img.alt = imgAlt;
-    btn.title = title;
+    icon.src = imgSource;
+    icon.alt = imgAlt;
+    icon.title = title;
   }
 
   private updateTimerProgressBar(

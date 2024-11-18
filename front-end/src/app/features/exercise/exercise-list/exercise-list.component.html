@@ -1,14 +1,33 @@
-<div #exerciseContainer class="container-fluid mt-3">
+<div #exerciseContainer>
   <!-- Muscle Groups -->
-  @for (muscleGroup of muscleGroupService.getMuscleGroups(); track muscleGroup)
-  {
+  @for (muscleGroup of getMuscleGroups(); let i = $index; track muscleGroup) {
+  <app-icon-text
+    [src]="'assets/icons/muscle-groups/' + (muscleGroup | lowercase) + '.png'"
+    [alt]="'Muscle group icon'"
+    [class]="' img-container--medium-large mb-2'"
+    [text]="muscleGroup | uppercase"
+    [textClass]="'ff-black-title ls-1 mt-05 mb-2'"
+    [gap]="10"
+  >
+  </app-icon-text>
+
   <div class="exercise-container">
     <!-- Exercises -->
     @for (exercise of getExercisesByMuscleGroup(muscleGroup); track exercise.id)
     {
-    <app-exercise-card [exercise]="exercise"></app-exercise-card>
+    <app-exercise-card
+      id="exerciseCard"
+      [exercise]="exercise"
+      [canBeSelected]="false"
+    ></app-exercise-card>
+    }@empty {
+    <p>No exercises found</p>
     }
   </div>
+
+  @if (!isLastIndexOf(getMuscleGroups(), i)) {
   <hr />
+  } }@empty {
+  <p>No exercises found</p>
   }
 </div>

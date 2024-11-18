@@ -7,15 +7,76 @@
   initial-value: 1;
 }
 
+@font-face {
+  font-family: "Inter";
+  src: url("/assets/fonts/Inter/Inter-VariableFont_opsz,wght.ttf")
+    format("truetype");
+  font-weight: 100 900;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Manrope";
+  src: url("/assets/fonts/Manrope/Manrope-VariableFont_wght.ttf")
+    format("truetype");
+  font-weight: 100 900;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Hubot-Sans";
+  src: url("/assets/fonts/Hubot_Sans/HubotSans-VariableFont_wght.ttf")
+    format("truetype");
+  font-weight: 100 900;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Roboto-Light";
+  src: url("/assets/fonts/Roboto/Roboto-Light.ttf");
+  font-weight: 100 300;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Roboto-Regular";
+  src: url("/assets/fonts/Roboto/Roboto-Regular.ttf");
+  font-weight: 500;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Roboto-Bold";
+  src: url("/assets/fonts/Roboto/Roboto-Bold.ttf");
+  font-weight: 600 800;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Roboto-Black";
+  src: url("/assets/fonts/Roboto/Roboto-Black.ttf");
+  font-weight: bolder;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Roboto Mono";
+  src: url("/assets/fonts/Roboto_Mono/RobotoMono-VariableFont_wght.ttf")
+    format("truetype");
+  font-weight: 100 900;
+  font-style: normal;
+}
+
 :root {
-  font-family: var(--font-family-title);
+  font-family: var(--font-family-body-regular);
 
   --color-light: rgba(225, 225, 225, 1);
   --color-dark: rgba(25, 25, 25, 1);
   --color-grey: rgb(135, 135, 135, 1);
-  --color-transparent: rgba(25, 25, 25, 0.15);
-  --color-primary: rgba(255, 245, 8, 1);
-  --color-primary-dark: rgba(255, 245, 8, 0.85);
+  --color-dark-transparent: rgba(25, 25, 25, 0.15);
+  --color-light-transparent: rgba(255, 255, 255, 0.1);
+  --color-primary: rgba(255, 194, 12, 1);
+  --color-primary-dark: rgba(255, 194, 12, 0.5);
   --color-secondary: rgba(40, 40, 40, 1);
   --color-success: rgba(140, 255, 150, 1);
   --color-danger: rgba(255, 140, 140, 1);
@@ -23,21 +84,30 @@
   --color-info: rgba(130, 250, 255, 1);
   --color-disabled: rgba(60, 60, 60, 1);
 
-  --gradient-dark: linear-gradient(
+  --gradient-dark-default: linear-gradient(
     45deg,
     rgba(15, 15, 15, 0.9) 0%,
     rgba(15, 15, 15, 1) 80%
   );
+  --gradient-dark-var-1: linear-gradient(
+    0deg,
+    rgba(15, 15, 15, 0.9) 0%,
+    rgba(15, 15, 15, 1) 10%
+  );
 
   /* Partials and widgets size properties */
   --header-height: calc(3.5rem * var(--main-ratio));
-  --sidebar-width-idle: calc(3rem * var(--main-ratio));
-  --sidebar-width-open: calc(3.5rem * var(--main-ratio));
+  --sidebar-width-idle: calc(2.5rem * var(--main-ratio));
+  --sidebar-width-open: calc(3rem * var(--main-ratio));
   --widget-height: calc(10rem * var(--main-ratio));
 
-  --font-family-title: "Poppins", sans-serif;
-  --font-family-body: "Manrope", sans-serif;
-  --font-family-numbers: "Roboto", sans-serif;
+  --font-family-title: "Hubot-Sans", sans-serif;
+  --font-family-subtitle: "Manrope", sans-serif;
+  --font-family-body-light: "Roboto-Light", sans-serif;
+  --font-family-body-regular: "Roboto-Regular", sans-serif;
+  --font-family-body-bold: "Roboto-Bold", sans-serif;
+  --font-family-body-black: "Roboto-Black", sans-serif;
+  --font-family-numbers: "Roboto Mono", serif;
 
   --font-size-title: calc(var(--size-large) * var(--main-ratio));
   --font-size-subtitle: calc(1.5rem * var(--main-ratio));
@@ -60,7 +130,9 @@
   --size-extra-small: 0.125rem; /* 2px */
   --size-very-small: 0.25rem; /* 4px */
   --size-small: 0.5rem; /* 8px */
+  --size-small-medium: 0.75rem; /* 12px */
   --size-medium: 1rem; /* 16px */
+  --size-medium-large: 1.5rem; /* 24px */
   --size-large: 2rem; /* 32px */
   --size-very-large: 4rem; /* 64px */
   --size-extra-large: 8rem; /* 128px */
@@ -71,15 +143,21 @@
     rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
 
   --opacity-disabled: 0.35;
-  --opacity-idle: 0.85;
+  --opacity-inactive: 0.5;
+  --opacity-idle: 0.7;
   --opacity-hover: 0.95;
   --opacity-active: 1;
 }
 
+body {
+  background: var(--color-dark) no-repeat center center fixed;
+  color: var(--color-light);
+}
+
 main.container-fluid {
-  width: calc(100% - var(--sidebar-width-idle));
-  margin-top: var(--size-small);
-  margin-left: var(--sidebar-width-idle);
+  width: calc(100% - var(--sidebar-width-idle) - var(--size-medium-large));
+  margin-top: var(--size-medium-large);
+  margin-left: calc(var(--sidebar-width-idle) + var(--size-small-medium));
 }
 
 h1,
@@ -104,8 +182,8 @@ p,
 a,
 li,
 small {
-  font-family: var(--font-family-body);
-  font-weight: var(--font-weight-body);
+  font-family: var(--font-family-body-regular);
+  font-weight: var(--font-weight-body---font-family-body-regular);
 }
 
 p,
@@ -118,10 +196,59 @@ small {
   font-size: var(--font-size-small);
 }
 
-.color-inverted {
-  -webkit-filter: invert(1) sepia(1) saturate(10) hue-rotate(10deg)
-    brightness(1.2); /* Safari/Chrome */
-  filter: invert(1) sepia(1) saturate(10) hue-rotate(10deg) brightness(1.2);
+.ff-light {
+  font-family: var(--font-family-body-light);
+  font-weight: var(--font-weight-light);
+}
+
+.ff-regular {
+  font-family: var(--font-family-body-regular);
+  font-weight: var(--font-weight-body);
+}
+
+.ff-bold {
+  font-family: var(--font-family-body-bold);
+  font-weight: var(--font-weight-title);
+}
+
+.ff-bold-title {
+  font-family: var(--font-family-body-bold);
+  font-weight: var(--font-weight-title);
+}
+
+.ff-black {
+  font-family: var(--font-family-body-black);
+  font-weight: var(--font-weight-title);
+}
+
+.ff-black-title {
+  font-family: var(--font-family-title);
+  font-weight: var(--font-weight-title);
+}
+
+.ls-1 {
+  letter-spacing: 1px;
+}
+
+.ls-2 {
+  letter-spacing: 2px;
+}
+
+.to-primary {
+  filter: brightness(0) saturate(100%) invert(62%) sepia(94%) saturate(793%)
+    hue-rotate(2deg) brightness(107%) contrast(102%);
+  -webkit-filter: brightness(0) saturate(100%) invert(62%) sepia(94%)
+    saturate(793%) hue-rotate(2deg) brightness(107%) contrast(102%);
+}
+
+.to-white {
+  filter: invert(1) brightness(2);
+  -webkit-filter: invert(1) brightness(2);
+}
+
+.to-grey {
+  filter: invert(0.5) brightness(2);
+  -webkit-filter: invert(0.5) brightness(1);
 }
 
 .numeric {
@@ -146,20 +273,8 @@ small {
   text-decoration-thickness: var(--size-medium);
 }
 
-/* .highlighted {
-  max-width: fit-content;
-  height: 50%;
-  z-index: 1;
-
-  &::before {
-    content: "";
-    display: block;
-    position: relative;
-    bottom: calc(var(--size-medium) * -2.25);
-    min-width: 100.5%;
-    height: var(--size-medium);
-    background-color: var(--color-light);
-    opacity: 0.85;
-    z-index: -1; /* Should always be -1, use the highlighted class z-index to push it forward */
-/* }
-} */
+hr {
+  border-color: var(--color-primary);
+  margin-top: var(--size-large);
+  margin-bottom: var(--size-large);
+}

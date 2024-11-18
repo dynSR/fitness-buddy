@@ -1,10 +1,9 @@
 .img-container,
 .img-container--small,
+.img-container--small-medium,
 .img-container--medium,
+.img-container--medium-large,
 .img-container--large {
-  display: flex;
-  align-items: center;
-  justify-content: center;
   overflow: hidden;
   width: var(--size-large);
   height: 100%;
@@ -15,9 +14,19 @@
   height: var(--size-small);
 }
 
+.img-container--small-medium {
+  width: var(--size-small-medium);
+  height: var(--size-small-medium);
+}
+
 .img-container--medium {
   width: var(--size-medium);
   height: var(--size-medium);
+}
+
+.img-container--medium-large {
+  width: var(--size-medium-large);
+  height: var(--size-medium-large);
 }
 
 .img-container--large {

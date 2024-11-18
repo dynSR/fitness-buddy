@@ -4,7 +4,8 @@ import { QueryList } from '@angular/core';
 export interface SelectableContainer<T extends BaseSelectable> {
   selectables: QueryList<T>;
   canSelectMultiple: boolean;
-  selections: Array<T>;
+  isInteractive: boolean;
+  // selections: Array<T>;
 
   init(): void;
 

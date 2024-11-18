@@ -11,36 +11,33 @@
 
     <section class="widget__timer-buttons">
       <button
-        #timerStateBtn
         id="timerStateBtn"
         class="btn btn-secondary border-0"
-        title="timer.start"
         (click)="toggleTimer()"
       >
-        <section class="img-container--large">
-          <img
-            [src]="timerPlayIconSrc"
-            alt="Timer start icon"
-            class="color-inverted"
-          />
-        </section>
+        <app-icon
+          #timerStateIcon
+          [src]="timerPlayIconSrc"
+          [alt]="'Timer start icon'"
+          [class]="'img-container--medium-large to-primary'"
+          [title]="'timer.start'"
+        >
+        </app-icon>
       </button>
 
       <button
         #timerRefreshBtn
         id="timerRefreshBtn"
         class="btn btn-secondary border-0"
-        title="timer.refresh"
         disabled
         (click)="refresh()"
       >
-        <section class="img-container--large">
-          <img
-            [src]="timerRefreshIconSrc"
-            alt="Timer refresh icon"
-            class="color-inverted"
-          />
-        </section>
+        <app-icon
+          [src]="timerRefreshIconSrc"
+          [alt]="'Timer refresh icon'"
+          [class]="'img-container--medium-large to-primary'"
+          [title]="'timer.refresh'"
+        ></app-icon>
       </button>
     </section>
   </div>

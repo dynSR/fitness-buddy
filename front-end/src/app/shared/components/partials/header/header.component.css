@@ -5,11 +5,20 @@ header {
   gap: var(--size-small);
   height: var(--header-height);
   background-color: var(--color-dark);
+  border-bottom: solid 1px var(--color-secondary);
   padding: 0 var(--size-small);
+  padding-left: 0;
   color: var(--color-light);
   position: sticky;
   top: 0;
   z-index: 100;
+}
+
+.app-logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--sidebar-width-idle);
 }
 
 .header-left,

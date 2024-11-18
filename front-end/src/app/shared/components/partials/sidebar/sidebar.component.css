@@ -6,13 +6,15 @@
   top: calc(0 - var(--header-height));
   left: 0;
 
-  width: var(--sidebar-width-idle);
+  width: calc(var(--sidebar-width-idle) + 1px);
   height: calc(100vh - var(--header-height));
 
   background-color: var(--color-dark);
   color: aliceblue;
 
   padding: var(--size-very-small);
+  padding-top: var(--size-medium);
+  border-right: solid 1px var(--color-secondary);
 }
 
 .sidebar-top,
@@ -27,6 +29,14 @@
   justify-content: flex-start;
   flex: 0.95;
   gap: var(--size-small);
+}
+
+.sidebar-top > a {
+  opacity: var(--opacity-inactive);
+}
+
+.sidebar-top > a.is-active {
+  opacity: var(--opacity-active);
 }
 
 .sidebar-bottom {

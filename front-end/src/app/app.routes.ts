@@ -10,6 +10,13 @@ export const routes: Routes = [
     title: 'Home',
   },
   {
+    // Home page
+    path: 'home',
+    loadComponent: () =>
+      import('./features/home/home.component').then((m) => m.HomeComponent),
+    title: 'Home',
+  },
+  {
     // Exercise list page
     path: 'exercises',
     loadComponent: () =>
