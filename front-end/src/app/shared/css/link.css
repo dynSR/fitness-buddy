@@ -1,18 +1,37 @@
-.link:not(:disabled) {
+.link,
+.link.is-active {
+  opacity: var(--opacity-inactive);
   border-radius: var(--size-very-small);
   padding: var(--size-very-small);
-  background-color: var(--color-transparent);
+  background-color: var(--color-dark-transparent);
+  border-radius: 50%;
+  border: solid 1px var(--color-dark-transparent);
+  text-decoration: none;
+  user-select: none;
+  transition: all ease-out 150ms;
 }
 
-.link:not(:disabled):hover {
+.link:not(:disabled):hover,
+.link.is-active:not(:disabled):hover {
+  opacity: var(--opacity-hover);
   background-color: var(--color-light-transparent);
 }
 
-.link:not(:disabled):active {
+.link.is-active:not(:disabled):hover {
+  opacity: var(--opacity-idle);
+}
+
+.link:not(:disabled):active,
+.link.is-active:not(:disabled):active {
   opacity: var(--opacity-active);
+  border: solid 1px var(--color-light);
+  filter: saturate(1.5) brightness(0.85);
+  -webkit-filter: saturate(1.5) brightness(0.85);
 }
 
 .link.is-active {
+  opacity: var(--opacity-active);
   background-color: var(--color-light-transparent);
   border: solid 1px var(--color-light);
+  border-radius: var(--size-very-small);
 }

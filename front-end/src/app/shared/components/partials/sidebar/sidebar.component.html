@@ -8,22 +8,22 @@
       class="link"
     >
       <app-icon
-        [src]="route.icon"
+        [src]="route.icon || ''"
         [alt]="route.title"
         [class]="'img-container--medium to-grey'"
         [title]="route.title"
-      ></app-icon>
+      />
     </a>
     }
   </nav>
   <div class="sidebar-bottom">
-    <button class="btn btn-secondary p-1">
+    <button class="btn btn-secondary rounded-circle p-1">
       <app-icon
         [src]="logOutIconSrc"
         [alt]="'Log out icon'"
-        [class]="'img-container--small-medium to-white'"
+        [class]="'img-container--medium to-white'"
         [title]="'user.log-out'"
-      ></app-icon>
+      />
     </button>
   </div>
 </aside>

@@ -39,23 +39,23 @@
 
 .widget__weather-date {
   font-size: var(--font-size-body);
-  font-weight: var(--font-weight-body);
+  font-weight: var(--font-weight-normal);
   color: var(--color-primary);
 }
 
 .widget__weather-time {
   font-size: var(--font-size-large);
-  font-weight: var(--font-weight-body);
+  font-weight: var(--font-weight-normal);
   font-family: var(--font-family-numbers);
 }
 
 .widget__weather-location {
-  font-weight: var(--font-weight-subtitle);
+  font-weight: var(--font-weight-semibold);
 }
 
 .widget__weather-temperature {
   font-size: calc(var(--font-size-title) * var(--weather-temperature-fs-ratio));
-  font-weight: var(--font-weight-title);
+  font-weight: var(--font-weight-bold);
   font-family: var(--font-family-numbers);
   flex: 0.7;
   color: var(--color-primary);

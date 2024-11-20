@@ -3,6 +3,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
+  gap: var(--size-small);
   padding: var(--size-medium);
   padding-bottom: var(--size-small-medium);
   border-radius: var(--size-small);
@@ -14,14 +15,18 @@
 }
 
 .exercise-card-top,
+.exercise-card-center,
 .exercise-card-bottom {
-  padding: var(--size-very-small);
+  padding: 0 var(--size-very-small);
 }
 
 .exercise-card-top,
-.exercise-card-bottom,
 .exercise-card-top-left,
-.exercise-card-top-right {
+.exercise-card-top-right,
+.exercise-card-center,
+.exercise-card-bottom,
+.exercise-card-bottom-left,
+.exercise-card-bottom-right {
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -29,18 +34,23 @@
 }
 
 .exercise-card-top,
+.exercise-card-center,
 .exercise-card-bottom {
   justify-content: space-between;
 }
 
-.exercise-card-top {
+.exercise-card-top,
+.exercise-card-center {
   flex: 1;
   text-align: left;
 }
 
 .exercise-card-bottom {
-  margin-top: var(--size-large);
-  border-radius: var(--size-very-small);
+  gap: var(--size-medium);
+  border-top: solid 1px var(--color-light-transparent);
+  padding: var(--size-medium) var(--size-very-small);
+  padding-bottom: var(--size-extra-small);
+  margin-top: var(--size-small-medium);
   opacity: 0.8;
 }
 
@@ -48,7 +58,6 @@
 .exercise-card-top-right {
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
   height: 100%;
 }
 
@@ -58,23 +67,40 @@
   align-items: flex-start;
 }
 
-.exercise-card-top-right {
+.exercise-card-top-right,
+.exercise-card-bottom-right {
   flex: 0.15;
   align-items: flex-end;
+}
+
+.exercise-card-bottom-left,
+.exercise-card-bottom-right {
+  align-items: center;
+  flex: calc(1 / 2);
+}
+
+.exercise-card-bottom-left {
+  flex-direction: row-reverse;
+  justify-content: flex-end;
+  gap: var(--size-very-large);
+}
+
+.exercise-card-bottom-right {
+  justify-content: flex-end;
 }
 
 .exercise-card-title {
   margin-bottom: 0;
   color: var(--color-primary);
   font-size: var(--font-size-subtitle);
-  font-weight: var(--font-weight-body);
+  font-weight: var(--font-weight-normal);
   text-transform: uppercase;
 }
 
 .exercise-card-description {
   opacity: 0.8;
-  /* line-height: 1.6; */
   font-family: var(--font-family-body-light);
   font-size: var(--font-size-medium);
+  margin-top: var(--size-small);
   font-weight: var(--font-weight-light);
 }

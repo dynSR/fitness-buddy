@@ -1,0 +1,8 @@
+<section class="d-flex align-items-center gap-1">
+  <app-icon
+    *ngFor="let _ of series | numToArray; let i = index"
+    [src]="'assets/icons/circle.png'"
+    [alt]="''"
+    [class]="'icon img-container--medium to-white'"
+  ></app-icon>
+</section>

@@ -1,11 +1,10 @@
-.exercise-container {
+.exercise-list {
   display: flex;
   gap: var(--size-medium);
   padding: 0;
-  color: var(--color-dark);
   height: 100%;
 }
 
-.exercise-container > #exerciseCard {
+.exercise-list > #exerciseCard {
   flex: 1;
 }

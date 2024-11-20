@@ -5,161 +5,144 @@ import {
   inject,
   Input,
   QueryList,
-  ViewChild,
   ViewChildren,
 } from '@angular/core';
 import { TimeFormatter } from '../../../shared/utils/time-formatter';
 import { Exercise } from '../../../models/exercise.model';
 import { MuscleGroupService } from '../../muscle-group/muscle-group.service';
 import { ExerciseCardComponent } from '../exercise-card/exercise-card.component';
-import { SelectableContainer } from '../../../shared/components/selectable/selectable-container.interface';
 import { IconTextComponent } from '../../../shared/components/icon/icon-text/icon-text.component';
+import { ExerciseService } from '../exercise.service';
+import { SelectableGroup } from '../../../shared/components/selectable/selectable-group';
+import { IsLastIndexOfPipe } from '../../../shared/pipes/is-last-index-of/is-last-index-of.pipe';
 
 @Component({
   selector: 'app-exercise-list',
   standalone: true,
-  imports: [CommonModule, ExerciseCardComponent, IconTextComponent],
+  imports: [
+    CommonModule,
+    ExerciseCardComponent,
+    IconTextComponent,
+    IsLastIndexOfPipe,
+  ],
   templateUrl: './exercise-list.component.html',
   styleUrl: './exercise-list.component.css',
 })
-export class ExerciseListComponent
-  implements SelectableContainer<ExerciseCardComponent>
-{
-  @ViewChild('exerciseContainer')
-  declare container: ElementRef<HTMLDivElement>;
-
+export class ExerciseListComponent extends SelectableGroup {
   @ViewChildren(ExerciseCardComponent)
-  selectables!: QueryList<ExerciseCardComponent>;
-  @Input({ required: true }) canSelectMultiple: boolean = false;
-  @Input({ required: true }) isInteractive: boolean = true;
-  // selections: Array<ExerciseCardComponent> = [];
+  declare selectables: QueryList<ExerciseCardComponent>;
+  @Input({ required: true }) override canSelectMultiple: boolean = false;
+  @Input({ required: true }) override isInteractive: boolean = false;
+
+  @ViewChildren('checkboxSelection')
+  selectionCheckboxes!: QueryList<ElementRef<HTMLInputElement>>;
 
   readonly timeFormatter = inject(TimeFormatter);
+  private readonly _exerciseService = inject(ExerciseService);
   private readonly _muscleGroupService = inject(MuscleGroupService);
-  readonly exercises: Array<Exercise> = [
-    {
-      id: 1,
-      name: 'Hammer Curl',
-      description:
-        'The Hammer Curl is an exercise for the biceps and forearms, performed with dumbbells in a neutral grip. It targets the arm muscles while reducing strain on the wrists.',
-      series: 4,
-      repetitions: 12,
-      recoveryTime: 180,
-      muscleGroup: 'Biceps',
-    },
-    {
-      id: 2,
-      name: 'EZ Bar Curl',
-      description:
-        'The EZ Bar Curl is a bicep exercise using a zig-zag bar, which allows for a more comfortable grip and reduces wrist strain. It targets the biceps while promoting proper form.',
-      series: 4,
-      repetitions: 12,
-      recoveryTime: 180,
-      muscleGroup: 'Biceps',
-    },
-    {
-      id: 3,
-      name: 'Kettlebell Curl',
-      description:
-        'The Kettlebell Curl is a bicep exercise using a kettlebell, offering a unique grip and movement that targets the biceps while improving forearm strength.',
-      series: 4,
-      repetitions: 12,
-      recoveryTime: 180,
-      muscleGroup: 'Biceps',
-    },
-    {
-      id: 4,
-      name: 'Triceps Pushdown',
-      description:
-        'Uses a resistance band anchored to a high point. With elbows close to the body, you pull the handles downward until your arms are fully extended, targeting the triceps.',
-      series: 4,
-      repetitions: 12,
-      recoveryTime: 180,
-      muscleGroup: 'Triceps',
-    },
-    {
-      id: 5,
-      name: 'EZ Bar Skull Crushers',
-      description:
-        'Lying on a bench, you hold an EZ bar above your chest, then lower it toward your forehead or slightly behind your head before pressing it back up.',
-      series: 4,
-      repetitions: 12,
-      recoveryTime: 180,
-      muscleGroup: 'Triceps',
-    },
-    {
-      id: 6,
-      name: 'Overhead Triceps Extension',
-      description:
-        'Holding a kettlebell behind your head, you extend your arms upward, as if performing a "touchdown" motion.',
-      series: 4,
-      repetitions: 12,
-      recoveryTime: 180,
-      muscleGroup: 'Triceps',
-    },
-  ];
 
-  constructor() {}
+  constructor() {
+    super();
+  }
 
   ngAfterViewInit() {
     this.init();
   }
 
-  init(): void {
-    if (!this.isInteractive) {
-      return;
-    }
+  override selectOne(selectable: ExerciseCardComponent): void {
+    super.selectOne(selectable);
 
-    this.selectables.forEach((s) => {
-      if (!s.canBeSelected) {
-        s.disable();
-        return;
-      }
-
-      s.element.nativeElement.addEventListener('click', () => {
-        this.selectOne(s);
-      });
-    });
-  }
-
-  selectOne(selectable: ExerciseCardComponent): void {
     if (this.canSelectMultiple) {
-      selectable.toggle();
-      return;
+      const muscleGroup = selectable.exercise.muscleGroup;
+      const muscleGroupIndex = this.getMuscleGroups().findIndex(
+        (mg) => mg === muscleGroup
+      );
+      console.log(muscleGroupIndex);
+
+      const areAllExercisesOfOneMuscleGroupSelected: boolean = this.selectables
+        .filter((s) => s.exercise.muscleGroup === muscleGroup)
+        .every((s) => s.isSelected);
+
+      const checkbox =
+        this.selectionCheckboxes.toArray()[muscleGroupIndex].nativeElement;
+      checkbox.checkVisibility();
+      checkbox.checked = areAllExercisesOfOneMuscleGroupSelected;
     }
-
-    this.unselectAll();
-    selectable.select();
   }
 
-  selectAll(): void {
-    this.selectables.forEach((s) => {
-      if (s instanceof ExerciseCardComponent) {
-        s.select();
-      }
-    });
-  }
-
-  unselectAll(): void {
-    this.selectables.forEach((s) => {
-      if (s instanceof ExerciseCardComponent) {
-        s.unselect();
-      }
-    });
-  }
-
+  /**
+   * Gets all muscle groups.
+   *
+   * @returns An array of all muscle group names.
+   */
   getMuscleGroups(): Array<string> {
     return this._muscleGroupService.getMuscleGroups();
   }
 
+  /**
+   * Filters the exercises by muscle group.
+   *
+   * @param muscleGroup The muscle group to filter by.
+   * @returns An array of exercises belonging to the given muscle group.
+   */
   getExercisesByMuscleGroup(muscleGroup: string): Array<Exercise> {
-    return this.exercises.filter(
-      (exercise) => exercise.muscleGroup === muscleGroup
-    );
+    return this._exerciseService
+      .getExercises()
+      .filter((exercise) => exercise.muscleGroup === muscleGroup);
   }
 
-  // TODO: will be deported into a pipe
-  isLastIndexOf(array: Array<any>, index: number): boolean {
-    return index === array.length - 1;
+  /**
+   * Handles the selection event of a checkbox of a muscle group.
+   * If there are any unselected exercises of the muscle group, selects all
+   * exercises of the muscle group. Otherwise, unselects all exercises of the
+   * muscle group.
+   *
+   * @param muscleGroup The muscle group of the checkbox that was clicked.
+   */
+  handleCheckboxSelection(muscleGroup: string): void {
+    const filteredSelectables = this.selectables
+      .toArray()
+      .filter((s) => s.exercise.muscleGroup === muscleGroup);
+
+    if (filteredSelectables.some((s) => !s.isSelected)) {
+      this.selectAll(filteredSelectables);
+      return;
+    }
+
+    this.unselectAll(filteredSelectables);
+
+    // Redefine index of selectables when we uncheck one of the selectionCheckboxes...
+    // ...and many are ticked.
+    this.selections.forEach((s) => {
+      s.setSelectionIndex(this.selections.indexOf(s) + 1);
+    });
+  }
+
+  /**
+   * Enables the exercise selection.
+   *
+   * Sets the component's isInteractive and canSelectMultiple properties to true.
+   * Also enables all the selectables in the group by calling their enable method.
+   */
+  enableExerciseSelection(): void {
+    this.isInteractive = true;
+    this.canSelectMultiple = true;
+
+    this.selectables.forEach((s) => s.enable());
+  }
+
+  /**
+   * Disables the exercise selection.
+   *
+   * Sets the component's isInteractive and canSelectMultiple properties to false.
+   * Also clears the selections and disables all the selectables in the group by
+   * calling their disable method.
+   */
+  disableExerciseSelection(): void {
+    this.isInteractive = false;
+    this.canSelectMultiple = false;
+
+    this.clearSelections();
+    this.selectables.forEach((s) => s.disable());
   }
 }

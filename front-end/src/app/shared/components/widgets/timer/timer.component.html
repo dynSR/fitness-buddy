@@ -12,7 +12,7 @@
     <section class="widget__timer-buttons">
       <button
         id="timerStateBtn"
-        class="btn btn-secondary border-0"
+        class="btn btn-secondary rounded-circle"
         (click)="toggleTimer()"
       >
         <app-icon
@@ -28,9 +28,9 @@
       <button
         #timerRefreshBtn
         id="timerRefreshBtn"
-        class="btn btn-secondary border-0"
+        class="btn btn-secondary rounded-circle"
         disabled
-        (click)="refresh()"
+        (click)="refreshTimer()"
       >
         <app-icon
           [src]="timerRefreshIconSrc"

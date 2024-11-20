@@ -1,16 +1,46 @@
 .btn {
-  padding: 0;
-  border-radius: 50%;
+  opacity: var(--opacity-idle);
+  width: max-content;
+  height: fit-content;
+  padding: var(--size-very-small) var(--size-small);
+  border-radius: var(--size-small);
+  text-transform: uppercase;
+  font-weight: var(--font-weight-semibold);
+  font-family: var(--font-family-subtitle);
+  user-select: none;
   transition: all ease-out 150ms;
 }
 
 .btn:disabled {
+  opacity: var(--opacity-disabled);
   background-color: var(--color-dark-disabled);
   border-color: var(--color-disabled);
 }
 
 .btn:not(:disabled):hover {
-  transform: scale(1.1);
+  opacity: var(--opacity-hover);
+  transform: scale(var(--btn-scale-hover));
+}
+
+.btn:not(:disabled):active {
+  opacity: var(--opacity-active);
+  transform: scale(var(--btn-scale-active));
+}
+
+.btn-primary {
+  opacity: var(--opacity-hover);
+  color: var(--color-primary);
+  background-color: var(--color-primary-transparent);
+  border-color: var(--color-primary);
+  border-width: 2px;
+
+  &:not(:disabled):hover,
+  &:not(:disabled):active {
+    color: var(--color-primary);
+    background-color: var(--color-dark);
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 0.25rem var(--color-primary-transparent);
+  }
 }
 
 .btn-secondary {
@@ -19,11 +49,11 @@
 
   &:not(:disabled):hover {
     background-color: var(--color-secondary);
-    border-color: var(--color-light-transparent);
+    border: solid 1px var(--color-grey-dark);
   }
 
   &:not(:disabled):active {
     background-color: var(--color-white);
-    border-color: var(--color-white);
+    border-color: var(--color-grey);
   }
 }

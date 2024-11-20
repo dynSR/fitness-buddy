@@ -1,6 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { IconComponent } from '../../icon/icon.component';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
+import { RouteData, RouterExtension } from '../../../utils/router-extension';
 
 @Component({
   selector: 'app-sidebar',
@@ -10,25 +11,14 @@ import { Router, RouterLink, RouterLinkActive } from '@angular/router';
   styleUrl: './sidebar.component.css',
 })
 export class SidebarComponent {
-  readonly routes: Array<{ path: string; title: string; icon: string }> = [
-    {
-      path: '/home',
-      title: 'page.home',
-      icon: 'assets/icons/home.svg',
-    },
-    {
-      path: 'exercises',
-      title: 'page.exercises',
-      icon: 'assets/icons/exercises.png',
-    },
-  ];
+  private _routes: Array<RouteData> = RouterExtension.getRoutesData();
   readonly logOutIconSrc: string = 'assets/icons/auth/log-out.svg';
 
   readonly router: Router = inject(Router);
 
   constructor() {}
 
-  isRouteActive(path: string): boolean {
-    return this.router.url === path;
+  get routes(): Array<RouteData> {
+    return this._routes;
   }
 }

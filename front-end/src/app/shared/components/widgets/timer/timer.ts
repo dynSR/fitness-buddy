@@ -14,8 +14,8 @@ export interface Timer {
 
   interval?: ReturnType<typeof setInterval>;
 
-  start(): void;
-  update(elapsedTime: number): void;
-  pause(): void;
-  refresh(): void;
+  startTimer(): void;
+  updateTimer(elapsedTime: number): void;
+  pauseTimer(): void;
+  refreshTimer(): void;
 }

@@ -6,8 +6,8 @@ header {
   height: var(--header-height);
   background-color: var(--color-dark);
   border-bottom: solid 1px var(--color-secondary);
-  padding: 0 var(--size-small);
-  padding-left: 0;
+  padding: 0 var(--size-small-medium);
+  /* padding-left: 0; */
   color: var(--color-light);
   position: sticky;
   top: 0;
@@ -18,7 +18,17 @@ header {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: var(--sidebar-width-idle);
+  width: min-content;
+
+  a:hover {
+    filter: invert(1);
+    -webkit-filter: invert(1);
+  }
+
+  a:active {
+    filter: invert(0.5);
+    -webkit-filter: invert(0.5);
+  }
 }
 
 .header-left,

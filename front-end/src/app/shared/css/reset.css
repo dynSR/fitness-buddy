@@ -66,6 +66,10 @@ ul {
   margin-bottom: 0rem; /* Remove margin-bottom from bootstrap */
 }
 
+a {
+  text-decoration: none;
+}
+
 /* Create a root stacking context */
 #root,
 #__next {

@@ -29,7 +29,8 @@
               "src/styles.css",
               "src/app/shared/css/reset.css",
               "src/app/shared/css/link.css",
-              "src/app/shared/css/button.css"
+              "src/app/shared/css/button.css",
+              "src/app/shared/css/input.css"
             ],
             "scripts": [
               "node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"
@@ -90,7 +91,8 @@
               "src/styles.css",
               "src/app/shared/css/reset.css",
               "src/app/shared/css/link.css",
-              "src/app/shared/css/button.css"
+              "src/app/shared/css/button.css",
+              "src/app/shared/css/input.css"
             ],
             "scripts": [
               "node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"

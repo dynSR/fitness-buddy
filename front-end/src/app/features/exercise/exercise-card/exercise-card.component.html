@@ -1,11 +1,16 @@
 <div #selectable class="exercise-card selectable--idle user-select-none">
+  <!-- TOP -->
   <div class="exercise-card-top">
-    <section class="exercise-card-top-left">
+    <!-- TOP LEFT -->
+    <div class="exercise-card-top-left">
       <h1 class="exercise-card-title">{{ exercise.name }}</h1>
-      <p class="exercise-card-description">{{ exercise.description }}</p>
-    </section>
+      <p #index class="selectable-index--idle numeric">
+        {{ selectionIndex }}
+      </p>
+    </div>
 
-    <section class="exercise-card-top-right">
+    <!-- TOP RIGHT -->
+    <div class="exercise-card-top-right">
       <app-icon
         [src]="
           'assets/icons/muscle-groups/' +
@@ -13,27 +18,68 @@
           '.png'
         "
         [alt]="exercise.muscleGroup"
-        [class]="'icon img-container--large'"
+        [class]="'icon img-container--medium-large'"
         [title]="exercise.muscleGroup"
-      ></app-icon>
-    </section>
+      />
+    </div>
   </div>
 
+  <!-- CENTER -->
+  <div class="exercise-card-center">
+    <p class="exercise-card-description">
+      {{ exercise.description }}
+    </p>
+  </div>
+
+  <!-- BOTTOM -->
   <div class="exercise-card-bottom">
-    <div class="d-flex justify-content-between w-100">
-      <section class="d-flex align-items-center gap-1">
-        <app-icon
-          *ngFor="let _ of exercise.series | numToArray; let i = index"
-          [src]="'assets/icons/circle.png'"
-          [alt]="''"
-          [class]="'icon img-container--medium to-white'"
-        ></app-icon>
+    <!-- BOTTOM LEFT -->
+    <div class="exercise-card-bottom-left">
+      <section class="d-flex flex-column gap-1">
+        <small class="small-header">
+          {{ "series" }}
+        </small>
+        @if (!canBeSelected) {
+        <p class="numeric">
+          {{ exercise.series }}
+        </p>
+        } @else {
+        <app-exercise-series-counter [series]="exercise.series" />
+        }
       </section>
 
-      <p class="numeric">
-        {{ exercise.repetitions }}
-      </p>
-      <p class="numeric">{{ getRecoveryTime() }}</p>
+      <section class="d-flex flex-column gap-1">
+        <small class="small-header">
+          {{ "reps" }}
+        </small>
+        <p class="numeric">
+          {{ exercise.repetitions }}
+        </p>
+      </section>
+
+      <section class="d-flex flex-column gap-1">
+        <small class="small-header">
+          {{ "weight" }}
+        </small>
+        <section class="d-flex align-items-end">
+          <p class="numeric">
+            {{ exercise.weight }}
+          </p>
+          <p class="unit">{{ "kg" }}</p>
+        </section>
+      </section>
+    </div>
+
+    <!-- BOTTOM RIGHT -->
+    <div class="exercise-card-bottom-right">
+      <section class="d-flex flex-column gap-1">
+        <small class="small-header">
+          {{ "recovery" }}
+        </small>
+        <p class="numeric">
+          {{ getRecoveryTime() }}
+        </p>
+      </section>
     </div>
   </div>
 </div>

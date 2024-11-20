@@ -9,6 +9,4 @@ import { SidebarComponent } from './shared/components/partials/sidebar/sidebar.c
   imports: [RouterOutlet, HeaderComponent, SidebarComponent],
   templateUrl: './app.component.html',
 })
-export class AppComponent {
-  title = 'front-end';
-}
+export class AppComponent {}

@@ -7,6 +7,7 @@
   overflow: hidden;
   width: var(--size-large);
   height: 100%;
+  user-select: none;
 }
 
 .img-container--small {

@@ -10,8 +10,8 @@ import { Icon } from '../icon.interface';
 })
 export class IconTextComponent implements Icon {
   @Input({ required: true }) src!: string;
-  @Input({ required: true }) alt!: string;
-  @Input({ required: false }) title!: string;
+  @Input({ required: true }) alt: string = '';
+  @Input({ required: false }) title: string = '';
   @Input({ required: false }) class: string | undefined = 'img-container';
 
   @Input({ required: true }) text!: string;
@@ -23,8 +23,10 @@ export class IconTextComponent implements Icon {
   constructor() {}
 
   ngAfterViewInit() {
-    console.log(this.imgContainer);
-    const nativeElement = this.imgContainer.nativeElement;
-    nativeElement.style.gap = this.gap + 'px';
+    this.setGap(this.gap);
+  }
+
+  setGap(gap: number) {
+    this.imgContainer.nativeElement.style.gap = gap + 'px';
   }
 }

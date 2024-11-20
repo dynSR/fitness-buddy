@@ -1,18 +1,10 @@
 .widget {
   height: var(--widget-height);
-  /* width: calc(100dvw - var(--sidebar-width-idle)); */
   position: relative;
-  background: var(--gradient-dark-default);
+  background-color: var(--color-transparent);
   border-radius: var(--size-small);
-  box-shadow: var(--box-shadow-dark);
-  margin-top: var(--size-medium);
-  margin-bottom: var(--size-large);
-}
-
-.widget > .widget-content {
-  display: flex;
-  flex-direction: column;
-  padding: var(--size-medium);
-  color: var(--color-light);
-  height: 100%;
+  /* border: solid 1px var(--color-light-transparent); */
+  /* box-shadow: var(--box-shadow-dark); */
+  margin-top: var(--size-medium-large);
+  margin-bottom: var(--size-medium-large);
 }

@@ -31,14 +31,6 @@
   gap: var(--size-small);
 }
 
-.sidebar-top > a {
-  opacity: var(--opacity-inactive);
-}
-
-.sidebar-top > a.is-active {
-  opacity: var(--opacity-active);
-}
-
 .sidebar-bottom {
   justify-content: center;
   flex: 0.05;

@@ -49,23 +49,18 @@ export class TimerComponent implements Timer {
 
   ngOnInit() {
     this.currentValue = this.initialValue;
+
+    document.addEventListener('keydown', (event) => {
+      event.preventDefault();
+      this.onKeyDown(event);
+    });
   }
 
   ngAfterViewInit() {
     this.setCircularProgressUIClass();
-
-    console.log(this.timerStateIcon);
-
-    // const child = this.timerStateBtn.nativeElement.children[0];
-    // console.log(child);
-    // if (child instanceof IconComponent) {
-    //   console.log('this is an icon, marked as app-icon');
-    // }
   }
 
-  ngOnChanges() {}
-
-  start(): void {
+  startTimer(): void {
     // console.log('Start timer');
     this.state = TimerState.RUNNING;
     this.setStateIcon();
@@ -75,11 +70,11 @@ export class TimerComponent implements Timer {
     const ms = 10;
     this.interval ??= setInterval(() => {
       // console.log(this.state);
-      this.update(ms);
+      this.updateTimer(ms);
     }, ms);
   }
 
-  update(elapsedTime: number = 0): void {
+  updateTimer(elapsedTime: number = 0): void {
     if (this.state !== TimerState.RUNNING) {
       return;
     }
@@ -89,12 +84,12 @@ export class TimerComponent implements Timer {
     this.updateTimerProgressBar(this.normalizedValue, this.maxDuration);
 
     if (this.maxDuration > 0 && this.normalizedValue === this.maxDuration) {
-      this.pause();
+      this.pauseTimer();
       // TODO: Add a sound effect
     }
   }
 
-  pause(): void {
+  pauseTimer(): void {
     this.state = TimerState.PAUSED;
     this.setStateIcon();
 
@@ -102,7 +97,7 @@ export class TimerComponent implements Timer {
     this.interval = undefined;
   }
 
-  refresh(): void {
+  refreshTimer(): void {
     this.state = TimerState.IDLE;
     this.setStateIcon();
 
@@ -117,13 +112,13 @@ export class TimerComponent implements Timer {
   toggleTimer(): void {
     switch (this.state) {
       case TimerState.RUNNING:
-        this.pause();
+        this.pauseTimer();
         break;
       case TimerState.PAUSED:
-        this.start();
+        this.startTimer();
         break;
       case TimerState.IDLE:
-        this.start();
+        this.startTimer();
         break;
     }
   }
@@ -191,6 +186,12 @@ export class TimerComponent implements Timer {
     let progress = 0;
 
     progress = (current / max) * deg;
-    progressBar.style.background = `conic-gradient(var(--color-primary) ${progress}deg, #fff 0deg)`;
+    progressBar.style.background = `conic-gradient(var(--color-primary) ${progress}deg, rgba(255, 255, 255, 0.1) 0deg)`;
+  }
+
+  private onKeyDown(event: KeyboardEvent) {
+    if (event.code === 'Space') {
+      this.toggleTimer();
+    }
   }
 }
