@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { SelectableIndexComponent } from './selectable-index.component';
+import { SelectableIndexComponent } from './selectable__index.component';
 
 describe('SelectableIndexComponent', () => {
   let component: SelectableIndexComponent;
@@ -8,9 +8,8 @@ describe('SelectableIndexComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [SelectableIndexComponent]
-    })
-    .compileComponents();
+      imports: [SelectableIndexComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(SelectableIndexComponent);
     component = fixture.componentInstance;

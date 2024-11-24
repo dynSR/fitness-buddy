@@ -1,0 +1,20 @@
+.selectable__index--displayed,
+.selectable__index--hidden {
+  position: absolute;
+  top: calc(var(--size-very-small) * -1);
+  left: calc(var(--size-small) * -1);
+  font-size: var(--font-size-small);
+  border-radius: var(--size-very-small);
+  padding: var(--size-very-small) var(--size-small);
+  background-color: var(--color-primary);
+  color: var(--color-dark);
+  font-weight: var(--font-weight-bold);
+}
+
+.selectable__index--hidden {
+  opacity: var(--opacity-hidden);
+}
+
+.selectable__index--displayed {
+  opacity: var(--opacity-active);
+}
