@@ -28,7 +28,7 @@ export const routes: Routes = [
     // Session page
     path: RoutesUtils.SESSION,
     loadComponent: () =>
-      import('./features/session/session/session.component').then(
+      import('./features/session/session.component').then(
         (m) => m.SessionComponent
       ),
     title: RoutesUtils.getRouteByPath(RoutesUtils.SESSION)!.title,
