@@ -1,0 +1,79 @@
+.widget {
+  width: 11rem;
+  margin-left: auto;
+  margin-right: auto;
+  padding: var(--size-large);
+  border: none;
+  box-shadow: none;
+}
+
+.timer__content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--size-medium);
+  color: var(--color-light);
+  width: 50%;
+  height: 100%;
+  margin: auto;
+}
+
+.timer__value {
+  position: relative;
+  font-size: calc(var(--size-medium) * 1.25);
+  font-family: var(--font-family-numbers);
+  font-weight: var(--font-weight-light);
+}
+
+.circular-progress--displayed {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  width: calc(var(--size-extra-large) * 1.1);
+  height: calc(var(--size-extra-large) * 1.1);
+  background: conic-gradient(
+    var(--color-primary) 0deg,
+    var(--color-light-transparent) 0deg
+  );
+  border-radius: 50%;
+}
+
+.circular-progress--hidden,
+.circular-progress--hidden::before {
+  background: none;
+}
+
+.circular-progress--displayed::before,
+.circular-progress--hidden::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: calc(var(--size-extra-large) * 1.05);
+  height: calc(var(--size-extra-large) * 1.05);
+  background-color: var(--color-body);
+  border-radius: 50%;
+}
+
+.circular-progress--hidden::before {
+  opacity: 0;
+  background: none;
+}
+
+.timer__buttons {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  padding: var(--size-medium) var(--size-medium-large);
+
+  button {
+    padding: var(--size-very-small);
+    background-color: var(--color-body);
+  }
+}

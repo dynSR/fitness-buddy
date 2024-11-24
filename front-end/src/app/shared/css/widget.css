@@ -1,10 +1,12 @@
 .widget {
+  width: 100%;
   height: var(--widget-height);
   position: relative;
   background-color: var(--color-transparent);
   border-radius: var(--size-small);
-  /* border: solid 1px var(--color-light-transparent); */
-  /* box-shadow: var(--box-shadow-dark); */
-  margin-top: var(--size-medium-large);
-  margin-bottom: var(--size-medium-large);
+  border: solid 1px var(--color-light-transparent);
+  box-shadow: var(--box-shadow-dark);
+  /* margin-top: var(--size-medium-large);
+  margin-bottom: var(--size-medium-large); */
+  padding: var(--size-medium) var(--size-medium-large);
 }

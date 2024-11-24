@@ -19,20 +19,20 @@ export const routes: Routes = [
     // Exercise list page
     path: RoutesUtils.EXERCISES,
     loadComponent: () =>
-      import('./features/exercise/exercise-list/exercise-list.component').then(
-        (m) => m.ExerciseListComponent
-      ),
+      import(
+        './features/exercise/exercise-group/exercise-group.component'
+      ).then((m) => m.ExerciseGroupComponent),
     title: RoutesUtils.getRouteByPath(RoutesUtils.EXERCISES)!.title,
   },
-  // {
-  //   // Session page
-  //   path: RoutesUtils.SESSION,
-  //   loadComponent: () =>
-  //     import('./features/session/session/session.component').then(
-  //       (m) => m.SessionComponent
-  //     ),
-  //   title: RoutesUtils.getRouteByPath(RoutesUtils.SESSION)!.title,
-  // },
+  {
+    // Session page
+    path: RoutesUtils.SESSION,
+    loadComponent: () =>
+      import('./features/session/session/session.component').then(
+        (m) => m.SessionComponent
+      ),
+    title: RoutesUtils.getRouteByPath(RoutesUtils.SESSION)!.title,
+  },
   {
     // Wildcard route - 404
     path: RoutesUtils.NOT_FOUND,

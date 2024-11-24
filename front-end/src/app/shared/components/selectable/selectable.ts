@@ -1,14 +1,19 @@
 import { ElementRef, EventEmitter } from '@angular/core';
+import { IInteractable } from '../../interfaces/interactable';
 
-export interface ISelectable {
+export interface ISelectable extends IInteractable {
   element: ElementRef;
+
+  isSelectable: boolean;
   isSelected: boolean;
-  canBeSelected: boolean;
+
   unselectedClassName: string;
   selectedClassName: string;
 
+  isIndexVisible: boolean;
   indexElement?: ElementRef;
   selectionIndex: number;
+
   indexIdleClassName: string;
   indexDisplayedClassName: string;
 
@@ -18,31 +23,31 @@ export interface ISelectable {
   unselect(): void;
   toggle(): void;
 
-  onClickEmitter: EventEmitter<ISelectable>;
-  handleOnClick(): void;
-
-  enable(): void;
-  disable(): void;
+  onSelectableClickEmitter: EventEmitter<ISelectable>;
 
   setSelectionIndex(index: number): void;
   toggleSelectionIndexVisibility(): void;
 }
 
 export class Selectable implements ISelectable {
+  isInteractable: boolean = true;
+
   element!: ElementRef;
+  isSelectable: boolean = false;
   isSelected: boolean = false;
-  canBeSelected!: boolean;
 
   unselectedClassName: string = 'selectable--idle';
   selectedClassName: string = 'selectable--selected';
   disabledClassName: string = 'selectable--disabled';
 
+  isIndexVisible: boolean = false;
   indexElement?: ElementRef;
   selectionIndex: number = 0;
   indexIdleClassName: string = 'selectable-index--idle';
   indexDisplayedClassName: string = 'selectable-index--displayed';
 
-  onClickEmitter: EventEmitter<ISelectable> = new EventEmitter<ISelectable>();
+  onSelectableClickEmitter: EventEmitter<ISelectable> =
+    new EventEmitter<ISelectable>();
 
   constructor() {}
 
@@ -54,25 +59,29 @@ export class Selectable implements ISelectable {
    */
   init(): void {
     // Assign the click event independently of canBeSelected
-    this.element.nativeElement.addEventListener('click', () =>
-      this.handleOnClick()
-    );
+    this.element.nativeElement.addEventListener('click', () => {
+      this.toggle();
+      this.onSelectableClickEmitter.emit(this as ISelectable);
+    });
 
     // Set default state based on canBeSelected
-    if (!this.canBeSelected) {
+    if (!this.isSelectable) {
       this.disable();
       return;
     }
+
     this.enable();
   }
 
   /**
-   * Selects the element if it can be selected and is not already selected.
-   * Updates the element's class from unselected to selected and marks it as selected.
-   * Also updates the selection index to reflect the new state.
+   * Selects the selectable element.
+   *
+   * If the element is not selected, selects it by replacing the
+   * unselected class with the selected class. Also sets the
+   * isSelected property to true and makes the index visible.
    */
   select(): void {
-    if (!this.canBeSelected || this.isSelected) {
+    if (this.isSelected) {
       return;
     }
 
@@ -88,12 +97,14 @@ export class Selectable implements ISelectable {
   }
 
   /**
-   * Unselects the element if it can be unselected and is already selected.
-   * Updates the element's class from selected to unselected and marks it as unselected.
-   * Also updates the selection index to reflect the new state.
+   * Unselects the selectable element.
+   *
+   * If the element is selected, it replaces the selected class with
+   * the unselected class, sets the isSelected property to false,
+   * and toggles the visibility of the selection index.
    */
   unselect(): void {
-    if (!this.canBeSelected || !this.isSelected) {
+    if (!this.isSelected) {
       return;
     }
 
@@ -110,8 +121,6 @@ export class Selectable implements ISelectable {
 
   /**
    * Toggles the selectable element between selected and unselected states.
-   * If the element is currently selected, it will be unselected.
-   * If the element is currently unselected, it will be selected.
    */
   toggle(): void {
     if (this.isSelected) {
@@ -122,55 +131,20 @@ export class Selectable implements ISelectable {
     this.select();
   }
 
-  /**
-   * Handles the click event on the selectable element.
-   * Toggles the selected state of the element by calling the toggle method.
-   */
-  handleOnClick(): void {
-    console.log('click');
-    this.toggle();
-    this.onClickEmitter.emit(this as ISelectable);
-  }
-
-  /**
-   * Enables the selectable element, allowing it to be selected or deselected.
-   * Removes the disabled class and adds either the selected or unselected class
-   * depending on the current state of the element.
-   */
-  enable(): void {
-    this.canBeSelected = true;
-    this.element.nativeElement.classList.remove(this.disabledClassName);
-
-    const className = this.isSelected
-      ? this.selectedClassName
-      : this.unselectedClassName;
-    this.element.nativeElement.classList.add(className);
-  }
-
-  /**
-   * Disables the selectable element, preventing it from being selected or deselected.
-   * Removes any classes indicating the element is selected or unselected and adds the
-   * disabled class. Also sets the canBeSelected and isSelected properties to false.
-   */
-  disable(): void {
-    this.unselect();
-    this.canBeSelected = false;
-
-    this.setSelectionIndex(0);
-    this.toggleSelectionIndexVisibility();
-
-    this.element.nativeElement.classList.remove(this.unselectedClassName);
-    this.element.nativeElement.classList.add(this.disabledClassName);
-  }
-
   setSelectionIndex(index: number) {
     this.selectionIndex = index;
   }
 
   toggleSelectionIndexVisibility(): void {
-    if (!this.indexElement) {
+    if (
+      this.indexElement === undefined ||
+      !this.isIndexVisible ||
+      !this.isSelectable
+    ) {
       return;
     }
+
+    // console.log('toggleSelectionIndexVisibility()');
 
     if (this.isSelected) {
       this.indexElement.nativeElement.classList.replace(
@@ -185,5 +159,37 @@ export class Selectable implements ISelectable {
       this.indexDisplayedClassName,
       this.indexIdleClassName
     );
+    this.setSelectionIndex(0);
+  }
+
+  /**
+   * Enables the selectable element, allowing it to be selected or deselected.
+   * Removes the disabled class and adds either the selected or unselected class
+   * depending on the current state of the element.
+   */
+  enable(): void {
+    this.isInteractable = true;
+
+    this.element.nativeElement.classList.remove(this.disabledClassName);
+    const className = this.isSelected
+      ? this.selectedClassName
+      : this.unselectedClassName;
+    this.element.nativeElement.classList.add(className);
+  }
+
+  /**
+   * Disables the selectable element, preventing it from being selected or deselected.
+   * Removes any classes indicating the element is selected or unselected and adds the
+   * disabled class. Also sets the canBeSelected and isSelected properties to false.
+   */
+  disable(): void {
+    this.isInteractable = false;
+    this.unselect();
+
+    this.setSelectionIndex(0);
+    this.toggleSelectionIndexVisibility();
+
+    this.element.nativeElement.classList.remove(this.unselectedClassName);
+    this.element.nativeElement.classList.add(this.disabledClassName);
   }
 }

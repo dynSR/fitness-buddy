@@ -1,0 +1,51 @@
+<div #exerciseContainer>
+  <app-filter-group
+    [filters]="getMuscleGroups()"
+    (onFilterSelection)="handleFilterSelection($event)"
+  />
+
+  <!-- Exercises per muscle groups -->
+  @for (muscleGroup of getFilteredMuscleGroups(); let i = $index; track
+  muscleGroup) {
+  <div class="d-flex align-items-center justify-content-between mb-3">
+    <app-icon-text
+      [src]="'assets/icons/muscle-groups/' + (muscleGroup | lowercase) + '.png'"
+      [alt]="'Muscle group icon'"
+      [class]="' img-container--medium-large'"
+      [text]="muscleGroup | uppercase"
+      [textClass]="'ff-black-title ls-1 user-select-none'"
+      [gap]="10"
+    />
+
+    @if(canSelectMultiple) {
+    <input
+      #checkboxSelection
+      type="checkbox"
+      class="form-check-input"
+      (click)="handleCheckboxSelection(muscleGroup)"
+    />
+    }
+  </div>
+
+  <div class="exercise-group">
+    <!-- Exercises -->
+    @for (exercise of getExercisesByMuscleGroup(muscleGroup); track exercise.id)
+    {
+    <app-exercise-item
+      id="exerciseCard"
+      [exercise]="exercise"
+      [isSelectable]="isInteractable"
+      [isIndexVisible]="canSelectMultiple"
+      (onSelectableClickEmitter)="handleSelectableClicked($event)"
+    />
+    }@empty {
+    <p>No exercises found</p>
+    }
+  </div>
+
+  @if (!(i | isLastIndexOf: getMuscleGroups())) {
+  <hr />
+  } }@empty {
+  <p>No exercises found</p>
+  }
+</div>

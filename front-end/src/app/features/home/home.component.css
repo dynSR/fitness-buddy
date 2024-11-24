@@ -1,0 +1,22 @@
+.home-content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--size-medium);
+  height: 100%;
+}
+
+.home-content__center,
+.home-content__bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--size-medium);
+
+  * {
+    flex: 1;
+  }
+}
+
+.home-content__center > button {
+  padding: var(--size-very-small) 0;
+}

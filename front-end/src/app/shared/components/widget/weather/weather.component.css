@@ -1,0 +1,63 @@
+@property --weather-temperature-fs-ratio {
+  syntax: "<number>";
+  inherits: false;
+  initial-value: 1.45;
+}
+
+/* Ratios are applied to the width and height of the weather image */
+/* Value of 0 will not apply any offset */
+@property --weather-image-ratio-y {
+  syntax: "<number>";
+  inherits: false;
+  initial-value: 1.25;
+}
+@property --weather-image-ratio-x {
+  syntax: "<number>";
+  inherits: false;
+  initial-value: 1.25;
+}
+
+/* Offsets are applied to the bottom and right */
+/* Value of 0 will not apply any offset */
+@property --weather-image-offset-y {
+  syntax: "<number>";
+  inherits: false;
+  initial-value: 0;
+}
+@property --weather-image-offset-x {
+  syntax: "<number>";
+  inherits: false;
+  initial-value: 1.5;
+}
+
+.widget {
+  display: flex;
+  flex-direction: column;
+  min-height: fit-content;
+  gap: var(--size-medium);
+  border: solid 1px var(--color-light-transparent);
+}
+
+.weather__top,
+.weather__center,
+.weather__bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex: calc(1 / 3);
+}
+
+.weather__bottom {
+  gap: var(--size-small);
+}
+
+.weather-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--size-very-small);
+}
+
+.weather-item__text {
+  font-size: var(--font-size-small);
+}

@@ -1,0 +1,44 @@
+<!-- Weather info block element -->
+<div class="widget">
+  <!-- The weather information - content -->
+  <div class="timer__content">
+    <!-- Timer -->
+    <section #timerProgress id="timerProgress">
+      <p #timerValue class="timer__value user-select-none">
+        {{ timeFormatter.formatToSecondsMinutesMilliseconds(currentValue) }}
+      </p>
+    </section>
+
+    <section class="timer__buttons">
+      <button
+        id="timerStateBtn"
+        class="btn btn-secondary rounded-circle"
+        (click)="toggleTimer()"
+      >
+        <app-icon
+          #timerStateIcon
+          [src]="timerPlayIconSrc"
+          [alt]="'Timer start icon'"
+          [class]="'img-container--medium-large to-primary'"
+          [title]="'timer.start'"
+        >
+        </app-icon>
+      </button>
+
+      <button
+        #timerRefreshBtn
+        id="timerRefreshBtn"
+        class="btn btn-secondary rounded-circle"
+        disabled
+        (click)="refreshTimer()"
+      >
+        <app-icon
+          [src]="timerRefreshIconSrc"
+          [alt]="'Timer refresh icon'"
+          [class]="'img-container--medium-large to-primary'"
+          [title]="'timer.refresh'"
+        ></app-icon>
+      </button>
+    </section>
+  </div>
+</div>

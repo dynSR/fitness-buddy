@@ -1,0 +1,32 @@
+<div class="widget">
+  <!-- TOP -->
+  <div class="weather__top">
+    <p>{{ "city" }}</p>
+    <app-icon
+      [src]="'assets/icons/default.svg'"
+      [alt]="'Weather icon'"
+      [class]="'img-container--medium-large'"
+    />
+  </div>
+
+  <!-- CENTER -->
+  <div class="weather__center">
+    <p class="numeric">{{ "8°" }}</p>
+    <p>{{ "weather description" }}</p>
+  </div>
+
+  <!-- BOTTOM -->
+  <div class="weather__bottom">
+    @for (item of 5 |numToArray; track $index) {
+    <section class="weather-item">
+      <p class="small-header">{{ "next hour" }}</p>
+      <app-icon
+        [src]="'assets/icons/default.svg'"
+        [alt]="'Weather icon'"
+        [class]="'img-container--medium-large to-white'"
+      />
+      <p class="weather-item__text numeric">{{ "8°" }}</p>
+    </section>
+    }
+  </div>
+</div>

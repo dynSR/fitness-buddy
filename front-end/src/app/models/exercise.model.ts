@@ -8,7 +8,5 @@ export interface Exercise extends Entity {
   repetitions: number;
   weight: number;
   recoveryTime: number;
-  // equipment: Array<string>;
-  // difficulty: number;
   muscleGroup: string;
 }

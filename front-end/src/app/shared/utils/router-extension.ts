@@ -31,12 +31,12 @@ export class RouterExtension {
       icon: 'assets/icons/exercises.png',
       order: 2,
     },
-    // {
-    //   path: RouterExtension.SESSION,
-    //   title: 'Session',
-    //   icon: 'assets/icons/timer/clock-stopwatch.svg',
-    //   order: 1,
-    // },
+    {
+      path: RouterExtension.SESSION,
+      title: 'Session',
+      icon: 'assets/icons/timer/clock-stopwatch.svg',
+      order: 1,
+    },
   ];
 
   public static getRoutesData() {

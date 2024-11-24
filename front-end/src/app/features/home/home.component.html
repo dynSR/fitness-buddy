@@ -1,4 +1,31 @@
 <!-- <p>home-component works!</p> -->
-<app-weather></app-weather>
-<!-- <app-timer [maxDuration]="0"></app-timer> -->
-<!-- <app-exercise-list></app-exercise-list> -->
+<div class="home-content">
+  <!-- TOP -->
+  <div class="home-content__top">
+    <app-weather />
+  </div>
+
+  <!-- CENTER -->
+  <div class="home-content__center">
+    <app-filter-group [filters]="['1', '2', '3', '4', '5']" />
+    <button
+      data-bs-toggle="modal"
+      data-bs-target="#staticBackdrop"
+      class="btn btn-primary"
+    >
+      {{ "Create new session" }}
+    </button>
+  </div>
+
+  <!-- BOTTOM -->
+  <div class="home-content__bottom">
+    <app-steps-tracker />
+    <app-last-sport-session />
+  </div>
+</div>
+
+<app-modal
+  [title]="'Create new session'"
+  [cancelBtnText]="'No, cancel'"
+  [validateBtnText]="'Yes, create it'"
+/>
