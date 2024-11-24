@@ -4,9 +4,7 @@
     <!-- TOP LEFT -->
     <div class="exercise-item__top-left">
       <h1 class="exercise-item__title">{{ exercise.name }}</h1>
-      <p #index class="selectable-index--idle numeric">
-        {{ selectionIndex }}
-      </p>
+      <app-index [parent]="this" [isDisplayable]="isInteractable" />
     </div>
 
     <!-- TOP RIGHT -->
@@ -39,7 +37,7 @@
         <small class="small-header">
           {{ "series" }}
         </small>
-        @if (!isSelectable) {
+        @if (!isInteractable) {
         <p class="numeric">
           {{ exercise.series }}
         </p>

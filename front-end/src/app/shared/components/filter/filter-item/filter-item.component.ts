@@ -27,9 +27,8 @@ export class FilterItemComponent extends Selectable implements IFilter<string> {
   @Input({ required: true }) value!: string;
   isApplied: boolean = false;
 
-  override isSelectable: boolean = true;
   @ViewChild('selectable') declare element: ElementRef;
-  @Output() override onSelectableClickEmitter: EventEmitter<ISelectable> =
+  @Output() override onSelectableClicked: EventEmitter<ISelectable> =
     new EventEmitter<ISelectable>();
 
   constructor() {
@@ -40,8 +39,13 @@ export class FilterItemComponent extends Selectable implements IFilter<string> {
     this.init();
   }
 
-  override toggle(): void {
-    super.toggle();
-    this.isApplied = !this.isApplied;
+  override select(index: number): void {
+    super.select(index);
+    this.isApplied = true;
+  }
+
+  override unselect(): void {
+    super.unselect();
+    this.isApplied = false;
   }
 }

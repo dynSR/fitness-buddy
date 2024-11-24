@@ -2,7 +2,7 @@
   @for (filter of filters; track $index) {
   <app-filter
     [value]="filter"
-    (onSelectableClickEmitter)="handleSelectableClicked($event)"
+    (onSelectableClicked)="handleSelectableClicked($event)"
   />
   }
 </div>

@@ -1,14 +1,13 @@
-import { QueryList } from '@angular/core';
+import { EventEmitter, QueryList } from '@angular/core';
 import { ISelectable, Selectable } from './selectable';
 import { IInteractable } from '../../interfaces/interactable';
+import { ExerciseItemComponent } from '../../../features/exercise/exercise-item/exercise-item.component';
 
 export interface ISelectableGroup<T extends ISelectable> extends IInteractable {
   canSelectMultiple: boolean;
 
   selectables: QueryList<T>;
   selections: Array<T>;
-
-  init(): void;
 
   selectOne(selectable: T): void;
   selectAll(array: Array<T>): void;
@@ -18,25 +17,15 @@ export interface ISelectableGroup<T extends ISelectable> extends IInteractable {
   removeSelection(selectable: T): void;
   clearSelections(): void;
 
-  handleSelectableClicked(eventData: T): void;
+  handleSelectableClicked(selectable: T): void;
 }
 
 export class SelectableGroup implements ISelectableGroup<Selectable> {
   isInteractable: boolean = false;
 
   canSelectMultiple: boolean = false;
-
   selectables!: QueryList<Selectable>;
   selections: Array<Selectable> = [];
-
-  /**
-   * Initializes all the selectables in the group by calling the init method of each
-   * of them. This method is called once the group is created, and it is the only time
-   * the init method is called, as it is not called when the group is updated.
-   */
-  init(): void {
-    // this.selectables.forEach((s) => s.init());
-  }
 
   /**
    * Selects one selectable from the group. If the group allows multiple selections or the
@@ -45,19 +34,20 @@ export class SelectableGroup implements ISelectableGroup<Selectable> {
    * @param selectable The selectable to select.
    */
   selectOne(selectable: Selectable): void {
-    const handleSelection = selectable.isSelected
-      ? () => this.addSelection(selectable)
-      : () => this.removeSelection(selectable);
+    console.log('[selectOne] - Selectable : ', selectable);
 
-    if (this.canSelectMultiple) {
-      handleSelection();
+    if (selectable.isSelected) {
+      this.removeSelection(selectable);
       return;
     }
 
-    this.unselectAll(
-      this.selectables.toArray().filter((s) => s !== selectable)
-    );
-    handleSelection();
+    if (!this.canSelectMultiple) {
+      this.unselectAll(
+        this.selectables.toArray().filter((s) => s !== selectable)
+      );
+    }
+
+    this.addSelection(selectable);
   }
 
   /**
@@ -70,7 +60,6 @@ export class SelectableGroup implements ISelectableGroup<Selectable> {
   selectAll(array: Array<Selectable>): void {
     array.forEach((s) => {
       if (s instanceof Selectable) {
-        s.select();
         this.addSelection(s);
       }
     });
@@ -107,7 +96,7 @@ export class SelectableGroup implements ISelectableGroup<Selectable> {
     }
 
     this.selections.push(selectable);
-    selectable.selectionIndex = this.selections.length;
+    selectable.select(this.selections.length);
     console.log('Selections [added] : ', this.selections);
   }
 
@@ -124,12 +113,15 @@ export class SelectableGroup implements ISelectableGroup<Selectable> {
       return;
     }
 
+    selectable.unselect();
+
     const index = this.selections.indexOf(selectable);
     this.selections.splice(index, 1);
 
     this.selections.forEach((s) => {
-      if (s.selectionIndex > 1 && s.selectionIndex > index) {
-        s.selectionIndex--;
+      if (s.index > 1 && s.index > index) {
+        const value = s.index - 1;
+        s.setIndex(value);
       }
     });
 
@@ -148,25 +140,35 @@ export class SelectableGroup implements ISelectableGroup<Selectable> {
   }
 
   /**
-   * Handles the click event on a selectable element.
+   * Handles the selection event of a single selectable element.
+   * If the element is not selected, selects it by calling the selectOne method.
+   * If the element is already selected, unselects it by calling the selectOne method.
    *
-   * @param eventData - The ISelectable element that was clicked.
-   *
-   * Calls selectOne with the clicked element to add it to the selection pool.
-   * Sets the selectionIndex of the element to the current number of selections.
-   * Logs the updated selections array to the console.
+   * @param selectable - The Selectable element that triggered the selection event.
    */
-  handleSelectableClicked(eventData: ISelectable): void {
-    // console.log(eventData);
-    this.selectOne(eventData as Selectable);
-    eventData.setSelectionIndex(this.selections.length);
+  handleSelectableClicked(selectable: Selectable): void {
+    // console.log('[handleSelectableClicked] - Selectable : ', selectable);
+    this.selectOne(selectable);
   }
 
+  /**
+   * Enables all the selectables in the group.
+   *
+   * Sets the component's isInteractable property to true.
+   * Calls the enable method of each of the selectables in the group.
+   */
   enable(): void {
     this.isInteractable = true;
     this.selectables.forEach((s) => s.enable());
   }
 
+  /**
+   * Disables all the selectables in the group.
+   *
+   * Sets the component's isInteractable property to false.
+   * Clears the selections array.
+   * Calls the disable method of each of the selectables in the group.
+   */
   disable(): void {
     this.isInteractable = false;
     this.clearSelections();

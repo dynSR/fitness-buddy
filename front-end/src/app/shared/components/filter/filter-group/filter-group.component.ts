@@ -31,10 +31,6 @@ export class FilterGroupComponent extends SelectableGroup {
     super();
   }
 
-  ngOnInit() {
-    this.init();
-  }
-
   override handleSelectableClicked(eventData: ISelectable): void {
     super.handleSelectableClicked(eventData);
     this.onFilterSelection.emit(this.selectables.toArray());

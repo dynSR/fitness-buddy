@@ -1,71 +1,55 @@
-import { ElementRef, EventEmitter } from '@angular/core';
+import { ElementRef, EventEmitter, Input } from '@angular/core';
 import { IInteractable } from '../../interfaces/interactable';
+import { IIndexable } from '../../interfaces/indexable';
+import { Subject } from 'rxjs';
 
-export interface ISelectable extends IInteractable {
+export interface ISelectable extends IInteractable, IIndexable {
   element: ElementRef;
-
-  isSelectable: boolean;
   isSelected: boolean;
 
   unselectedClassName: string;
   selectedClassName: string;
-
-  isIndexVisible: boolean;
-  indexElement?: ElementRef;
-  selectionIndex: number;
-
-  indexIdleClassName: string;
-  indexDisplayedClassName: string;
+  disabledClassName: string;
 
   init(): void;
-
-  select(): void;
+  select(index: number): void;
   unselect(): void;
-  toggle(): void;
 
-  onSelectableClickEmitter: EventEmitter<ISelectable>;
-
-  setSelectionIndex(index: number): void;
-  toggleSelectionIndexVisibility(): void;
+  onSelectableClicked: EventEmitter<ISelectable>;
 }
 
 export class Selectable implements ISelectable {
   isInteractable: boolean = true;
 
   element!: ElementRef;
-  isSelectable: boolean = false;
   isSelected: boolean = false;
 
   unselectedClassName: string = 'selectable--idle';
   selectedClassName: string = 'selectable--selected';
   disabledClassName: string = 'selectable--disabled';
 
-  isIndexVisible: boolean = false;
-  indexElement?: ElementRef;
-  selectionIndex: number = 0;
-  indexIdleClassName: string = 'selectable-index--idle';
-  indexDisplayedClassName: string = 'selectable-index--displayed';
-
-  onSelectableClickEmitter: EventEmitter<ISelectable> =
+  onSelectableClicked: EventEmitter<ISelectable> =
     new EventEmitter<ISelectable>();
+
+  index: number = 0;
+  onIndexValueChangeEvent: Subject<number> = new Subject<number>();
 
   constructor() {}
 
   /**
    * Initializes the selectable element.
    *
-   * Attaches a click event to the selectable element. If the element
-   * can be selected, it is enabled by default. Otherwise it is disabled.
+   * If the element can be selected, it is enabled by default. Otherwise it is disabled.
    */
   init(): void {
-    // Assign the click event independently of canBeSelected
-    this.element.nativeElement.addEventListener('click', () => {
-      this.toggle();
-      this.onSelectableClickEmitter.emit(this as ISelectable);
-    });
+    this.element.nativeElement.addEventListener('click', () =>
+      this.onSelectableClicked.emit(this as ISelectable)
+    );
+
+    this.setIndex(0);
 
     // Set default state based on canBeSelected
-    if (!this.isSelectable) {
+    if (!this.isInteractable) {
       this.disable();
       return;
     }
@@ -80,20 +64,25 @@ export class Selectable implements ISelectable {
    * unselected class with the selected class. Also sets the
    * isSelected property to true and makes the index visible.
    */
-  select(): void {
+  select(index: number): void {
     if (this.isSelected) {
       return;
     }
 
     if (
-      this.element.nativeElement.classList.replace(
+      !this.element.nativeElement.classList.replace(
         this.unselectedClassName,
         this.selectedClassName
       )
     ) {
-      this.isSelected = true;
-      this.toggleSelectionIndexVisibility();
+      console.error('[Selection] - Could not change classes');
+      return;
     }
+
+    this.isSelected = true;
+    this.setIndex(index);
+
+    console.log('[Selection] - selected successfully');
   }
 
   /**
@@ -109,57 +98,17 @@ export class Selectable implements ISelectable {
     }
 
     if (
-      this.element.nativeElement.classList.replace(
+      !this.element.nativeElement.classList.replace(
         this.selectedClassName,
         this.unselectedClassName
       )
     ) {
-      this.isSelected = false;
-      this.toggleSelectionIndexVisibility();
-    }
-  }
-
-  /**
-   * Toggles the selectable element between selected and unselected states.
-   */
-  toggle(): void {
-    if (this.isSelected) {
-      this.unselect();
+      console.error('[Unselection] - Could not change classes');
       return;
     }
 
-    this.select();
-  }
-
-  setSelectionIndex(index: number) {
-    this.selectionIndex = index;
-  }
-
-  toggleSelectionIndexVisibility(): void {
-    if (
-      this.indexElement === undefined ||
-      !this.isIndexVisible ||
-      !this.isSelectable
-    ) {
-      return;
-    }
-
-    // console.log('toggleSelectionIndexVisibility()');
-
-    if (this.isSelected) {
-      this.indexElement.nativeElement.classList.replace(
-        this.indexIdleClassName,
-        this.indexDisplayedClassName
-      );
-
-      return;
-    }
-
-    this.indexElement.nativeElement.classList.replace(
-      this.indexDisplayedClassName,
-      this.indexIdleClassName
-    );
-    this.setSelectionIndex(0);
+    this.isSelected = false;
+    this.setIndex(0);
   }
 
   /**
@@ -169,12 +118,7 @@ export class Selectable implements ISelectable {
    */
   enable(): void {
     this.isInteractable = true;
-
     this.element.nativeElement.classList.remove(this.disabledClassName);
-    const className = this.isSelected
-      ? this.selectedClassName
-      : this.unselectedClassName;
-    this.element.nativeElement.classList.add(className);
   }
 
   /**
@@ -186,10 +130,12 @@ export class Selectable implements ISelectable {
     this.isInteractable = false;
     this.unselect();
 
-    this.setSelectionIndex(0);
-    this.toggleSelectionIndexVisibility();
-
     this.element.nativeElement.classList.remove(this.unselectedClassName);
     this.element.nativeElement.classList.add(this.disabledClassName);
+  }
+
+  setIndex(newValue: number): void {
+    this.index = newValue;
+    this.onIndexValueChangeEvent.next(this.index);
   }
 }

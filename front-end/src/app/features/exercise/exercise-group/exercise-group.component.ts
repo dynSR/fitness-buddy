@@ -54,10 +54,6 @@ export class ExerciseGroupComponent
     super();
   }
 
-  ngOnInit() {
-    this.init();
-  }
-
   override selectOne(selectable: ExerciseItemComponent): void {
     super.selectOne(selectable);
 
@@ -138,7 +134,7 @@ export class ExerciseGroupComponent
     // Redefine index of selectables when we uncheck one of the selectionCheckboxes...
     // ...and many are ticked.
     this.selections.forEach((s) => {
-      s.setSelectionIndex(this.selections.indexOf(s) + 1);
+      s.setIndex(this.selections.indexOf(s) + 1);
     });
   }
 
@@ -177,6 +173,8 @@ export class ExerciseGroupComponent
    */
   handleFilterSelection(eventData: Array<IFilter<string>>): void {
     this.appliedFilters = eventData.filter((f) => f.isApplied);
-    console.log(this.appliedFilters);
+    console.log(
+      '[handleFilterSelection] - applied filters: ' + this.appliedFilters
+    );
   }
 }

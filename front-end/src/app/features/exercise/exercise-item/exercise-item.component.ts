@@ -1,10 +1,13 @@
 import {
   Component,
+  ContentChild,
   ElementRef,
   EventEmitter,
   inject,
   Input,
   Output,
+  Query,
+  QueryList,
   ViewChild,
 } from '@angular/core';
 import {
@@ -16,11 +19,17 @@ import { IconComponent } from '../../../shared/components/icon/icon.component';
 import { TimeFormatter } from '../../../shared/utils/time-formatter';
 import { CommonModule } from '@angular/common';
 import { ExerciseSeriesCounterComponent } from './series-validator/series-validator.component';
+import { IndexComponent } from '../../../shared/components/index/index.component';
 
 @Component({
   selector: 'app-exercise-item',
   standalone: true,
-  imports: [CommonModule, IconComponent, ExerciseSeriesCounterComponent],
+  imports: [
+    CommonModule,
+    IconComponent,
+    ExerciseSeriesCounterComponent,
+    IndexComponent,
+  ],
   templateUrl: './exercise-item.component.html',
   styleUrls: [
     '../../../shared/components/selectable/selectable.css',
@@ -31,10 +40,10 @@ export class ExerciseItemComponent extends Selectable {
   @Input({ required: true }) exercise!: Exercise;
 
   @ViewChild('selectable') declare element: ElementRef;
-  @ViewChild('index') declare indexElement: ElementRef;
-  @Input({ required: true }) declare isSelectable: boolean;
+
+  @Input({ required: true }) declare isInteractable: boolean;
   @Input({ required: true }) declare isIndexVisible: boolean;
-  @Output() override onSelectableClickEmitter: EventEmitter<ISelectable> =
+  @Output() override onSelectableClicked: EventEmitter<ISelectable> =
     new EventEmitter<ISelectable>();
 
   readonly timeFormatter = inject(TimeFormatter);
@@ -45,10 +54,6 @@ export class ExerciseItemComponent extends Selectable {
 
   ngAfterViewInit(): void {
     this.init();
-    console.log(
-      'interactable ? ' + this.isInteractable,
-      'selectable ? ' + this.isSelectable
-    );
   }
 
   getExerciseRepetitions(): string {

@@ -34,9 +34,9 @@
     <app-exercise-item
       id="exerciseCard"
       [exercise]="exercise"
-      [isSelectable]="isInteractable"
+      [isInteractable]="isInteractable"
       [isIndexVisible]="canSelectMultiple"
-      (onSelectableClickEmitter)="handleSelectableClicked($event)"
+      (onSelectableClicked)="handleSelectableClicked($event)"
     />
     }@empty {
     <p>No exercises found</p>
