@@ -1,14 +1,14 @@
 <div #selectable class="exercise-item selectable--idle user-select-none">
   <!-- TOP -->
-  <div class="exercise-item__top">
+  <section class="exercise-item__top">
     <!-- TOP LEFT -->
-    <div class="exercise-item__top-left">
+    <section class="exercise-item__top-left">
       <h1 class="exercise-item__title">{{ exercise.name }}</h1>
       <app-index [parent]="this" [isDisplayable]="isInteractable" />
-    </div>
+    </section>
 
     <!-- TOP RIGHT -->
-    <div class="exercise-item__top-right">
+    <section class="exercise-item__top-right">
       <app-icon
         [src]="
           'assets/icons/muscle-groups/' +
@@ -19,65 +19,68 @@
         [class]="'icon img-container--medium-large'"
         [title]="exercise.muscleGroup"
       />
-    </div>
-  </div>
+    </section>
+  </section>
 
   <!-- CENTER -->
-  <div class="exercise-item__center">
+  <section class="exercise-item__center">
     <p class="exercise-item__description">
       {{ exercise.description }}
     </p>
-  </div>
+  </section>
 
   <!-- BOTTOM -->
-  <div class="exercise-item__bottom">
+  <section class="exercise-item__bottom">
     <!-- BOTTOM LEFT -->
-    <div class="exercise-item__bottom-left">
-      <section class="d-flex flex-column gap-1">
+    <section class="exercise-item__bottom-left">
+      <!-- SERIES -->
+      <div class="d-flex flex-column gap-1">
         <small class="small-header">
           {{ "series" }}
         </small>
-        @if (!isInteractable) {
+        @if (false) {
         <p class="numeric">
           {{ exercise.series }}
         </p>
         } @else {
         <app-exercise-series-counter [series]="exercise.series" />
         }
-      </section>
+      </div>
 
-      <section class="d-flex flex-column gap-1">
+      <!-- REPS -->
+      <div class="d-flex flex-column gap-1">
         <small class="small-header">
           {{ "reps" }}
         </small>
         <p class="numeric">
           {{ exercise.repetitions }}
         </p>
-      </section>
+      </div>
 
-      <section class="d-flex flex-column gap-1">
+      <!-- WEIGHT -->
+      <div class="d-flex flex-column gap-1">
         <small class="small-header">
           {{ "weight" }}
         </small>
-        <section class="d-flex align-items-end">
+        <div class="d-flex align-items-end">
           <p class="numeric">
             {{ exercise.weight }}
           </p>
           <p class="unit">{{ "kg" }}</p>
-        </section>
-      </section>
-    </div>
+        </div>
+      </div>
+    </section>
 
     <!-- BOTTOM RIGHT -->
-    <div class="exercise-item__bottom-right">
-      <section class="d-flex flex-column gap-1">
+    <section class="exercise-item__bottom-right">
+      <div class="d-flex flex-column gap-1">
         <small class="small-header">
           {{ "recovery" }}
         </small>
         <p class="numeric">
           {{ getRecoveryTime() }}
         </p>
-      </section>
-    </div>
-  </div>
+      </div>
+    </section>
+  </section>
 </div>

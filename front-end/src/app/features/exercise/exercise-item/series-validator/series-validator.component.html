@@ -1,8 +1,14 @@
-<section class="d-flex align-items-center gap-1">
+<div
+  class="series-validator d-flex align-items-center gap-1"
+  (mouseleave)="handleGroupMouseLeave()"
+>
   <app-icon
+    #test
     *ngFor="let _ of series | numToArray; let i = index"
     [src]="'assets/icons/circle.png'"
     [alt]="''"
-    [class]="'icon img-container--medium to-white'"
+    [class]="'series-validator__icon img-container--medium to-white'"
+    (mouseenter)="handleValidatorMouseEnter(i)"
+    (mouseleave)="handleValidatorMouseLeave(i)"
   ></app-icon>
-</section>
+</div>

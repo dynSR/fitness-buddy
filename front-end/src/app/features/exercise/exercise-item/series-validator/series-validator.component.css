@@ -1,0 +1,24 @@
+.series-validator {
+  pointer-events: all;
+  opacity: var(--opacity-idle);
+}
+
+.series-validator__icon {
+  pointer-events: all;
+  user-select: all;
+  z-index: 10;
+}
+
+.series-validator__icon:hover {
+  cursor: pointer;
+  opacity: var(--opacity-hover);
+}
+
+.series-validator__icon:active {
+  opacity: var(--opacity-active);
+}
+
+.series-validator__icon--validated {
+  opacity: var(--opacity-active);
+  pointer-events: none;
+}

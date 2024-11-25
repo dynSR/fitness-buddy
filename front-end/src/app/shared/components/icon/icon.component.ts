@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, ElementRef, Input, ViewChild } from '@angular/core';
 import { Icon } from './icon.interface';
 
 @Component({
@@ -9,6 +9,7 @@ import { Icon } from './icon.interface';
   styleUrl: './icon.component.css',
 })
 export class IconComponent implements Icon {
+  @ViewChild('container') imgContainer!: ElementRef<HTMLDivElement>;
   @Input({ required: true }) src!: string;
   @Input({ required: true }) alt: string = '';
   @Input({ required: false }) title: string = '';

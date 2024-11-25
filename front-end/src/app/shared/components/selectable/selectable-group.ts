@@ -34,6 +34,10 @@ export class SelectableGroup implements ISelectableGroup<Selectable> {
    * @param selectable The selectable to select.
    */
   selectOne(selectable: Selectable): void {
+    if (!this.isInteractable) {
+      return;
+    }
+
     console.log('[selectOne] - Selectable : ', selectable);
 
     if (selectable.isSelected) {
