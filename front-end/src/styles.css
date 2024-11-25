@@ -267,6 +267,11 @@ small {
 .to-white {
   filter: invert(1) brightness(2);
   -webkit-filter: invert(1) brightness(2);
+
+  * {
+    filter: none;
+    -webkit-filter: none;
+  }
 }
 
 .to-grey {

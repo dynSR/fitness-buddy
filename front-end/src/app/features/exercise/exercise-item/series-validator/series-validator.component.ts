@@ -1,52 +1,56 @@
-import {
-  Component,
-  ElementRef,
-  Input,
-  QueryList,
-  ViewChildren,
-} from '@angular/core';
+import { Component, ElementRef, Input, ViewChildren } from '@angular/core';
 
 import { CommonModule } from '@angular/common';
-import { IconComponent } from '../../../../shared/components/icon/icon.component';
 import { NumberToArrayPipe } from '../../../../shared/pipes/number-to-array/number-to-array.pipe';
 
 interface Validator {
-  iconComponent: IconComponent;
+  img: ElementRef<HTMLImageElement>;
   isValidated: boolean;
 }
 
 @Component({
   selector: 'app-exercise-series-counter',
   standalone: true,
-  imports: [CommonModule, IconComponent, NumberToArrayPipe],
-  templateUrl: './series-validator.component.html',
+  imports: [CommonModule, NumberToArrayPipe],
+  template: `<div
+    class="series-validator d-flex align-items-center gap-1"
+    (mouseleave)="handleGroupMouseLeave()"
+  >
+    <img
+      #validator
+      *ngFor="let _ of series | numToArray; let i = index"
+      [src]="'assets/icons/circle.png'"
+      alt=""
+      class="series-validator__icon"
+      (mouseenter)="handleValidatorMouseEnter(i)"
+      (mouseleave)="handleValidatorMouseLeave(i)"
+    />
+  </div>`,
   styleUrl: './series-validator.component.css',
 })
 export class ExerciseSeriesCounterComponent {
   @Input({ required: true }) series!: number;
-  @ViewChildren(IconComponent) iconComponents!: QueryList<IconComponent>;
+  @ViewChildren('validator') iconComponents!: Array<
+    ElementRef<HTMLImageElement>
+  >;
   validators: Array<Validator> = new Array<Validator>();
 
   idleIcon = 'assets/icons/circle.png';
   validatedIcon = 'assets/icons/circle-full.png';
-  previewIcon = 'assets/icons/default.svg';
 
   constructor() {}
 
   ngAfterViewInit(): void {
     this.iconComponents.forEach((comp) => {
       const validator: Validator = {
-        iconComponent: comp,
+        img: comp,
         isValidated: false,
       };
       this.validators.push(validator);
 
-      comp.imgContainer.nativeElement.classList.add('series-validator__icon');
-
       this.validators.forEach((validator, index) => {
-        validator.iconComponent.imgContainer.nativeElement.addEventListener(
-          'click',
-          () => this.validateSeries(index)
+        validator.img.nativeElement.addEventListener('click', () =>
+          this.validateSeries(index)
         );
       });
     });
@@ -54,8 +58,13 @@ export class ExerciseSeriesCounterComponent {
 
   validateSeries(index: number): void {
     for (let i = 0; i <= index; i++) {
-      this.validators[i].iconComponent.src = this.validatedIcon;
-      this.validators[i].isValidated = true;
+      const validator = this.validators[i];
+      validator.img.nativeElement.src = this.validatedIcon;
+      validator.isValidated = true;
+      validator.img.nativeElement.classList.replace(
+        'series-validator__icon',
+        'series-validator__icon--validated'
+      );
     }
   }
 
@@ -68,7 +77,7 @@ export class ExerciseSeriesCounterComponent {
 
     for (let i = 0; i <= index; i++) {
       if (!this.validators[i].isValidated) {
-        this.validators[i].iconComponent.src = this.previewIcon;
+        this.validators[i].img.nativeElement.src = this.validatedIcon;
       }
     }
   }
@@ -80,14 +89,14 @@ export class ExerciseSeriesCounterComponent {
 
     const validator = this.validators[index];
     if (!validator.isValidated) {
-      validator.iconComponent.src = this.idleIcon;
+      validator.img.nativeElement.src = this.idleIcon;
     }
   }
 
   handleGroupMouseLeave(): void {
     this.validators.forEach((v) => {
       if (!v.isValidated) {
-        v.iconComponent.src = this.idleIcon;
+        v.img.nativeElement.src = this.idleIcon;
       }
     });
   }

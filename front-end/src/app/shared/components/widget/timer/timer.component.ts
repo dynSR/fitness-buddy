@@ -49,15 +49,13 @@ export class TimerComponent implements Timer {
 
   ngOnInit() {
     this.currentValue = this.initialValue;
-
-    document.addEventListener('keydown', (event) => {
-      event.preventDefault();
-      this.onKeyDown(event);
-    });
   }
 
   ngAfterViewInit() {
     this.setCircularProgressUIClass();
+    document.addEventListener('keydown', (event) => {
+      this.onKeyDown(event);
+    });
   }
 
   startTimer(): void {
@@ -192,6 +190,7 @@ export class TimerComponent implements Timer {
 
   private onKeyDown(event: KeyboardEvent) {
     if (event.code === 'Space') {
+      event.preventDefault(); // to prevent scrolling
       this.toggleTimer();
     }
   }

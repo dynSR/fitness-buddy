@@ -50,6 +50,7 @@
   &:not(:disabled):hover {
     background-color: var(--color-secondary);
     border: solid 1px var(--color-grey-dark);
+    box-shadow: 0 0 0 0.1rem var(--color-grey-transparent);
   }
 
   &:not(:disabled):active {

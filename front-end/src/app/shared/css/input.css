@@ -8,6 +8,7 @@ input:not(:disabled):hover {
   cursor: pointer;
   opacity: var(--opacity-hover);
   transform: scale(var(--btn-scale-hover));
+  box-shadow: 0 0 0 0.25rem var(--color-primary-transparent);
 }
 
 input:not(:disabled):active {
