@@ -75,3 +75,7 @@ a {
 #__next {
   isolation: isolate;
 }
+
+:not(.btn-check) + .btn:active:focus-visible {
+  box-shadow: 0 0 0 0.5rem var(--color-primary-transparent);
+}
