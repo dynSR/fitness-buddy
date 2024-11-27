@@ -8,13 +8,13 @@
   <!-- CENTER -->
   <div class="home-content__center">
     <app-filter-group [filters]="['1', '2', '3', '4', '5']" />
-    <button
-      data-bs-toggle="modal"
-      data-bs-target="#staticBackdrop"
-      class="btn btn-primary"
-    >
-      {{ "Create new session" }}
-    </button>
+    <app-new-session-modal
+      [title]="'session.new'"
+      [description]="'session.new.description'"
+      [btnTitle]="'session.new.btn'"
+      [cancelBtnText]="'message.cancel'"
+      [validateBtnText]="'message.new.validation'"
+    />
   </div>
 
   <!-- BOTTOM -->
@@ -23,9 +23,3 @@
     <app-last-sport-session />
   </div>
 </div>
-
-<app-modal
-  [title]="'Create new session'"
-  [cancelBtnText]="'No, cancel'"
-  [validateBtnText]="'Yes, create it'"
-/>

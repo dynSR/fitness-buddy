@@ -1,6 +1,6 @@
 import { Component, ElementRef, inject, Input, ViewChild } from '@angular/core';
 import { Timer, TimerState } from './timer';
-import { TimeFormatter } from '../../../utils/time-formatter';
+import { TimeFormatter } from '../../../helpers/time-formatter';
 import { IconComponent } from '../../icon/icon.component';
 import { Icon } from '../../icon/icon.interface';
 
