@@ -1,25 +1,20 @@
 import {
   Component,
-  ContentChild,
   ElementRef,
   EventEmitter,
   inject,
   Input,
   Output,
-  Query,
-  QueryList,
   ViewChild,
 } from '@angular/core';
-import {
-  ISelectable,
-  Selectable,
-} from '../../../shared/components/selectable/selectable';
 import { Exercise } from '../../../models/exercise.model';
 import { IconComponent } from '../../../shared/components/icon/icon.component';
-import { TimeFormatter } from '../../../shared/utils/time-formatter';
+import { TimeFormatter } from '../../../shared/helpers/time-formatter';
 import { CommonModule } from '@angular/common';
 import { ExerciseSeriesCounterComponent } from './series-validator/series-validator.component';
 import { IndexComponent } from '../../../shared/components/index/index.component';
+import { BaseSelectable } from '../../../shared/interfaces/selectable/base-selectable';
+import { ISelectable } from '../../../shared/interfaces/selectable/selectable';
 
 @Component({
   selector: 'app-exercise-item',
@@ -32,17 +27,17 @@ import { IndexComponent } from '../../../shared/components/index/index.component
   ],
   templateUrl: './exercise-item.component.html',
   styleUrls: [
-    '../../../shared/components/selectable/selectable.css',
+    '../../../shared/interfaces/selectable/selectable.css',
     './exercise-item.component.css',
   ],
 })
-export class ExerciseItemComponent extends Selectable {
+export class ExerciseItemComponent extends BaseSelectable {
   @Input({ required: true }) exercise!: Exercise;
 
-  @ViewChild('selectable') declare element: ElementRef;
+  @ViewChild('selectable') override element?: ElementRef = undefined;
 
-  @Input({ required: true }) declare isInteractable: boolean;
-  @Input({ required: true }) declare isIndexVisible: boolean;
+  @Input({ required: true }) override isInteractable: boolean = true;
+  @Input({ required: true }) isIndexVisible!: boolean;
   @Output() override onSelectableClicked: EventEmitter<ISelectable> =
     new EventEmitter<ISelectable>();
 

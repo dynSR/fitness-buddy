@@ -6,20 +6,29 @@ import {
   QueryList,
   ViewChildren,
 } from '@angular/core';
-import { SelectableGroup } from '../../selectable/selectable-group';
 import { FilterItemComponent } from '../filter-item/filter-item.component';
-import { ISelectable } from '../../selectable/selectable';
+import { BaseSelectableGroup } from '../../../interfaces/selectable/base-selectable-group';
+import { ISelectable } from '../../../interfaces/selectable/selectable';
 
 @Component({
   selector: 'app-filter-group',
   standalone: true,
   imports: [FilterItemComponent],
-  templateUrl: './filter-group.component.html',
+  template: `
+    <div class="filter-group">
+      @for (filter of filters; track $index) {
+      <app-filter
+        [value]="filter"
+        (onSelectableClicked)="handleSelectableClicked($event)"
+      />
+      }
+    </div>
+  `,
   styleUrl: './filter-group.component.css',
 })
-export class FilterGroupComponent extends SelectableGroup {
+export class FilterGroupComponent extends BaseSelectableGroup {
   @ViewChildren(FilterItemComponent)
-  declare selectables: QueryList<FilterItemComponent>;
+  override selectables: QueryList<FilterItemComponent> = new QueryList();
   override isInteractable: boolean = true;
   override canSelectMultiple: boolean = true;
 

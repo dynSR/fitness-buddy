@@ -1,27 +1,12 @@
-import { ElementRef, EventEmitter, Input } from '@angular/core';
-import { IInteractable } from '../../interfaces/interactable';
-import { IIndexable } from '../../interfaces/indexable';
-import { Subject } from 'rxjs';
+import { ElementRef, EventEmitter } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
+import { ISelectable } from './selectable';
+import { IInitializable } from '../initializable';
 
-export interface ISelectable extends IInteractable, IIndexable {
-  element: ElementRef;
-  isSelected: boolean;
-
-  unselectedClassName: string;
-  selectedClassName: string;
-  disabledClassName: string;
-
-  init(): void;
-  select(index: number): void;
-  unselect(): void;
-
-  onSelectableClicked: EventEmitter<ISelectable>;
-}
-
-export class Selectable implements ISelectable {
+export class BaseSelectable implements IInitializable, ISelectable {
   isInteractable: boolean = true;
 
-  element!: ElementRef;
+  element?: ElementRef<HTMLDivElement> = undefined;
   isSelected: boolean = false;
 
   unselectedClassName: string = 'selectable--idle';
@@ -32,7 +17,8 @@ export class Selectable implements ISelectable {
     new EventEmitter<ISelectable>();
 
   index: number = 0;
-  onIndexValueChangeEvent: Subject<number> = new Subject<number>();
+  onIndexValueChangeEvent: BehaviorSubject<number> =
+    new BehaviorSubject<number>(0);
 
   constructor() {}
 
@@ -42,11 +28,14 @@ export class Selectable implements ISelectable {
    * If the element can be selected, it is enabled by default. Otherwise it is disabled.
    */
   init(): void {
+    if (this.element === undefined) {
+      console.error('[Init] - element not found');
+      return;
+    }
+
     this.element.nativeElement.addEventListener('click', () =>
       this.onSelectableClicked.emit(this as ISelectable)
     );
-
-    this.setIndex(0);
 
     // Set default state based on canBeSelected
     if (!this.isInteractable) {
@@ -65,6 +54,11 @@ export class Selectable implements ISelectable {
    * isSelected property to true and makes the index visible.
    */
   select(index: number): void {
+    if (this.element === undefined) {
+      console.error('[Selection] - element not found');
+      return;
+    }
+
     if (this.isSelected) {
       return;
     }
@@ -93,6 +87,11 @@ export class Selectable implements ISelectable {
    * and toggles the visibility of the selection index.
    */
   unselect(): void {
+    if (this.element === undefined) {
+      console.error('[Unselection] - element not found');
+      return;
+    }
+
     if (!this.isSelected) {
       return;
     }
@@ -117,6 +116,11 @@ export class Selectable implements ISelectable {
    * depending on the current state of the element.
    */
   enable(): void {
+    if (this.element === undefined) {
+      console.error('[Enable] - element not found');
+      return;
+    }
+
     this.isInteractable = true;
     this.element.nativeElement.classList.remove(this.disabledClassName);
   }
@@ -127,6 +131,11 @@ export class Selectable implements ISelectable {
    * disabled class. Also sets the canBeSelected and isSelected properties to false.
    */
   disable(): void {
+    if (this.element === undefined) {
+      console.error('[Disable] - element not found');
+      return;
+    }
+
     this.isInteractable = false;
     this.unselect();
 

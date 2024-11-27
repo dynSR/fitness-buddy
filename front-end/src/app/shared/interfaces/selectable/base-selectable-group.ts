@@ -1,31 +1,12 @@
-import { EventEmitter, QueryList } from '@angular/core';
-import { ISelectable, Selectable } from './selectable';
-import { IInteractable } from '../../interfaces/interactable';
-import { ExerciseItemComponent } from '../../../features/exercise/exercise-item/exercise-item.component';
+import { QueryList } from '@angular/core';
+import { ISelectableGroup } from './selectable-group';
+import { ISelectable } from './selectable';
 
-export interface ISelectableGroup<T extends ISelectable> extends IInteractable {
-  canSelectMultiple: boolean;
-
-  selectables: QueryList<T>;
-  selections: Array<T>;
-
-  selectOne(selectable: T): void;
-  selectAll(array: Array<T>): void;
-  unselectAll(array: Array<T>): void;
-
-  addSelection(selectable: T): void;
-  removeSelection(selectable: T): void;
-  clearSelections(): void;
-
-  handleSelectableClicked(selectable: T): void;
-}
-
-export class SelectableGroup implements ISelectableGroup<Selectable> {
+export class BaseSelectableGroup implements ISelectableGroup<ISelectable> {
   isInteractable: boolean = false;
-
   canSelectMultiple: boolean = false;
-  selectables!: QueryList<Selectable>;
-  selections: Array<Selectable> = [];
+  selectables!: QueryList<ISelectable>;
+  selections: Array<ISelectable> = [];
 
   /**
    * Selects one selectable from the group. If the group allows multiple selections or the
@@ -33,7 +14,7 @@ export class SelectableGroup implements ISelectableGroup<Selectable> {
    * unselect all the other selectables in the group and select the given one.
    * @param selectable The selectable to select.
    */
-  selectOne(selectable: Selectable): void {
+  selectOne(selectable: ISelectable): void {
     if (!this.isInteractable) {
       return;
     }
@@ -61,12 +42,8 @@ export class SelectableGroup implements ISelectableGroup<Selectable> {
    *
    * @param array The array of selectables to select.
    */
-  selectAll(array: Array<Selectable>): void {
-    array.forEach((s) => {
-      if (s instanceof Selectable) {
-        this.addSelection(s);
-      }
-    });
+  selectAll(array: Array<ISelectable>): void {
+    array.forEach((s) => this.addSelection(s));
   }
 
   /**
@@ -76,12 +53,10 @@ export class SelectableGroup implements ISelectableGroup<Selectable> {
    * selectables, it will unselect all of them. Otherwise, it will only unselect the
    * ones that are in the array.
    */
-  unselectAll(array: Array<Selectable>): void {
+  unselectAll(array: Array<ISelectable>): void {
     array.forEach((s) => {
-      if (s instanceof Selectable) {
-        s.unselect();
-        this.selections.splice(this.selections.indexOf(s), 1);
-      }
+      s.unselect();
+      this.selections.splice(this.selections.indexOf(s), 1);
     });
 
     console.log('Selections [cleared] : ', this.selections);
@@ -94,7 +69,7 @@ export class SelectableGroup implements ISelectableGroup<Selectable> {
    *
    * @param selectable - The Selectable element to be added to the selections.
    */
-  addSelection(selectable: Selectable): void {
+  addSelection(selectable: ISelectable): void {
     if (this.selections.includes(selectable)) {
       return;
     }
@@ -112,7 +87,7 @@ export class SelectableGroup implements ISelectableGroup<Selectable> {
    * Also, all the selectionIndex of the following selectables are decremented.
    * @param selectable - The Selectable element to be removed from the selections.
    */
-  removeSelection(selectable: Selectable): void {
+  removeSelection(selectable: ISelectable): void {
     if (!this.selections.includes(selectable)) {
       return;
     }
@@ -150,7 +125,7 @@ export class SelectableGroup implements ISelectableGroup<Selectable> {
    *
    * @param selectable - The Selectable element that triggered the selection event.
    */
-  handleSelectableClicked(selectable: Selectable): void {
+  handleSelectableClicked(selectable: ISelectable): void {
     // console.log('[handleSelectableClicked] - Selectable : ', selectable);
     this.selectOne(selectable);
   }

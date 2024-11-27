@@ -7,17 +7,17 @@ import {
   QueryList,
   ViewChildren,
 } from '@angular/core';
-import { TimeFormatter } from '../../../shared/utils/time-formatter';
+import { TimeFormatter } from '../../../shared/helpers/time-formatter';
 import { Exercise } from '../../../models/exercise.model';
 import { MuscleGroupService } from '../../muscle-group/muscle-group.service';
 import { ExerciseItemComponent } from '../exercise-item/exercise-item.component';
 import { IconTextComponent } from '../../../shared/components/icon/icon-text/icon-text.component';
 import { ExerciseService } from '../exercise.service';
-import { SelectableGroup } from '../../../shared/components/selectable/selectable-group';
 import { IsLastIndexOfPipe } from '../../../shared/pipes/is-last-index-of/is-last-index-of.pipe';
 import { FilterGroupComponent } from '../../../shared/components/filter/filter-group/filter-group.component';
 import { IFilterable } from '../../../shared/interfaces/filterable';
 import { IFilter } from '../../../shared/components/filter/filter-item/filter-item.component';
+import { BaseSelectableGroup } from '../../../shared/interfaces/selectable/base-selectable-group';
 
 @Component({
   selector: 'app-exercise-group',
@@ -33,11 +33,11 @@ import { IFilter } from '../../../shared/components/filter/filter-item/filter-it
   styleUrl: './exercise-group.component.css',
 })
 export class ExerciseGroupComponent
-  extends SelectableGroup
+  extends BaseSelectableGroup
   implements IFilterable<string>
 {
   @ViewChildren(ExerciseItemComponent)
-  declare selectables: QueryList<ExerciseItemComponent>;
+  override selectables: QueryList<ExerciseItemComponent> = new QueryList();
   @Input({ required: true }) override isInteractable: boolean = false;
   @Input({ required: false }) override canSelectMultiple: boolean = false;
 
