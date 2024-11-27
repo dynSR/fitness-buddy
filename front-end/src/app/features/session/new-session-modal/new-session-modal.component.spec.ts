@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ModalComponent } from './modal.component';
+import { NewSessionModalComponent } from './new-session-modal.component';
 
-describe('ModalComponent', () => {
-  let component: ModalComponent;
-  let fixture: ComponentFixture<ModalComponent>;
+describe('NewSessionModalComponent', () => {
+  let component: NewSessionModalComponent;
+  let fixture: ComponentFixture<NewSessionModalComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ModalComponent]
+      imports: [NewSessionModalComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(ModalComponent);
+    fixture = TestBed.createComponent(NewSessionModalComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
