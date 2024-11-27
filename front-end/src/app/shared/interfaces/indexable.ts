@@ -1,8 +1,8 @@
-import { Subject } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 
 export interface IIndexable {
   indexElement?: HTMLElement;
   index: number;
   setIndex(newValue: number): void;
-  onIndexValueChangeEvent: Subject<number>;
+  onIndexValueChangeEvent: BehaviorSubject<number>;
 }

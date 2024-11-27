@@ -1,6 +1,9 @@
+import { ElementRef } from '@angular/core';
+
 export interface IDisplayable {
-  isDisplayed: boolean;
+  element?: ElementRef<HTMLElement>;
   isDisplayable: boolean;
+  isDisplayed: boolean;
 
   displayedClassName: string;
   hiddenClassName: string;

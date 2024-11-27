@@ -1,29 +1,36 @@
 import { Component, ElementRef, Input, ViewChild } from '@angular/core';
-import { IDisplayable } from '../../interfaces/displayable';
 import { Subscription } from 'rxjs';
 import { IIndexable } from '../../interfaces/indexable';
+import { BaseDisplayable } from '../../interfaces/displayable/base-displayable';
 
 @Component({
   selector: 'app-index',
   standalone: true,
   imports: [],
-  templateUrl: './index.component.html',
+  template: `
+    <p #index class="selectable__index--hidden numeric">
+      {{ value }}
+    </p>
+  `,
   styleUrl: './index.component.css',
 })
-export class IndexComponent implements IDisplayable {
-  @ViewChild('index') indexElement?: ElementRef;
-
+export class IndexComponent extends BaseDisplayable {
   @Input({ required: true }) parent!: IIndexable;
-  @Input({ required: true }) isDisplayable!: boolean;
-  @Input({ required: false }) isDisplayed: boolean = false;
   value: number = 0;
 
-  displayedClassName: string = 'selectable__index--hidden';
-  hiddenClassName: string = 'selectable__index--displayed';
+  @ViewChild('index') override element?: ElementRef<HTMLParagraphElement> =
+    undefined;
+  @Input({ required: true }) override isDisplayable: boolean = true;
+  @Input({ required: false }) override isDisplayed: boolean = false;
+
+  override displayedClassName: string = 'selectable__index--displayed';
+  override hiddenClassName: string = 'selectable__index--hidden';
 
   private _indexableSubscription: Subscription = new Subscription();
 
-  constructor() {}
+  constructor() {
+    super();
+  }
 
   ngAfterViewInit(): void {
     this.init();
@@ -33,53 +40,11 @@ export class IndexComponent implements IDisplayable {
     this._indexableSubscription?.unsubscribe();
   }
 
-  init(): void {
-    // console.log('[IndexComponent] - init ' + this.parent.index);
-
+  override init(): void {
     this._indexableSubscription = this.parent.onIndexValueChangeEvent.subscribe(
       (value) => this.setValue(value)
     );
-  }
-
-  display(): void {
-    if (!this.isDisplayable || this.indexElement === undefined) {
-      console.error(
-        '[Display] - indexElement not found, could not change classes' +
-          '\n Or the element is not displayable.'
-      );
-      return;
-    }
-
-    if (
-      this.indexElement.nativeElement.classList.replace(
-        this.displayedClassName,
-        this.hiddenClassName
-      )
-    ) {
-      this.isDisplayed = true;
-      // console.log('[Display] - indexElement displayed successfully');
-      return;
-    }
-  }
-
-  hide(): void {
-    if (this.indexElement === undefined) {
-      console.error(
-        '[Hide] - indexElement not found, could not change classes'
-      );
-      return;
-    }
-
-    if (
-      this.indexElement.nativeElement.classList.replace(
-        this.hiddenClassName,
-        this.displayedClassName
-      )
-    ) {
-      this.isDisplayed = false;
-      // console.log('[Hide] - indexElement hidden successfully');
-      return;
-    }
+    super.init();
   }
 
   setValue(index: number) {
