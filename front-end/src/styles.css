@@ -76,11 +76,11 @@
   --color-grey-dark: rgb(100, 100, 100, 1);
   --color-transparent: rgba(0, 0, 0, 0);
   --color-dark-transparent: rgba(25, 25, 25, 0.15);
-  --color-grey-transparent: rgba(128, 128, 128, 0.5);
+  --color-grey-transparent: rgba(128, 128, 128, 0.1);
   --color-light-transparent: rgba(255, 255, 255, 0.1);
   --color-primary-transparent: rgba(255, 194, 12, 0.1);
   --color-primary: rgba(255, 194, 12, 1);
-  --color-primary-dark: rgba(255, 194, 12, 0.5);
+  --color-primary-dark: rgba(255, 194, 12, 0.65);
   --color-secondary: rgba(40, 40, 40, 1);
   --color-success: rgba(140, 255, 150, 1);
   --color-danger: rgba(255, 140, 140, 1);
@@ -88,6 +88,7 @@
   --color-info: rgba(130, 250, 255, 1);
   --color-disabled: rgba(60, 60, 60, 1);
   --color-body: rgba(25, 25, 25, 1);
+  --color-modal-bg: rgba(0, 0, 0, 0.85);
 
   --gradient-dark-default: linear-gradient(
     45deg,
@@ -155,8 +156,15 @@
   --opacity-hover: 0.95;
   --opacity-active: 1;
 
+  --opacity-btn-primary: 0.85;
+  --opacity-btn-secondary: 0.625;
+
   --btn-scale-hover: 1.005;
   --btn-scale-active: 0.998;
+
+  --z-index-default: 0;
+  --z-index-top: 10;
+  --z-index-forward: 100;
 }
 
 body {
