@@ -70,6 +70,12 @@ a {
   text-decoration: none;
 }
 
+hr {
+  border-color: var(--color-grey-transparent);
+  margin-top: var(--size-large);
+  margin-bottom: var(--size-large);
+}
+
 /* Create a root stacking context */
 #root,
 #__next {

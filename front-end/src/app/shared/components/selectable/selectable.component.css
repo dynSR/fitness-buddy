@@ -28,7 +28,7 @@
   opacity: var(--opacity-hover);
   border: solid 1px var(--color-primary-dark);
   border-bottom: solid var(--size-small) var(--color-primary-dark);
-  box-shadow: 0 0 0 0.25rem var(--color-primary-transparent);
+  box-shadow: var(--box-shadow-primary);
 
   .selectable__index--displayed {
     opacity: var(--opacity-hover);

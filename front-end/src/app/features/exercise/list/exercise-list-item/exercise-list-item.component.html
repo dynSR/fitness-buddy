@@ -1,14 +1,13 @@
-<div #selectable class="exercise-item selectable--idle user-select-none">
+<div class="exercise-list-item user-select-none">
   <!-- TOP -->
-  <section class="exercise-item__top">
+  <section class="exercise-list-item__top">
     <!-- TOP LEFT -->
-    <section class="exercise-item__top-left">
-      <h1 class="exercise-item__title">{{ exercise.name }}</h1>
-      <app-index [parent]="this" [isDisplayable]="isInteractable" />
+    <section class="exercise-list-item__top-left">
+      <h1 class="exercise-list-item__title">{{ exercise.name }}</h1>
     </section>
 
     <!-- TOP RIGHT -->
-    <section class="exercise-item__top-right">
+    <section class="exercise-list-item__top-right">
       <app-icon
         [src]="
           'assets/icons/muscle-groups/' +
@@ -23,28 +22,24 @@
   </section>
 
   <!-- CENTER -->
-  <section class="exercise-item__center">
-    <p class="exercise-item__description">
+  <section class="exercise-list-item__center">
+    <p class="exercise-list-item__description">
       {{ exercise.description }}
     </p>
   </section>
 
   <!-- BOTTOM -->
-  <section class="exercise-item__bottom">
+  <section class="exercise-list-item__bottom">
     <!-- BOTTOM LEFT -->
-    <section class="exercise-item__bottom-left">
+    <section class="exercise-list-item__bottom-left">
       <!-- SERIES -->
       <div class="d-flex flex-column gap-1">
         <small class="small-header">
           {{ "series" }}
         </small>
-        @if (false) {
         <p class="numeric">
           {{ exercise.series }}
         </p>
-        } @else {
-        <app-exercise-series-counter [series]="exercise.series" />
-        }
       </div>
 
       <!-- REPS -->
@@ -72,7 +67,7 @@
     </section>
 
     <!-- BOTTOM RIGHT -->
-    <section class="exercise-item__bottom-right">
+    <section class="exercise-list-item__bottom-right">
       <div class="d-flex flex-column gap-1">
         <small class="small-header">
           {{ "recovery" }}

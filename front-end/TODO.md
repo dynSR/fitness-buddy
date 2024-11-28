@@ -1,8 +1,3 @@
-- Make the series exercise validators :
-    - N numbers inserted == maxN, 
-    - click one out of maxN,
-    - click one or more
-    - validate exercise when N is equal to maxN
 - Find a way to create a session : organize the user flow :
     1- Create a session button
     2- onClick, ask user to select exercises
@@ -12,4 +7,3 @@
         A- with all the selected exercises
         B- with a chronometer
 - Remove the session page
-- Add filters to filter exercises per muscle group

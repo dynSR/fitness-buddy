@@ -1,6 +1,7 @@
 import { QueryList } from '@angular/core';
 import { IInteractable } from '../interactable';
 import { ISelectable } from './selectable';
+import { BehaviorSubject } from 'rxjs';
 
 export interface ISelectableGroup<T extends ISelectable> extends IInteractable {
   canSelectMultiple: boolean;
@@ -16,4 +17,7 @@ export interface ISelectableGroup<T extends ISelectable> extends IInteractable {
   clearSelections(): void;
 
   handleSelectableClicked(selectable: T): void;
+  handleSelectionCheckboxClicked(): void;
+
+  selectionChanged: BehaviorSubject<Array<T>>;
 }

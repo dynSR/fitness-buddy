@@ -1,7 +1,7 @@
 import { Component, ElementRef, Input, ViewChildren } from '@angular/core';
 
 import { CommonModule } from '@angular/common';
-import { NumberToArrayPipe } from '../../../../shared/pipes/number-to-array/number-to-array.pipe';
+import { NumberToArrayPipe } from '../../../shared/pipes/number-to-array/number-to-array.pipe';
 
 interface Validator {
   img: ElementRef<HTMLImageElement>;

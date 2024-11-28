@@ -19,16 +19,16 @@ export const routes: Routes = [
     // Exercise list page
     path: RoutesUtils.EXERCISES,
     loadComponent: () =>
-      import(
-        './features/exercise/exercise-group/exercise-group.component'
-      ).then((m) => m.ExerciseGroupComponent),
+      import('./features/exercise/list/exercise-list.component').then(
+        (m) => m.ExerciseListComponent
+      ),
     title: RoutesUtils.getRouteByPath(RoutesUtils.EXERCISES)!.title,
   },
   {
     // Session page
     path: RoutesUtils.SESSION,
     loadComponent: () =>
-      import('./features/session/session.component').then(
+      import('./features/session/show/session.component').then(
         (m) => m.SessionComponent
       ),
     title: RoutesUtils.getRouteByPath(RoutesUtils.SESSION)!.title,

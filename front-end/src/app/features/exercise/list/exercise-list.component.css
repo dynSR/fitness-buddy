@@ -1,0 +1,18 @@
+.exercise-list-container {
+  display: flex;
+  flex-direction: column;
+  gap: var(--size-medium-large);
+}
+
+.exercise-list {
+  display: flex;
+  gap: var(--size-medium);
+  padding: 0;
+  padding-bottom: var(--size-medium-large);
+  height: 100%;
+  border-bottom: solid 1px var(--color-grey-transparent);
+}
+
+.exercise-list > #exerciseListItem {
+  flex: 1;
+}

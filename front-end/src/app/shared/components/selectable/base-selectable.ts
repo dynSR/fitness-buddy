@@ -1,7 +1,7 @@
 import { ElementRef, EventEmitter } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { ISelectable } from './selectable';
-import { IInitializable } from '../initializable';
+import { ISelectable } from '../../interfaces/selectable/selectable';
+import { IInitializable } from '../../interfaces/initializable';
 
 export class BaseSelectable implements IInitializable, ISelectable {
   isInteractable: boolean = true;

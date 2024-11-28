@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { NewSessionModalComponent } from './new-session-modal.component';
+import { NewSessionModalComponent } from '../new-session-modal.component';
 
 describe('NewSessionModalComponent', () => {
   let component: NewSessionModalComponent;
@@ -8,9 +8,8 @@ describe('NewSessionModalComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [NewSessionModalComponent]
-    })
-    .compileComponents();
+      imports: [NewSessionModalComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(NewSessionModalComponent);
     component = fixture.componentInstance;

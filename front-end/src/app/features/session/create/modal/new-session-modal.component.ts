@@ -1,16 +1,15 @@
 import { Component, ElementRef, inject, Input, ViewChild } from '@angular/core';
-import { IModal } from '../../../shared/interfaces/modal';
-import { Positioner } from '../../../shared/helpers/positioner';
-import { BaseDisplayable } from '../../../shared/interfaces/displayable/base-displayable';
-import { ExerciseGroupComponent } from '../../exercise/exercise-group/exercise-group.component';
+import { IModal } from '../../../../shared/interfaces/modal';
+import { Positioner } from '../../../../shared/helpers/positioner';
+import { BaseDisplayable } from '../../../../shared/interfaces/displayable/base-displayable';
 
 @Component({
   selector: 'app-new-session-modal',
   standalone: true,
-  imports: [ExerciseGroupComponent],
+  imports: [],
   templateUrl: './new-session-modal.component.html',
   styleUrls: [
-    '../../../shared/css/modal.css',
+    '../../../../shared/css/modal.css',
     './new-session-modal.component.css',
   ],
 })

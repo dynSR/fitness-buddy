@@ -7,19 +7,25 @@ import {
   ViewChildren,
 } from '@angular/core';
 import { FilterItemComponent } from '../filter-item/filter-item.component';
-import { BaseSelectableGroup } from '../../../interfaces/selectable/base-selectable-group';
+import { BaseSelectableGroup } from '../../selectable/base-selectable-group';
 import { ISelectable } from '../../../interfaces/selectable/selectable';
+import { SelectableGroupCheckboxComponent } from '../../selectable/selectable-group-checkbox/selectable-group-checkbox.component';
 
 @Component({
   selector: 'app-filter-group',
   standalone: true,
-  imports: [FilterItemComponent],
+  imports: [FilterItemComponent, SelectableGroupCheckboxComponent],
   template: `
     <div class="filter-group">
       @for (filter of filters; track $index) {
       <app-filter
         [value]="filter"
         (onSelectableClicked)="handleSelectableClicked($event)"
+      />
+      } @if(isInteractable && canSelectMultiple) {
+      <app-selectable-group-checkbox
+        [parent]="this"
+        (onCheckboxClicked)="handleSelectionCheckboxClicked()"
       />
       }
     </div>

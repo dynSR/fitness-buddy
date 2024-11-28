@@ -1,4 +1,4 @@
-<div #exerciseContainer>
+<div #exerciseContainer class="exercise-list-container">
   <app-filter-group
     [filters]="getMuscleGroups()"
     (onFilterSelection)="handleFilterSelection($event)"
@@ -7,7 +7,7 @@
   <!-- Exercises per muscle groups -->
   @for (muscleGroup of getFilteredMuscleGroups(); let i = $index; track
   muscleGroup) {
-  <div class="d-flex align-items-center justify-content-between mb-3">
+  <div class="d-flex align-items-center justify-content-between">
     <app-icon-text
       [src]="'assets/icons/muscle-groups/' + (muscleGroup | lowercase) + '.png'"
       [alt]="'Muscle group icon'"
@@ -16,36 +16,18 @@
       [textClass]="'ff-black-title ls-1 user-select-none'"
       [gap]="10"
     />
-
-    @if(isInteractable && canSelectMultiple) {
-    <input
-      #checkboxSelection
-      type="checkbox"
-      class="form-check-input"
-      (click)="handleCheckboxSelection(muscleGroup)"
-    />
-    }
   </div>
 
-  <div class="exercise-group">
+  <div class="exercise-list">
     <!-- Exercises -->
     @for (exercise of getExercisesByMuscleGroup(muscleGroup); track exercise.id)
     {
-    <app-exercise-item
-      id="exerciseCard"
-      [exercise]="exercise"
-      [isInteractable]="isInteractable"
-      [isIndexVisible]="canSelectMultiple"
-      (onSelectableClicked)="handleSelectableClicked($event)"
-    />
+    <app-exercise-list-item id="exerciseListItem" [exercise]="exercise" />
     }@empty {
     <p>No exercises found</p>
     }
   </div>
-
-  @if (!(i | isLastIndexOf: getMuscleGroups())) {
-  <hr />
-  } }@empty {
+  } @empty {
   <p>No exercises found</p>
   }
 </div>

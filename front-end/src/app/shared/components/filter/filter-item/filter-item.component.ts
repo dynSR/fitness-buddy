@@ -6,7 +6,7 @@ import {
   Output,
   ViewChild,
 } from '@angular/core';
-import { BaseSelectable } from '../../../interfaces/selectable/base-selectable';
+import { BaseSelectable } from '../../selectable/base-selectable';
 import { ISelectable } from '../../../interfaces/selectable/selectable';
 
 export interface IFilter<T extends string | number | Date> {
@@ -19,12 +19,12 @@ export interface IFilter<T extends string | number | Date> {
   standalone: true,
   imports: [],
   template: `
-    <div #selectable class="selectable--idle user-select-none">
+    <div #selectable class="filter-item selectable--idle user-select-none">
       <p>{{ value }}</p>
     </div>
   `,
   styleUrls: [
-    '../../../../shared/interfaces/selectable/selectable.css',
+    '../../selectable/selectable.component.css',
     './filter-item.component.css',
   ],
 })

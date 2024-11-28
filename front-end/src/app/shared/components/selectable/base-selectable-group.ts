@@ -1,12 +1,15 @@
-import { QueryList } from '@angular/core';
-import { ISelectableGroup } from './selectable-group';
-import { ISelectable } from './selectable';
+import { ElementRef, QueryList } from '@angular/core';
+import { ISelectableGroup } from '../../interfaces/selectable/selectable-group';
+import { ISelectable } from '../../interfaces/selectable/selectable';
+import { IInitializable } from '../../interfaces/initializable';
+import { BehaviorSubject, Subject } from 'rxjs';
 
 export class BaseSelectableGroup implements ISelectableGroup<ISelectable> {
   isInteractable: boolean = false;
   canSelectMultiple: boolean = false;
   selectables!: QueryList<ISelectable>;
   selections: Array<ISelectable> = [];
+  selectionChanged = new BehaviorSubject<Array<ISelectable>>([]);
 
   /**
    * Selects one selectable from the group. If the group allows multiple selections or the
@@ -44,6 +47,7 @@ export class BaseSelectableGroup implements ISelectableGroup<ISelectable> {
    */
   selectAll(array: Array<ISelectable>): void {
     array.forEach((s) => this.addSelection(s));
+    this.selectionChanged.next(array);
   }
 
   /**
@@ -58,6 +62,7 @@ export class BaseSelectableGroup implements ISelectableGroup<ISelectable> {
       s.unselect();
       this.selections.splice(this.selections.indexOf(s), 1);
     });
+    this.selectionChanged.next([]);
 
     console.log('Selections [cleared] : ', this.selections);
   }
@@ -76,6 +81,8 @@ export class BaseSelectableGroup implements ISelectableGroup<ISelectable> {
 
     this.selections.push(selectable);
     selectable.select(this.selections.length);
+    this.selectionChanged.next(this.selectables.toArray());
+
     console.log('Selections [added] : ', this.selections);
   }
 
@@ -96,7 +103,9 @@ export class BaseSelectableGroup implements ISelectableGroup<ISelectable> {
 
     const index = this.selections.indexOf(selectable);
     this.selections.splice(index, 1);
+    this.selectionChanged.next(this.selectables.toArray());
 
+    // Redefine index of selectables when we uncheck one of the selectionCheckboxes...
     this.selections.forEach((s) => {
       if (s.index > 1 && s.index > index) {
         const value = s.index - 1;
@@ -128,6 +137,29 @@ export class BaseSelectableGroup implements ISelectableGroup<ISelectable> {
   handleSelectableClicked(selectable: ISelectable): void {
     // console.log('[handleSelectableClicked] - Selectable : ', selectable);
     this.selectOne(selectable);
+  }
+
+  /**
+   * Handles the selection event of a checkbox of a muscle group.
+   * If there are any unselected exercises of the muscle group, selects all
+   * exercises of the muscle group. Otherwise, unselects all exercises of the
+   * muscle group.
+   *
+   * @param muscleGroup The muscle group of the checkbox that was clicked.
+   */
+  handleSelectionCheckboxClicked(): void {
+    const selectables: Array<ISelectable> = this.selectables.toArray();
+    if (selectables.some((s) => !s.isSelected)) {
+      this.selectAll(selectables);
+      return;
+    }
+
+    this.unselectAll(selectables);
+    // Redefine index of selectables when we uncheck one of the selectionCheckboxes...
+    // ...and many are ticked.
+    this.selections.forEach((s) => {
+      s.setIndex(this.selections.indexOf(s) + 1);
+    });
   }
 
   /**

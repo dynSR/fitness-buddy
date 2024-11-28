@@ -1,8 +1,6 @@
-import { Entity } from './entity.model';
+import { Entity } from '../../shared/interfaces/entity';
 
 export interface Exercise extends Entity {
-  id: number;
-  name: string;
   description: string;
   series: number;
   repetitions: number;
