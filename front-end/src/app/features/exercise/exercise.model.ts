@@ -5,6 +5,6 @@ export interface Exercise extends Entity {
   series: number;
   repetitions: number;
   weight: number;
-  recoveryTime: number;
+  restTime: number;
   muscleGroup: string;
 }

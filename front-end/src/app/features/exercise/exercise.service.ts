@@ -14,7 +14,7 @@ export class ExerciseService {
       series: 4,
       repetitions: 12,
       weight: 5,
-      recoveryTime: 180,
+      restTime: 180,
       muscleGroup: 'Biceps',
     },
     {
@@ -25,7 +25,7 @@ export class ExerciseService {
       series: 4,
       repetitions: 12,
       weight: 5,
-      recoveryTime: 180,
+      restTime: 180,
       muscleGroup: 'Biceps',
     },
     {
@@ -36,7 +36,7 @@ export class ExerciseService {
       series: 4,
       repetitions: 12,
       weight: 5,
-      recoveryTime: 180,
+      restTime: 180,
       muscleGroup: 'Biceps',
     },
     {
@@ -47,7 +47,7 @@ export class ExerciseService {
       series: 4,
       repetitions: 12,
       weight: 5,
-      recoveryTime: 180,
+      restTime: 180,
       muscleGroup: 'Triceps',
     },
     {
@@ -58,7 +58,7 @@ export class ExerciseService {
       series: 4,
       repetitions: 12,
       weight: 5,
-      recoveryTime: 180,
+      restTime: 180,
       muscleGroup: 'Triceps',
     },
     {
@@ -69,7 +69,7 @@ export class ExerciseService {
       series: 4,
       repetitions: 12,
       weight: 5,
-      recoveryTime: 180,
+      restTime: 180,
       muscleGroup: 'Triceps',
     },
   ];
