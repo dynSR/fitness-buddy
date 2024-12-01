@@ -1,9 +1,0 @@
-.filter-group {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: var(--size-medium);
-  width: 100%;
-  padding-bottom: var(--size-small);
-  border-bottom: solid 1px var(--color-grey-transparent);
-}

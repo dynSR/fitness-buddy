@@ -16,27 +16,10 @@ export const routes: Routes = [
     title: RoutesUtils.getRouteByPath(RoutesUtils.HOME)!.title,
   },
   {
-    // Exercise list page
-    path: RoutesUtils.EXERCISES,
-    loadComponent: () =>
-      import('./features/exercise/list/exercise-list.component').then(
-        (m) => m.ExerciseListComponent
-      ),
-    title: RoutesUtils.getRouteByPath(RoutesUtils.EXERCISES)!.title,
-  },
-  {
-    // Session page
-    path: RoutesUtils.SESSION,
-    loadComponent: () =>
-      import('./features/session/show/session.component').then(
-        (m) => m.SessionComponent
-      ),
-    title: RoutesUtils.getRouteByPath(RoutesUtils.SESSION)!.title,
-  },
-  {
     // Wildcard route - 404
     path: RoutesUtils.NOT_FOUND,
     pathMatch: 'full',
+    // TODO: change the component to be the one for error 404
     loadComponent: () =>
       import('./features/home/home.component').then((m) => m.HomeComponent),
     title: RoutesUtils.getRouteByPath(RoutesUtils.NOT_FOUND)!.title,

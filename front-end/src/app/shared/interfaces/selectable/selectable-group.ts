@@ -7,6 +7,7 @@ export interface ISelectableGroup<T extends ISelectable> extends IInteractable {
   canSelectMultiple: boolean;
   selectables: QueryList<T>;
   selections: Array<T>;
+  onSelectionChanged: BehaviorSubject<Array<T>>;
 
   selectOne(selectable: T): void;
   selectAll(array: Array<T>): void;
@@ -18,6 +19,4 @@ export interface ISelectableGroup<T extends ISelectable> extends IInteractable {
 
   handleSelectableClicked(selectable: T): void;
   handleSelectionCheckboxClicked(): void;
-
-  selectionChanged: BehaviorSubject<Array<T>>;
 }

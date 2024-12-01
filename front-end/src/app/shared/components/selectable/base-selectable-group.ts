@@ -1,15 +1,14 @@
-import { ElementRef, QueryList } from '@angular/core';
+import { QueryList } from '@angular/core';
 import { ISelectableGroup } from '../../interfaces/selectable/selectable-group';
 import { ISelectable } from '../../interfaces/selectable/selectable';
-import { IInitializable } from '../../interfaces/initializable';
-import { BehaviorSubject, Subject } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 
 export class BaseSelectableGroup implements ISelectableGroup<ISelectable> {
   isInteractable: boolean = false;
   canSelectMultiple: boolean = false;
-  selectables!: QueryList<ISelectable>;
+  selectables: QueryList<ISelectable> = new QueryList();
   selections: Array<ISelectable> = [];
-  selectionChanged = new BehaviorSubject<Array<ISelectable>>([]);
+  onSelectionChanged = new BehaviorSubject<Array<ISelectable>>([]);
 
   /**
    * Selects one selectable from the group. If the group allows multiple selections or the
@@ -47,7 +46,7 @@ export class BaseSelectableGroup implements ISelectableGroup<ISelectable> {
    */
   selectAll(array: Array<ISelectable>): void {
     array.forEach((s) => this.addSelection(s));
-    this.selectionChanged.next(array);
+    this.onSelectionChanged.next(array);
   }
 
   /**
@@ -62,7 +61,7 @@ export class BaseSelectableGroup implements ISelectableGroup<ISelectable> {
       s.unselect();
       this.selections.splice(this.selections.indexOf(s), 1);
     });
-    this.selectionChanged.next([]);
+    this.onSelectionChanged.next([]);
 
     console.log('Selections [cleared] : ', this.selections);
   }
@@ -81,7 +80,7 @@ export class BaseSelectableGroup implements ISelectableGroup<ISelectable> {
 
     this.selections.push(selectable);
     selectable.select(this.selections.length);
-    this.selectionChanged.next(this.selectables.toArray());
+    this.onSelectionChanged.next(this.selectables.toArray());
 
     console.log('Selections [added] : ', this.selections);
   }
@@ -103,7 +102,7 @@ export class BaseSelectableGroup implements ISelectableGroup<ISelectable> {
 
     const index = this.selections.indexOf(selectable);
     this.selections.splice(index, 1);
-    this.selectionChanged.next(this.selectables.toArray());
+    this.onSelectionChanged.next(this.selectables.toArray());
 
     // Redefine index of selectables when we uncheck one of the selectionCheckboxes...
     this.selections.forEach((s) => {
