@@ -1,0 +1,12 @@
+<div>
+  @if (selectedExercise) {
+  <p>{{ selectedExercise.name }}</p>
+  } @else {
+  <p>{{ "No exercise selected" }}</p>
+  }
+</div>
+
+<app-exercise-selector-group
+  [exercises]="exercises"
+  [canSelectMultiple]="false"
+/>

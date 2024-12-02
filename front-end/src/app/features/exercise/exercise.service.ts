@@ -79,4 +79,10 @@ export class ExerciseService {
   getExercises(): Array<Exercise> {
     return this._exercises;
   }
+
+  getExercisesPerMuscleGroup(muscleGroup: string): Array<Exercise> {
+    return this._exercises.filter(
+      (exercise) => exercise.muscleGroup === muscleGroup
+    );
+  }
 }

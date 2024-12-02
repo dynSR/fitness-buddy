@@ -1,0 +1,24 @@
+<div class="exercise-group-selector">
+  <!-- Group header - Muscle group + checkbox -->
+  <div class="exercise-group-selector__top">
+    <p>{{ muscleGroup }}</p>
+    @if (canSelectMultiple) {
+    <input
+      #checkbox
+      type="checkbox"
+      class="form-check-input"
+      (click)="handleSelectionCheckboxClicked()"
+    />
+    }
+  </div>
+
+  <!-- Group content - Exercises -->
+  <div class="exercise-group-selector__center">
+    @for (exercise of exercises; track exercise.id) {
+    <app-exercise-selector
+      [exercise]="exercise"
+      (onSelectableClicked)="handleSelectableClicked($event)"
+    />
+    }
+  </div>
+</div>

@@ -2,11 +2,12 @@ import { ElementRef, EventEmitter } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { ISelectable } from '../../interfaces/selectable/selectable';
 import { IInitializable } from '../../interfaces/initializable';
+import { Precondition } from '../../utils/precondition';
 
 export class BaseSelectable implements IInitializable, ISelectable {
   isInteractable: boolean = true;
 
-  element?: ElementRef<HTMLDivElement> = undefined;
+  elementRef?: ElementRef<HTMLDivElement> = undefined;
   isSelected: boolean = false;
 
   unselectedClassName: string = 'selectable--idle';
@@ -16,10 +17,6 @@ export class BaseSelectable implements IInitializable, ISelectable {
   onSelectableClicked: EventEmitter<ISelectable> =
     new EventEmitter<ISelectable>();
 
-  index: number = 0;
-  onIndexValueChangeEvent: BehaviorSubject<number> =
-    new BehaviorSubject<number>(0);
-
   constructor() {}
 
   /**
@@ -28,22 +25,18 @@ export class BaseSelectable implements IInitializable, ISelectable {
    * If the element can be selected, it is enabled by default. Otherwise it is disabled.
    */
   init(): void {
-    if (this.element === undefined) {
-      console.error('[Init] - element not found');
-      return;
-    }
+    Precondition.notNull(this.elementRef, '[Init] - element is not found');
 
-    this.element.nativeElement.addEventListener('click', () =>
+    this.elementRef.nativeElement.addEventListener('click', () =>
       this.onSelectableClicked.emit(this as ISelectable)
     );
 
-    // Set default state based on canBeSelected
+    // Set default state based on isInteractable
     if (!this.isInteractable) {
       this.disable();
-      return;
+    } else {
+      this.enable();
     }
-
-    this.enable();
   }
 
   /**
@@ -53,30 +46,22 @@ export class BaseSelectable implements IInitializable, ISelectable {
    * unselected class with the selected class. Also sets the
    * isSelected property to true and makes the index visible.
    */
-  select(index: number): void {
-    if (this.element === undefined) {
-      console.error('[Selection] - element not found');
-      return;
-    }
+  select(): void {
+    Precondition.notNull(this.elementRef, '[Selection] - element is not found');
 
     if (this.isSelected) {
       return;
     }
 
     if (
-      !this.element.nativeElement.classList.replace(
+      this.elementRef.nativeElement.classList.replace(
         this.unselectedClassName,
         this.selectedClassName
       )
     ) {
-      console.error('[Selection] - Could not change classes');
-      return;
+      this.isSelected = true;
+      console.log('[Selection] - selected successfully');
     }
-
-    this.isSelected = true;
-    this.setIndex(index);
-
-    console.log('[Selection] - selected successfully');
   }
 
   /**
@@ -87,27 +72,24 @@ export class BaseSelectable implements IInitializable, ISelectable {
    * and toggles the visibility of the selection index.
    */
   unselect(): void {
-    if (this.element === undefined) {
-      console.error('[Unselection] - element not found');
-      return;
-    }
+    Precondition.notNull(
+      this.elementRef,
+      '[Unselection] - element is not found'
+    );
 
     if (!this.isSelected) {
       return;
     }
 
     if (
-      !this.element.nativeElement.classList.replace(
+      this.elementRef.nativeElement.classList.replace(
         this.selectedClassName,
         this.unselectedClassName
       )
     ) {
-      console.error('[Unselection] - Could not change classes');
-      return;
+      this.isSelected = false;
+      console.log('[Unselection] - unselected successfully');
     }
-
-    this.isSelected = false;
-    this.setIndex(0);
   }
 
   /**
@@ -116,13 +98,11 @@ export class BaseSelectable implements IInitializable, ISelectable {
    * depending on the current state of the element.
    */
   enable(): void {
-    if (this.element === undefined) {
-      console.error('[Enable] - element not found');
-      return;
-    }
+    Precondition.notNull(this.elementRef, '[Enable] - element is not found');
 
     this.isInteractable = true;
-    this.element.nativeElement.classList.remove(this.disabledClassName);
+    this.elementRef.nativeElement.classList.remove(this.disabledClassName);
+    this.elementRef.nativeElement.classList.add(this.unselectedClassName);
   }
 
   /**
@@ -131,20 +111,12 @@ export class BaseSelectable implements IInitializable, ISelectable {
    * disabled class. Also sets the canBeSelected and isSelected properties to false.
    */
   disable(): void {
-    if (this.element === undefined) {
-      console.error('[Disable] - element not found');
-      return;
-    }
+    Precondition.notNull(this.elementRef, '[Disable] - element is not found');
 
     this.isInteractable = false;
     this.unselect();
 
-    this.element.nativeElement.classList.remove(this.unselectedClassName);
-    this.element.nativeElement.classList.add(this.disabledClassName);
-  }
-
-  setIndex(newValue: number): void {
-    this.index = newValue;
-    this.onIndexValueChangeEvent.next(this.index);
+    this.elementRef.nativeElement.classList.remove(this.unselectedClassName);
+    this.elementRef.nativeElement.classList.add(this.disabledClassName);
   }
 }

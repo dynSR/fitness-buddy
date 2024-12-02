@@ -52,7 +52,11 @@
 }
 
 .modal-content__center {
+  flex-direction: column;
   flex: 0.8;
+  align-items: flex-start;
+  width: 100%;
+  padding: 0 var(--size-large);
 }
 
 .modal-content__bottom {

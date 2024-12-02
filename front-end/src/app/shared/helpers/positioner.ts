@@ -1,12 +1,10 @@
 import { Injectable } from '@angular/core';
+import { Precondition } from '../utils/precondition';
 
 @Injectable({ providedIn: 'root' })
 export class Positioner {
   centerElementOnXAxis(element: HTMLElement): void {
-    if (element === undefined) {
-      console.error('[CenterElement] - element not found');
-      return;
-    }
+    Precondition.notNull(element, '[CenterElement] - element is not found.');
 
     const rect = element.getBoundingClientRect();
     const left = `calc(50dvw - ${rect.width / 2}px)`;
@@ -14,10 +12,7 @@ export class Positioner {
   }
 
   centerElementOnYAxis(element: HTMLElement): void {
-    if (element === undefined) {
-      console.error('[CenterElement] - element not found');
-      return;
-    }
+    Precondition.notNull(element, '[CenterElement] - element is not found.');
 
     const rect = element.getBoundingClientRect();
     const top = `calc(50dvh - ${rect.height / 2}px)`;

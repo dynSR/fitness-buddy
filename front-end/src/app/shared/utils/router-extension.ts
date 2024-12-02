@@ -8,7 +8,7 @@ export interface RouteData {
 export class RouterExtension {
   public static readonly NOT_FOUND = '**';
   public static readonly HOME = 'home';
-  public static readonly EXERCISES = 'exercises';
+  // public static readonly EXERCISES = 'exercises';
   public static readonly SESSION = 'session';
 
   /**
@@ -29,12 +29,6 @@ export class RouterExtension {
       title: 'Home',
       icon: 'assets/icons/home.svg',
       order: 0,
-    },
-    {
-      path: RouterExtension.EXERCISES,
-      title: 'Exercises',
-      icon: 'assets/icons/exercises.png',
-      order: 2,
     },
     {
       path: RouterExtension.SESSION,

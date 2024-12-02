@@ -1,14 +1,24 @@
-import { QueryList } from '@angular/core';
+import { ElementRef, QueryList } from '@angular/core';
 import { ISelectableGroup } from '../../interfaces/selectable/selectable-group';
 import { ISelectable } from '../../interfaces/selectable/selectable';
-import { BehaviorSubject } from 'rxjs';
+import { Subject } from 'rxjs';
+import { Precondition } from '../../utils/precondition';
+import { ExtendedArray } from '../../extensions/extended-array';
 
 export class BaseSelectableGroup implements ISelectableGroup<ISelectable> {
-  isInteractable: boolean = false;
+  isInteractable: boolean = true;
   canSelectMultiple: boolean = false;
   selectables: QueryList<ISelectable> = new QueryList();
-  selections: Array<ISelectable> = [];
-  onSelectionChanged = new BehaviorSubject<Array<ISelectable>>([]);
+  selections: ExtendedArray<ISelectable> = new ExtendedArray();
+  checkbox?: ElementRef<HTMLInputElement> = undefined;
+  onSelectionChanged = new Subject<Array<ISelectable>>();
+
+  init(): void {
+    Precondition.notNullOrEmpty(
+      this.selectables,
+      '[Init] - selectables are not found or might be empty.'
+    );
+  }
 
   /**
    * Selects one selectable from the group. If the group allows multiple selections or the
@@ -59,10 +69,10 @@ export class BaseSelectableGroup implements ISelectableGroup<ISelectable> {
   unselectAll(array: Array<ISelectable>): void {
     array.forEach((s) => {
       s.unselect();
-      this.selections.splice(this.selections.indexOf(s), 1);
+      this.selections.remove(s);
     });
-    this.onSelectionChanged.next([]);
 
+    this.onSelectionChanged.next([]);
     console.log('Selections [cleared] : ', this.selections);
   }
 
@@ -78,10 +88,10 @@ export class BaseSelectableGroup implements ISelectableGroup<ISelectable> {
       return;
     }
 
-    this.selections.push(selectable);
-    selectable.select(this.selections.length);
-    this.onSelectionChanged.next(this.selectables.toArray());
+    this.selections.add(selectable, () => selectable.select());
+    this.updateCheckbox();
 
+    this.onSelectionChanged.next(this.selections);
     console.log('Selections [added] : ', this.selections);
   }
 
@@ -98,20 +108,10 @@ export class BaseSelectableGroup implements ISelectableGroup<ISelectable> {
       return;
     }
 
-    selectable.unselect();
+    this.selections.remove(selectable, () => selectable.unselect());
+    this.updateCheckbox();
 
-    const index = this.selections.indexOf(selectable);
-    this.selections.splice(index, 1);
-    this.onSelectionChanged.next(this.selectables.toArray());
-
-    // Redefine index of selectables when we uncheck one of the selectionCheckboxes...
-    this.selections.forEach((s) => {
-      if (s.index > 1 && s.index > index) {
-        const value = s.index - 1;
-        s.setIndex(value);
-      }
-    });
-
+    this.onSelectionChanged.next(this.selections);
     console.log('Selections [removed] : ', this.selections);
   }
 
@@ -122,7 +122,7 @@ export class BaseSelectableGroup implements ISelectableGroup<ISelectable> {
    */
   clearSelections(): void {
     this.unselectAll(this.selections);
-    this.selections = [];
+    this.selections.clear();
     console.log('Selections : ', this.selections);
   }
 
@@ -154,11 +154,6 @@ export class BaseSelectableGroup implements ISelectableGroup<ISelectable> {
     }
 
     this.unselectAll(selectables);
-    // Redefine index of selectables when we uncheck one of the selectionCheckboxes...
-    // ...and many are ticked.
-    this.selections.forEach((s) => {
-      s.setIndex(this.selections.indexOf(s) + 1);
-    });
   }
 
   /**
@@ -181,7 +176,19 @@ export class BaseSelectableGroup implements ISelectableGroup<ISelectable> {
    */
   disable(): void {
     this.isInteractable = false;
-    this.clearSelections();
     this.selectables.forEach((s) => s.disable());
+  }
+
+  updateCheckbox(): void {
+    if (!this.canSelectMultiple) return;
+
+    Precondition.notNull(
+      this.checkbox,
+      '[UpdateCheckbox] - checkbox is not found.'
+    );
+
+    const element = this.checkbox.nativeElement;
+    element.checked = this.selectables.toArray().every((s) => s.isSelected);
+    element.checkVisibility();
   }
 }

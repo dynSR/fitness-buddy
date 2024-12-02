@@ -16,6 +16,15 @@ export const routes: Routes = [
     title: RoutesUtils.getRouteByPath(RoutesUtils.HOME)!.title,
   },
   {
+    // Session page
+    path: RoutesUtils.SESSION,
+    loadComponent: () =>
+      import('./features/session/show/session.component').then(
+        (m) => m.SessionComponent
+      ),
+    title: RoutesUtils.getRouteByPath(RoutesUtils.SESSION)!.title,
+  },
+  {
     // Wildcard route - 404
     path: RoutesUtils.NOT_FOUND,
     pathMatch: 'full',

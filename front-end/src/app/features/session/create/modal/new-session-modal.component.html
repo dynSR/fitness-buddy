@@ -16,7 +16,20 @@
     </div>
 
     <!-- CENTER -->
-    <div class="modal-content__center"></div>
+    <div class="modal-content__center">
+      <!-- Loop for each muscle group -->
+      @for (muscleGroup of muscleGroups; track $index) {
+      <!-- Condition to display any exercise-selector-group -->
+      @if(hasExercises(muscleGroup)) {
+      <app-exercise-selector-group
+        class="w-100"
+        [muscleGroup]="muscleGroup"
+        [exercises]="getExercisesByMuscleGroup(muscleGroup)"
+      />
+      }
+      <!-- End of loop -->
+      }
+    </div>
 
     <!-- BOTTOM -->
     <div class="modal-content__bottom">
