@@ -1,0 +1,34 @@
+@property --circle-radius-multiplier {
+  syntax: "<number>";
+  inherits: false;
+  initial-value: 1.1;
+}
+
+@property --circle-pseudo-radius-multiplier {
+  syntax: "<number>";
+  inherits: false;
+  initial-value: 1.025;
+}
+
+.circular-progress {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: calc(var(--size-extra-large) * var(--circle-radius-multiplier));
+  height: calc(var(--size-extra-large) * var(--circle-radius-multiplier));
+  background: conic-gradient(
+    var(--color-primary) 0deg,
+    var(--color-light-transparent) 0deg
+  );
+  border-radius: 50%;
+}
+
+.circular-progress::after {
+  content: "";
+  width: calc(var(--size-extra-large) * var(--circle-pseudo-radius-multiplier));
+  height: calc(
+    var(--size-extra-large) * var(--circle-pseudo-radius-multiplier)
+  );
+  background-color: var(--color-body);
+  border-radius: 50%;
+}

@@ -1,12 +1,42 @@
-<div>
-  @if (selectedExercise) {
-  <p>{{ selectedExercise.name }}</p>
-  } @else {
-  <p>{{ "No exercise selected" }}</p>
-  }
-</div>
+<section class="session">
+  <div class="session__current-exercise">
+    <app-countdown [isInteractable]="false" />
+    <section class="session__current-exercise__details">
+      @if (selectedExercise) {
+      <div class="d-flex flex-column">
+        <p>{{ selectedExercise.name }}</p>
+        <app-series-validator [amount]="selectedExercise.series" />
+      </div>
+      } @else {
+      <p>{{ "session.select.exercise" }}</p>
+      }
+    </section>
+  </div>
 
-<app-exercise-selector-group
-  [exercises]="exercises"
-  [canSelectMultiple]="false"
-/>
+  <section class="session__exercises">
+    @for (muscleGroup of muscleGroups; track $index) {
+    <div class="d-flex align-items-center gap-3">
+      <app-icon
+        [src]="
+          'assets/icons/muscle-groups/' + (muscleGroup | lowercase) + '.png'
+        "
+        [alt]="'Exercise icon'"
+        [class]="'img-container--medium-large'"
+      />
+      <p class="numeric">
+        {{
+          getExercisesByMuscleGroup(muscleGroup).length +
+            " " +
+            muscleGroup +
+            " exercises"
+        }}
+      </p>
+    </div>
+
+    <app-exercise-selector-group
+      [exercises]="getExercisesByMuscleGroup(muscleGroup)"
+      [canSelectMultiple]="false"
+    />
+    }
+  </section>
+</section>

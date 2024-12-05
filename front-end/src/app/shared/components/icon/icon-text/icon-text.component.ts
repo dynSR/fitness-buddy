@@ -29,4 +29,16 @@ export class IconTextComponent implements Icon {
   setGap(gap: number) {
     this.imgContainer.nativeElement.style.gap = gap + 'px';
   }
+
+  setIcon(src: string): void {
+    this.src = src;
+  }
+
+  setAlt(alt: string): void {
+    this.alt = alt;
+  }
+
+  setTitle(title: string): void {
+    this.title = title;
+  }
 }

@@ -25,6 +25,12 @@ export class ExtendedArray<T> extends Array<T> {
     if (afterPush) afterPush();
   }
 
+  addUnique(item: T, beforePush?: () => void, afterPush?: () => void): void {
+    if (beforePush) beforePush();
+    if (!this.includes(item)) this.push(item);
+    if (afterPush) afterPush();
+  }
+
   removeAt(index: number): void {
     if (index < 0 || index >= this.length) return;
     this.splice(index, 1);

@@ -1,8 +1,30 @@
-<div #selectable>
-  <p>{{ exercise.name }}</p>
-  <!-- <p>{{ exercise.description }}</p> -->
-  <!-- <p>{{ exercise.series }}</p> -->
-  <!-- <p>{{ exercise.repetitions }}</p> -->
-  <!-- <p>{{ exercise.weight }}</p> -->
-  <!-- <p>{{ exercise.restTime }}</p> -->
-</div>
+<section #selectable class="exercise-selector">
+  <!-- TOP -->
+  <div class="exercise-selector__top">
+    <p>{{ exercise.name }}</p>
+  </div>
+
+  <!-- CENTER -->
+  <!-- <div class="exercise-selector__center"></div> -->
+
+  <!-- BOTTOM -->
+  <div class="exercise-selector__bottom">
+    <div class="d-flex flex-column align-items-left">
+      <p class="small-header">{{ "weight" }}</p>
+      <div class="d-flex align-items-center">
+        <p class="numeric">{{ exercise.weight }}</p>
+        <p class="unit">{{ "kg" }}</p>
+      </div>
+    </div>
+
+    <div class="d-flex flex-column">
+      <p class="small-header">{{ "rest" }}</p>
+      <p class="numeric">{{ getExerciseRestTime() }}</p>
+    </div>
+
+    <div class="d-flex flex-column">
+      <p class="small-header">{{ "reps" }}</p>
+      <p class="numeric">{{ getTotalRepetitions() }}</p>
+    </div>
+  </div>
+</section>

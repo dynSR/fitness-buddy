@@ -16,6 +16,7 @@ import { Precondition } from '../../../../shared/utils/precondition';
 import { ExerciseService } from '../../../exercise/exercise.service';
 import { Exercise } from '../../../exercise/exercise.model';
 import { Router } from '@angular/router';
+import { ExtendedArray } from '../../../../shared/extensions/extended-array';
 
 @Component({
   selector: 'app-new-session-modal',
@@ -83,16 +84,24 @@ export class NewSessionModalComponent
 
   onValidation(): void {
     this.hide();
+
+    // Extract and store all selected exercises + muscle groups.
+    const selectedMuscleGroups: ExtendedArray<string> = new ExtendedArray();
     this.exerciseSelectorGroups.forEach((group) => {
       group.selectables
         .filter((s) => s.isSelected)
         .forEach((s) => {
           this._selectedExercises.push(s.exercise);
+          selectedMuscleGroups.addUnique(s.exercise.muscleGroup);
         });
     });
 
+    // Navigate to the session page with the selected muscle groups and exercises.
     this._router.navigate(['session'], {
-      queryParams: { exercises: JSON.stringify(this._selectedExercises) },
+      queryParams: {
+        muscleGroups: JSON.stringify(selectedMuscleGroups),
+        exercises: JSON.stringify(this._selectedExercises),
+      },
     });
   }
 

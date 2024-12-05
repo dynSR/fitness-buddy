@@ -1,0 +1,35 @@
+.selectable--idle,
+.selectable--disabled,
+.selectable--idle:hover,
+.selectable--selected,
+.selectable--selected:hover {
+  padding: var(--size-small-medium) var(--size-medium);
+  border-radius: var(--size-very-small);
+  border-width: 2px;
+}
+
+.selectable--idle {
+  border-color: var(--color-grey-transparent);
+}
+
+.selectable--disabled {
+  opacity: var(--opacity-disabled);
+}
+
+.exercise-selector {
+  gap: var(--size-very-small);
+}
+
+.exercise-selector,
+.exercise-selector__top,
+.exercise-selector__bottom {
+  display: flex;
+  flex-direction: column;
+}
+
+.exercise-selector__top,
+.exercise-selector__bottom {
+  flex-direction: row;
+  flex: 1;
+  justify-content: space-between;
+}

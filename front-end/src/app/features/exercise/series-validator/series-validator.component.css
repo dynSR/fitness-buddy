@@ -1,0 +1,6 @@
+.series-validators {
+  display: flex;
+  align-items: center;
+  gap: var(--size-very-small);
+  width: fit-content;
+}

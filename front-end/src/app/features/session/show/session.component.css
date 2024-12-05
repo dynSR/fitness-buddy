@@ -1,0 +1,21 @@
+.session {
+  display: flex;
+  flex-direction: column;
+  gap: var(--size-medium);
+}
+
+.session__current-exercise {
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: center;
+  justify-content: space-between;
+  width: 30dvw;
+  margin: auto;
+  gap: var(--size-very-large);
+}
+
+.session__exercises {
+  display: flex;
+  flex-direction: column;
+  gap: var(--size-medium);
+}

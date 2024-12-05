@@ -3,21 +3,23 @@
   <!-- The weather information - content -->
   <div class="timer__content">
     <!-- Timer -->
-    <section #timerProgress id="timerProgress">
-      <p #timerValue class="timer__value user-select-none">
-        {{ timeFormatter.formatToSecondsMinutesMilliseconds(currentValue) }}
+    <section #timerProgress class="timer__progress">
+      <app-circular-progress-bar [isDisplayable]="true" />
+      <p #timerValue class="timer__value user-select-none w-100">
+        {{ getCurrentValue(true) }}
       </p>
     </section>
 
-    <section class="timer__buttons">
+    <section class="timer-management__buttons">
       <button
-        id="timerStateBtn"
+        #stateBtn
+        id="stateBtn"
         class="btn btn-secondary rounded-circle"
         (click)="toggleTimer()"
       >
         <app-icon
           #timerStateIcon
-          [src]="timerPlayIconSrc"
+          [src]="timerPlayIcon"
           [alt]="'Timer start icon'"
           [class]="'img-container--medium-large to-primary'"
           [title]="'timer.start'"
@@ -25,20 +27,20 @@
         </app-icon>
       </button>
 
+      @if (canBeRefreshed) {
       <button
-        #timerRefreshBtn
-        id="timerRefreshBtn"
+        #refreshBtn
+        id="refreshBtn"
         class="btn btn-secondary rounded-circle"
-        disabled
-        (click)="refreshTimer()"
       >
         <app-icon
-          [src]="timerRefreshIconSrc"
+          [src]="timerRefreshIcon"
           [alt]="'Timer refresh icon'"
           [class]="'img-container--medium-large to-primary'"
           [title]="'timer.refresh'"
         ></app-icon>
       </button>
+      }
     </section>
   </div>
 </div>

@@ -1,0 +1,5 @@
+.modal-content__center {
+  overflow-y: visible !important;
+  overflow-x: hidden;
+  gap: var(--size-medium);
+}

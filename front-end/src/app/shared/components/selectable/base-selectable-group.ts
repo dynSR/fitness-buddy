@@ -13,13 +13,6 @@ export class BaseSelectableGroup implements ISelectableGroup<ISelectable> {
   checkbox?: ElementRef<HTMLInputElement> = undefined;
   onSelectionChanged = new Subject<Array<ISelectable>>();
 
-  init(): void {
-    Precondition.notNullOrEmpty(
-      this.selectables,
-      '[Init] - selectables are not found or might be empty.'
-    );
-  }
-
   /**
    * Selects one selectable from the group. If the group allows multiple selections or the
    * selectable is already selected, it will toggle the selection. Otherwise it will
@@ -30,6 +23,11 @@ export class BaseSelectableGroup implements ISelectableGroup<ISelectable> {
     if (!this.isInteractable) {
       return;
     }
+
+    Precondition.notNullOrEmpty(
+      this.selectables,
+      '[Enable] - selectables are not found or might be empty.'
+    );
 
     console.log('[selectOne] - Selectable : ', selectable);
 
@@ -163,6 +161,11 @@ export class BaseSelectableGroup implements ISelectableGroup<ISelectable> {
    * Calls the enable method of each of the selectables in the group.
    */
   enable(): void {
+    Precondition.notNullOrEmpty(
+      this.selectables,
+      '[Enable] - selectables are not found or might be empty.'
+    );
+
     this.isInteractable = true;
     this.selectables.forEach((s) => s.enable());
   }
@@ -175,6 +178,11 @@ export class BaseSelectableGroup implements ISelectableGroup<ISelectable> {
    * Calls the disable method of each of the selectables in the group.
    */
   disable(): void {
+    Precondition.notNullOrEmpty(
+      this.selectables,
+      '[Enable] - selectables are not found or might be empty.'
+    );
+
     this.isInteractable = false;
     this.selectables.forEach((s) => s.disable());
   }

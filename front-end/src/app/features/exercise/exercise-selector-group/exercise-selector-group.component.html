@@ -1,7 +1,12 @@
-<div class="exercise-group-selector">
+<section class="exercise-group-selector user-select-none">
   <!-- Group header - Muscle group + checkbox -->
   <div class="exercise-group-selector__top">
-    <p>{{ muscleGroup }}</p>
+    <!-- Muscle group -->
+    @if (muscleGroup) {
+    <p class="ff-bold-title">{{ "━ " + muscleGroup | uppercase }}</p>
+    }
+
+    <!-- Checkbox -->
     @if (canSelectMultiple) {
     <input
       #checkbox
@@ -13,7 +18,7 @@
   </div>
 
   <!-- Group content - Exercises -->
-  <div class="exercise-group-selector__center">
+  <div class="exercise-group-selector__bottom">
     @for (exercise of exercises; track exercise.id) {
     <app-exercise-selector
       [exercise]="exercise"
@@ -21,4 +26,4 @@
     />
     }
   </div>
-</div>
+</section>

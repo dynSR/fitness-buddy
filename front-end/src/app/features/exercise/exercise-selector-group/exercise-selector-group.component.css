@@ -1,5 +1,19 @@
+.exercise-group-selector {
+  display: flex;
+  flex-direction: column;
+  gap: var(--size-very-small);
+  position: relative;
+}
+
 .exercise-group-selector__top {
   display: flex;
   align-items: center;
   justify-content: space-between;
+}
+
+.exercise-group-selector__bottom {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: var(--size-very-small);
 }

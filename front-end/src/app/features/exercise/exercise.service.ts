@@ -14,7 +14,7 @@ export class ExerciseService {
       series: 4,
       repetitions: 12,
       weight: 5,
-      restTime: 180,
+      restTime: 5,
       muscleGroup: 'Biceps',
     },
     {
@@ -25,7 +25,7 @@ export class ExerciseService {
       series: 4,
       repetitions: 12,
       weight: 5,
-      restTime: 180,
+      restTime: 5,
       muscleGroup: 'Biceps',
     },
     {
@@ -36,7 +36,7 @@ export class ExerciseService {
       series: 4,
       repetitions: 12,
       weight: 5,
-      restTime: 180,
+      restTime: 5,
       muscleGroup: 'Biceps',
     },
     {
@@ -47,7 +47,7 @@ export class ExerciseService {
       series: 4,
       repetitions: 12,
       weight: 5,
-      restTime: 180,
+      restTime: 5,
       muscleGroup: 'Triceps',
     },
     {
@@ -58,7 +58,7 @@ export class ExerciseService {
       series: 4,
       repetitions: 12,
       weight: 5,
-      restTime: 180,
+      restTime: 5,
       muscleGroup: 'Triceps',
     },
     {
@@ -69,8 +69,41 @@ export class ExerciseService {
       series: 4,
       repetitions: 12,
       weight: 5,
-      restTime: 180,
+      restTime: 5,
       muscleGroup: 'Triceps',
+    },
+    {
+      id: 7,
+      name: 'Triceps Pushdown',
+      description:
+        'Uses a resistance band anchored to a high point. With elbows close to the body, you pull the handles downward until your arms are fully extended, targeting the triceps.',
+      series: 4,
+      repetitions: 12,
+      weight: 5,
+      restTime: 5,
+      muscleGroup: 'Legs',
+    },
+    {
+      id: 8,
+      name: 'EZ Bar Skull Crushers',
+      description:
+        'Lying on a bench, you hold an EZ bar above your chest, then lower it toward your forehead or slightly behind your head before pressing it back up.',
+      series: 4,
+      repetitions: 12,
+      weight: 5,
+      restTime: 5,
+      muscleGroup: 'Legs',
+    },
+    {
+      id: 9,
+      name: 'Overhead Triceps Extension',
+      description:
+        'Holding a kettlebell behind your head, you extend your arms upward, as if performing a "touchdown" motion.',
+      series: 4,
+      repetitions: 12,
+      weight: 5,
+      restTime: 5,
+      muscleGroup: 'Legs',
     },
   ];
 

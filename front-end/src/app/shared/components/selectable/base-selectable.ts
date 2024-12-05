@@ -49,7 +49,7 @@ export class BaseSelectable implements IInitializable, ISelectable {
   select(): void {
     Precondition.notNull(this.elementRef, '[Selection] - element is not found');
 
-    if (this.isSelected) {
+    if (!this.isInteractable || this.isSelected) {
       return;
     }
 
@@ -101,8 +101,14 @@ export class BaseSelectable implements IInitializable, ISelectable {
     Precondition.notNull(this.elementRef, '[Enable] - element is not found');
 
     this.isInteractable = true;
-    this.elementRef.nativeElement.classList.remove(this.disabledClassName);
-    this.elementRef.nativeElement.classList.add(this.unselectedClassName);
+    if (
+      !this.elementRef.nativeElement.classList.replace(
+        this.disabledClassName,
+        this.unselectedClassName
+      )
+    ) {
+      this.elementRef.nativeElement.classList.add(this.unselectedClassName);
+    }
   }
 
   /**
@@ -116,7 +122,13 @@ export class BaseSelectable implements IInitializable, ISelectable {
     this.isInteractable = false;
     this.unselect();
 
-    this.elementRef.nativeElement.classList.remove(this.unselectedClassName);
-    this.elementRef.nativeElement.classList.add(this.disabledClassName);
+    if (
+      this.elementRef.nativeElement.classList.replace(
+        this.unselectedClassName,
+        this.disabledClassName
+      )
+    ) {
+      this.elementRef.nativeElement.classList.add(this.disabledClassName);
+    }
   }
 }

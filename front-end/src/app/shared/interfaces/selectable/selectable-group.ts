@@ -2,12 +2,9 @@ import { ElementRef, QueryList } from '@angular/core';
 import { IInteractable } from '../interactable';
 import { ISelectable } from './selectable';
 import { Subject } from 'rxjs';
-import { IInitializable } from '../initializable';
 import { ExtendedArray } from '../../extensions/extended-array';
 
-export interface ISelectableGroup<T extends ISelectable>
-  extends IInteractable,
-    IInitializable {
+export interface ISelectableGroup<T extends ISelectable> extends IInteractable {
   canSelectMultiple: boolean;
   selectables: QueryList<T>;
   selections: ExtendedArray<T>;

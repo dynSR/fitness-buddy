@@ -1,6 +1,7 @@
 import { ElementRef } from '@angular/core';
 import { IDisplayable } from './displayable';
 import { IInitializable } from '../initializable';
+import { Precondition } from '../../utils/precondition';
 
 export class BaseDisplayable implements IInitializable, IDisplayable {
   element?: ElementRef<HTMLDivElement>;
@@ -22,13 +23,12 @@ export class BaseDisplayable implements IInitializable, IDisplayable {
   }
 
   display(): void {
-    if (!this.isDisplayable || this.element === undefined) {
-      console.error(
-        '[Display] - element not found, could not change classes' +
-          '\n Or the element is not displayable.'
-      );
-      return;
-    }
+    if (!this.isDisplayable) return;
+
+    Precondition.notNull(
+      this.element,
+      'element not found, could not change classes.'
+    );
 
     if (
       this.element.nativeElement.classList.replace(
@@ -45,10 +45,10 @@ export class BaseDisplayable implements IInitializable, IDisplayable {
   }
 
   hide(): void {
-    if (this.element === undefined) {
-      console.error('[Hide] - element not found, could not change classes');
-      return;
-    }
+    Precondition.notNull(
+      this.element,
+      'element not found, could not change classes.'
+    );
 
     if (
       this.element.nativeElement.classList.replace(

@@ -1,0 +1,9 @@
+<section class="series-validators">
+  @for (_ of amount | numToArray; track $index) {
+  <app-icon
+    [src]="idleSeriesIcon"
+    [alt]="'Series icon'"
+    [class]="'img-container--medium'"
+  />
+  }
+</section>

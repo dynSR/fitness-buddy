@@ -15,7 +15,16 @@ export class Precondition {
     message: string = 'Value is null or undefined.'
   ): asserts value is Array<T> {
     Precondition.notNull(value, message);
+    if (value.length === 0) {
+      throw new Error(message);
+    }
+  }
 
+  public static notEmpty<T>(
+    value: Array<T> | [] | QueryList<T> | null | undefined,
+    message: string = 'Value is empty.'
+  ): asserts value is T[] {
+    Precondition.notNull(value, message);
     if (value.length === 0) {
       throw new Error(message);
     }

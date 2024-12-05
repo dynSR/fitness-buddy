@@ -16,4 +16,16 @@ export class IconComponent implements Icon {
   @Input({ required: false }) class: string | undefined = 'img-container';
 
   constructor() {}
+
+  setIcon(src: string): void {
+    this.src = src;
+  }
+
+  setAlt(alt: string): void {
+    this.alt = alt;
+  }
+
+  setTitle(title: string): void {
+    this.title = title;
+  }
 }
