@@ -1,56 +1,31 @@
-import {
-  Component,
-  ElementRef,
-  inject,
-  Input,
-  QueryList,
-  ViewChild,
-  ViewChildren,
-} from '@angular/core';
-import { IModal } from '../../../../shared/interfaces/modal';
-import { Positioner } from '../../../../shared/helpers/positioner';
-import { BaseDisplayable } from '../../../../shared/interfaces/displayable/base-displayable';
-import { ExerciseSelectorGroupComponent } from '../../../exercise/exercise-selector-group/exercise-selector-group.component';
+import { Component, inject, QueryList, ViewChildren } from '@angular/core';
+import { ExerciseGroupSelectorComponent } from '../../../exercise/exercise-group-selector/exercise-group-selector.component';
 import { MuscleGroupService } from '../../../muscle-group/muscle-group.service';
-import { Precondition } from '../../../../shared/utils/precondition';
 import { ExerciseService } from '../../../exercise/exercise.service';
 import { Exercise } from '../../../exercise/exercise.model';
-import { Router } from '@angular/router';
 import { ExtendedArray } from '../../../../shared/extensions/extended-array';
+import { Subscription } from 'rxjs';
+import { ExerciseSelectorComponent } from '../../../exercise/exercise-selector/exercise-selector.component';
+import { BaseModalComponent } from '../../../../shared/components/partial/modal/base-modal/base-modal.component';
 
 @Component({
   selector: 'app-new-session-modal',
   standalone: true,
-  imports: [ExerciseSelectorGroupComponent],
+  imports: [ExerciseGroupSelectorComponent],
   templateUrl: './new-session-modal.component.html',
   styleUrls: [
     '../../../../shared/css/modal.css',
     './new-session-modal.component.css',
   ],
 })
-export class NewSessionModalComponent
-  extends BaseDisplayable
-  implements IModal
-{
-  @Input({ required: true }) title!: string;
-  @Input({ required: true }) description!: string;
-  @Input({ required: true }) btnTitle!: string;
-  @Input({ required: false }) isCentered: boolean = true;
-  @Input({ required: true }) cancelBtnText!: string;
-  @Input({ required: true }) validateBtnText!: string;
+export class NewSessionModalComponent extends BaseModalComponent {
+  @ViewChildren(ExerciseGroupSelectorComponent)
+  exerciseSelectorGroups!: QueryList<ExerciseGroupSelectorComponent>;
 
-  @ViewChild('modal') override element?: ElementRef<HTMLDivElement> = undefined;
-  @ViewChildren(ExerciseSelectorGroupComponent)
-  exerciseSelectorGroups!: QueryList<ExerciseSelectorGroupComponent>;
-
-  override displayedClassName: string = 'modal--displayed';
-  override hiddenClassName: string = 'modal--hidden';
-
-  private readonly _router = inject(Router);
-  private readonly _positioner = inject(Positioner);
   private readonly _muscleGroupService = inject(MuscleGroupService);
   private readonly _exerciseService = inject(ExerciseService);
-  private _selectedExercises: Array<Exercise> = [];
+  private _selectedExercises = new ExtendedArray<Exercise>();
+  private _selectionSubscription = new Subscription();
 
   constructor() {
     super();
@@ -60,44 +35,50 @@ export class NewSessionModalComponent
     this.init();
   }
 
-  override init(): void {
-    this.setPosition(this.isCentered);
-    super.init();
+  ngOnDestroy() {
+    this._selectionSubscription.unsubscribe();
   }
 
-  setPosition(isCentered: boolean): void {
-    Precondition.notNull(
-      this.element,
-      '[PositionModal] - element is not found, could not position.'
+  /**
+   * Initializes the component.
+   *
+   * Positions the modal based on the "isCentered" input and initializes the modal
+   * state.
+   *
+   * Also, for each exercise selector group, it subscribes to the selections changed
+   * event and handles it by calling the "handleSelectionChanged" method.
+   */
+  override init(): void {
+    super.init();
+
+    // For each groups subscribe to the selections changed event and handle it here
+    this.exerciseSelectorGroups.forEach(
+      (group) =>
+        (this._selectionSubscription = group.onSelectionChanged.subscribe(
+          (selections) =>
+            this.handleSelectionChanged(
+              selections as Array<ExerciseSelectorComponent>
+            )
+        ))
+    );
+  }
+
+  /**
+   * Handles the validation event of the modal.
+   * Hides the modal, extracts the selected muscle groups and exercises and navigates to the session page with them.
+   * The selected muscle groups and exercises are passed as query parameters to the session page.
+   */
+  override onValidation(): void {
+    super.onValidation();
+
+    // Extract muscle groups.
+    const selectedMuscleGroups = new ExtendedArray<string>();
+    this._selectedExercises.forEach((e) =>
+      selectedMuscleGroups.addUnique(e.muscleGroup)
     );
 
-    const modalContent: HTMLDivElement = this.element.nativeElement
-      .firstChild as HTMLDivElement;
-    this._positioner.centerElementOnXAxis(modalContent);
-
-    if (!isCentered) {
-      modalContent.style.marginTop = '2rem';
-    } else {
-      this._positioner.centerElementOnYAxis(modalContent);
-    }
-  }
-
-  onValidation(): void {
-    this.hide();
-
-    // Extract and store all selected exercises + muscle groups.
-    const selectedMuscleGroups: ExtendedArray<string> = new ExtendedArray();
-    this.exerciseSelectorGroups.forEach((group) => {
-      group.selectables
-        .filter((s) => s.isSelected)
-        .forEach((s) => {
-          this._selectedExercises.push(s.exercise);
-          selectedMuscleGroups.addUnique(s.exercise.muscleGroup);
-        });
-    });
-
     // Navigate to the session page with the selected muscle groups and exercises.
-    this._router.navigate(['session'], {
+    this.router.navigate(['session'], {
       queryParams: {
         muscleGroups: JSON.stringify(selectedMuscleGroups),
         exercises: JSON.stringify(this._selectedExercises),
@@ -115,5 +96,44 @@ export class NewSessionModalComponent
 
   getExercisesByMuscleGroup(muscleGroup: string) {
     return this._exerciseService.getExercisesPerMuscleGroup(muscleGroup);
+  }
+
+  handleSelectionChanged(selections: Array<ExerciseSelectorComponent>): void {
+    this.exerciseSelectorGroups.forEach((g) => {
+      g.selectables.forEach((s) => {
+        if (s.isSelected) {
+          this._selectedExercises.addUnique(s.exercise);
+        } else {
+          this._selectedExercises.remove(s.exercise);
+        }
+      });
+    });
+  }
+
+  /**
+   * Checks if any exercises have been selected.
+   *
+   * @returns true if at least one exercise has been selected, false otherwise.
+   */
+  haveExercisesBeenSelected(): boolean {
+    return this._selectedExercises.length > 0;
+  }
+
+  /**
+   * Resets the component to its initial state.
+   *
+   * If the "toInitialState" parameter is set to true (default), the component will be reset to its initial state.
+   * This means that the selected exercises will be cleared and the exercise selector groups will be cleared.
+   * Otherwise the modal will only be closed.
+   *
+   * @param toInitialState Whether to reset the component to its initial state or not.
+   */
+  override reset(toInitialState: boolean = true): void {
+    super.reset();
+
+    if (!toInitialState) return;
+
+    this._selectedExercises.clear();
+    this.exerciseSelectorGroups.forEach((g) => g.clear());
   }
 }

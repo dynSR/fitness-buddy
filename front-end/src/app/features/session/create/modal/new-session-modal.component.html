@@ -10,7 +10,7 @@
         <h2 class="modal__title">{{ title }}</h2>
         <small class="">{{ description }}</small>
       </div>
-      <button class="btn btn-secondary" (click)="hide()">
+      <button class="btn btn-secondary" (click)="reset()">
         {{ "X" }}
       </button>
     </div>
@@ -19,9 +19,14 @@
     <div class="modal-content__center">
       <!-- Loop for each muscle group -->
       @for (muscleGroup of muscleGroups; track $index) {
+      <p>{{ muscleGroup }}</p>
+      }
+
+      <!-- Exercises groups selector per muscle group -->
+      @for (muscleGroup of muscleGroups; track $index) {
       <!-- Condition to display any exercise-selector-group -->
       @if(hasExercises(muscleGroup)) {
-      <app-exercise-selector-group
+      <app-exercise-group-selector
         class="w-100"
         [muscleGroup]="muscleGroup"
         [exercises]="getExercisesByMuscleGroup(muscleGroup)"
@@ -33,11 +38,16 @@
 
     <!-- BOTTOM -->
     <div class="modal-content__bottom">
-      <button class="btn btn-secondary" (click)="hide()">
-        {{ cancelBtnText }}
+      <button #cancelBtn class="btn btn-secondary" (click)="reset()">
+        {{ cancelMessage }}
       </button>
-      <button #validationBtn class="btn btn-primary" (click)="onValidation()">
-        {{ validateBtnText }}
+      <button
+        #validationBtn
+        class="btn btn-primary"
+        (click)="onValidation()"
+        [disabled]="!haveExercisesBeenSelected()"
+      >
+        {{ validationMessage }}
       </button>
     </div>
   </div>
