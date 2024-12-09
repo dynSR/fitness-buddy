@@ -2,7 +2,6 @@ import {
   Component,
   ElementRef,
   Input,
-  Output,
   QueryList,
   ViewChild,
   ViewChildren,
@@ -13,13 +12,13 @@ import { Exercise } from '../exercise.model';
 import { CommonModule } from '@angular/common';
 
 @Component({
-  selector: 'app-exercise-selector-group',
+  selector: 'app-exercise-group-selector',
   standalone: true,
   imports: [CommonModule, ExerciseSelectorComponent],
-  templateUrl: './exercise-selector-group.component.html',
-  styleUrl: './exercise-selector-group.component.css',
+  templateUrl: './exercise-group-selector.component.html',
+  styleUrl: './exercise-group-selector.component.css',
 })
-export class ExerciseSelectorGroupComponent extends BaseSelectableGroup {
+export class ExerciseGroupSelectorComponent extends BaseSelectableGroup {
   @Input({ required: false }) muscleGroup: string = '';
   @Input({ required: true }) exercises!: Array<Exercise>;
 
