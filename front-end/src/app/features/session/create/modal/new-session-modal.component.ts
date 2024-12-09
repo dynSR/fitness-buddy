@@ -7,11 +7,14 @@ import { ExtendedArray } from '../../../../shared/extensions/extended-array';
 import { Subscription } from 'rxjs';
 import { ExerciseSelectorComponent } from '../../../exercise/exercise-selector/exercise-selector.component';
 import { BaseModalComponent } from '../../../../shared/components/partial/modal/base-modal/base-modal.component';
+import { FilterGroupSelectorComponent } from '../../../../shared/components/filter/filter-group-selector/filter-group-selector.component';
+import { Precondition } from '../../../../shared/utils/precondition';
+import { FilterSelectorComponent } from '../../../../shared/components/filter/filter-selector/filter-selector.component';
 
 @Component({
   selector: 'app-new-session-modal',
   standalone: true,
-  imports: [ExerciseGroupSelectorComponent],
+  imports: [ExerciseGroupSelectorComponent, FilterGroupSelectorComponent],
   templateUrl: './new-session-modal.component.html',
   styleUrls: [
     '../../../../shared/css/modal.css',
@@ -19,13 +22,19 @@ import { BaseModalComponent } from '../../../../shared/components/partial/modal/
   ],
 })
 export class NewSessionModalComponent extends BaseModalComponent {
+  @ViewChildren(FilterGroupSelectorComponent)
+  filterSelectorGroup!: QueryList<FilterGroupSelectorComponent>;
   @ViewChildren(ExerciseGroupSelectorComponent)
   exerciseSelectorGroups!: QueryList<ExerciseGroupSelectorComponent>;
 
+  private readonly _appliedFilters = new ExtendedArray<string>();
+
   private readonly _muscleGroupService = inject(MuscleGroupService);
   private readonly _exerciseService = inject(ExerciseService);
-  private _selectedExercises = new ExtendedArray<Exercise>();
-  private _selectionSubscription = new Subscription();
+  private readonly _selectedExercises = new ExtendedArray<Exercise>();
+
+  private _filterSelectionSubscription = new Subscription();
+  private _exerciseSelectionSubscription = new Subscription();
 
   constructor() {
     super();
@@ -36,7 +45,8 @@ export class NewSessionModalComponent extends BaseModalComponent {
   }
 
   ngOnDestroy() {
-    this._selectionSubscription.unsubscribe();
+    this._filterSelectionSubscription.unsubscribe();
+    this._exerciseSelectionSubscription.unsubscribe();
   }
 
   /**
@@ -51,15 +61,32 @@ export class NewSessionModalComponent extends BaseModalComponent {
   override init(): void {
     super.init();
 
+    Precondition.notNull(
+      this.filterSelectorGroup,
+      'filterSelectorGroup is null.'
+    );
+    Precondition.notNull(
+      this.exerciseSelectorGroups,
+      'exerciseSelectorGroups is null.'
+    );
+
+    this._filterSelectionSubscription = this.filterSelectorGroup
+      .toArray()[0]
+      .onSelectionChanged.subscribe((selections) =>
+        this.handleFilterSelectionChanged(
+          selections as Array<FilterSelectorComponent>
+        )
+      );
+
     // For each groups subscribe to the selections changed event and handle it here
     this.exerciseSelectorGroups.forEach(
       (group) =>
-        (this._selectionSubscription = group.onSelectionChanged.subscribe(
-          (selections) =>
-            this.handleSelectionChanged(
+        (this._exerciseSelectionSubscription =
+          group.onSelectionChanged.subscribe((selections) =>
+            this.handleExerciseSelectionChanged(
               selections as Array<ExerciseSelectorComponent>
             )
-        ))
+          ))
     );
   }
 
@@ -90,15 +117,23 @@ export class NewSessionModalComponent extends BaseModalComponent {
     return this._muscleGroupService.getMuscleGroups();
   }
 
-  hasExercises(muscleGroup: string): boolean {
+  hasMuscleGroupExercises(muscleGroup: string): boolean {
     return this.getExercisesByMuscleGroup(muscleGroup).length > 0;
   }
 
   getExercisesByMuscleGroup(muscleGroup: string) {
+    if (this._appliedFilters.length > 0) {
+      return this._exerciseService
+        .getExercisesPerMuscleGroup(muscleGroup)
+        .filter((e) => this._appliedFilters.includes(e.muscleGroup));
+    }
+
     return this._exerciseService.getExercisesPerMuscleGroup(muscleGroup);
   }
 
-  handleSelectionChanged(selections: Array<ExerciseSelectorComponent>): void {
+  handleExerciseSelectionChanged(
+    selections: Array<ExerciseSelectorComponent>
+  ): void {
     this.exerciseSelectorGroups.forEach((g) => {
       g.selectables.forEach((s) => {
         if (s.isSelected) {
@@ -110,12 +145,24 @@ export class NewSessionModalComponent extends BaseModalComponent {
     });
   }
 
+  handleFilterSelectionChanged(selections: Array<FilterSelectorComponent>) {
+    this.filterSelectorGroup.forEach((g) => {
+      g.selectables.forEach((s) => {
+        if (s.isSelected) {
+          this._appliedFilters.addUnique(s.filter);
+        } else {
+          this._appliedFilters.remove(s.filter);
+        }
+      });
+    });
+  }
+
   /**
    * Checks if any exercises have been selected.
    *
    * @returns true if at least one exercise has been selected, false otherwise.
    */
-  haveExercisesBeenSelected(): boolean {
+  isAtLeastOneExerciseSelected(): boolean {
     return this._selectedExercises.length > 0;
   }
 

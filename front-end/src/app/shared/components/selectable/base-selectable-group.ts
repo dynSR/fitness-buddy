@@ -13,6 +13,12 @@ export class BaseSelectableGroup implements ISelectableGroup<ISelectable> {
   checkbox?: ElementRef<HTMLInputElement> = undefined;
   onSelectionChanged = new Subject<Array<ISelectable>>();
 
+  constructor() {}
+
+  hasSelectables(): boolean {
+    return this.selectables.length > 0;
+  }
+
   /**
    * Selects one selectable from the group. If the group allows multiple selections or the
    * selectable is already selected, it will toggle the selection. Otherwise it will
@@ -189,12 +195,9 @@ export class BaseSelectableGroup implements ISelectableGroup<ISelectable> {
   updateCheckbox(): void {
     if (!this.canSelectMultiple) return;
 
-    Precondition.notNull(
-      this.checkbox,
-      '[UpdateCheckbox] - checkbox is not found.'
-    );
+    const element = this.checkbox?.nativeElement;
+    if (!element) return;
 
-    const element = this.checkbox.nativeElement;
     element.checked = this.selectables.toArray().every((s) => s.isSelected);
     element.checkVisibility();
   }

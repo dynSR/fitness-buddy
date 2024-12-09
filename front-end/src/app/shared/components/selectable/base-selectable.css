@@ -3,7 +3,6 @@
 .selectable--disabled {
   position: relative;
   border: solid 1px var(--color-dark-transparent);
-  border-bottom: solid var(--size-small) var(--color-dark-transparent);
   transition: all ease-out 150ms;
 }
 
@@ -27,7 +26,6 @@
 
   opacity: var(--opacity-hover);
   border: solid 1px var(--color-primary-dark);
-  border-bottom: solid var(--size-small) var(--color-primary-dark);
   box-shadow: var(--box-shadow-primary);
 
   .selectable__index--displayed {

@@ -327,6 +327,16 @@ hr {
   margin-bottom: var(--size-large);
 }
 
+.interactable-text {
+  opacity: var(--opacity-idle);
+  user-select: none;
+}
+
+.interactable-text:hover {
+  opacity: var(--opacity-hover);
+  cursor: pointer;
+}
+
 ::-webkit-scrollbar {
   width: var(--size-small);
   background-color: var(--color-grey-transparent);

@@ -1,0 +1,24 @@
+.selectable--idle,
+.selectable--idle:hover,
+.selectable--selected,
+.selectable--selected:hover {
+  border: none;
+  box-shadow: none;
+}
+
+.selectable--idle {
+  border-bottom: solid 2px var(--color-grey-transparent);
+}
+
+.selectable--idle:hover,
+.selectable--selected:hover {
+  border-bottom: solid 2px var(--color-primary-dark);
+}
+
+.selectable--selected {
+  border-bottom: solid 2px var(--color-primary);
+}
+
+.filter-selector {
+  padding: 0 var(--size-very-small);
+}

@@ -17,15 +17,13 @@
 
     <!-- CENTER -->
     <div class="modal-content__center">
-      <!-- Loop for each muscle group -->
-      @for (muscleGroup of muscleGroups; track $index) {
-      <p>{{ muscleGroup }}</p>
-      }
+      <!-- Filters -->
+      <app-filter-group-selector [filters]="muscleGroups" class="w-100" />
 
       <!-- Exercises groups selector per muscle group -->
       @for (muscleGroup of muscleGroups; track $index) {
       <!-- Condition to display any exercise-selector-group -->
-      @if(hasExercises(muscleGroup)) {
+      @if(hasMuscleGroupExercises(muscleGroup)) {
       <app-exercise-group-selector
         class="w-100"
         [muscleGroup]="muscleGroup"
@@ -45,7 +43,7 @@
         #validationBtn
         class="btn btn-primary"
         (click)="onValidation()"
-        [disabled]="!haveExercisesBeenSelected()"
+        [disabled]="!isAtLeastOneExerciseSelected()"
       >
         {{ validationMessage }}
       </button>

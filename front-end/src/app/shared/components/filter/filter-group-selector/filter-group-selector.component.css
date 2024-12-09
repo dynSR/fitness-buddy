@@ -1,0 +1,5 @@
+.filter-group-selector {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--size-very-small);
+}

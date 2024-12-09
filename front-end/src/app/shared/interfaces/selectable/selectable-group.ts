@@ -11,6 +11,8 @@ export interface ISelectableGroup<T extends ISelectable> extends IInteractable {
   checkbox?: ElementRef<HTMLInputElement>;
   onSelectionChanged: Subject<Array<T>>;
 
+  hasSelectables(): boolean;
+
   selectOne(selectable: T): void;
   selectAll(array: Array<T>): void;
   unselectAll(array: Array<T>): void;
