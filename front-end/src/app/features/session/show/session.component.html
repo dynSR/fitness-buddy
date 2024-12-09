@@ -2,14 +2,10 @@
   <div class="session__current-exercise">
     <app-countdown [isInteractable]="false" />
     <section class="session__current-exercise__details">
-      @if (selectedExercise) {
       <div class="d-flex flex-column">
         <p>{{ selectedExercise.name }}</p>
         <app-series-validator [amount]="selectedExercise.series" />
       </div>
-      } @else {
-      <p>{{ "session.select.exercise" }}</p>
-      }
     </section>
   </div>
 
@@ -33,7 +29,7 @@
       </p>
     </div>
 
-    <app-exercise-selector-group
+    <app-exercise-group-selector
       [exercises]="getExercisesByMuscleGroup(muscleGroup)"
       [canSelectMultiple]="false"
     />

@@ -9,9 +9,9 @@
   flex-direction: row-reverse;
   align-items: center;
   justify-content: space-between;
-  width: 30dvw;
+  width: fit-content;
   margin: auto;
-  gap: var(--size-very-large);
+  /* gap: var(--size-very-large); */
 }
 
 .session__exercises {

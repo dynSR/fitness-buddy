@@ -6,25 +6,26 @@ import {
   ViewChildren,
 } from '@angular/core';
 import { Exercise } from '../../exercise/exercise.model';
-import { ActivatedRoute, Params } from '@angular/router';
-import { ExerciseSelectorGroupComponent } from '../../exercise/exercise-selector-group/exercise-selector-group.component';
+import { ActivatedRoute, Params, Router } from '@angular/router';
+import { ExerciseGroupSelectorComponent } from '../../exercise/exercise-group-selector/exercise-group-selector.component';
 import { skip, Subscription } from 'rxjs';
 import { ExerciseSelectorComponent } from '../../exercise/exercise-selector/exercise-selector.component';
 import { ISelectable } from '../../../shared/interfaces/selectable/selectable';
 import { CountdownComponent } from '../../../shared/components/widget/timer/countdown/countdown.component';
 import { IInitializable } from '../../../shared/interfaces/initializable';
-import { Precondition } from '../../../shared/utils/precondition';
 import { ExtendedArray } from '../../../shared/extensions/extended-array';
 import { CommonModule } from '@angular/common';
 import { IconComponent } from '../../../shared/components/icon/icon.component';
 import { SeriesValidatorComponent } from '../../exercise/series-validator/series-validator.component';
+import { ExerciseService } from '../../exercise/exercise.service';
+import { Precondition } from '../../../shared/utils/precondition';
 
 @Component({
   selector: 'app-session',
   standalone: true,
   imports: [
     CommonModule,
-    ExerciseSelectorGroupComponent,
+    ExerciseGroupSelectorComponent,
     CountdownComponent,
     IconComponent,
     SeriesValidatorComponent,
@@ -35,14 +36,18 @@ import { SeriesValidatorComponent } from '../../exercise/series-validator/series
 export class SessionComponent implements IInitializable {
   exercises: Array<Exercise> = [];
   muscleGroups: Array<string> = [];
-  selectedExercise: Exercise | null = null;
+  selectedExercise: Exercise = ExerciseService.SESSION_EXERCISE_NONE;
   @ViewChild(CountdownComponent) timer!: CountdownComponent;
   private _finishedExercises: ExtendedArray<Exercise> = new ExtendedArray();
+  @ViewChild(SeriesValidatorComponent)
+  seriesValidator!: SeriesValidatorComponent;
 
-  @ViewChildren(ExerciseSelectorGroupComponent)
-  exerciseSelectorGroups!: QueryList<ExerciseSelectorGroupComponent>;
-  private subscription = new Subscription();
+  @ViewChildren(ExerciseGroupSelectorComponent)
+  exerciseSelectorGroups!: QueryList<ExerciseGroupSelectorComponent>;
+  private _selectionSubscription = new Subscription();
+  private _timerEndSubscription = new Subscription();
 
+  private readonly _router = inject(Router);
   private readonly _route = inject(ActivatedRoute);
 
   constructor() {}
@@ -65,18 +70,25 @@ export class SessionComponent implements IInitializable {
   }
 
   ngOnDestroy(): void {
-    this.subscription.unsubscribe();
+    this._selectionSubscription.unsubscribe();
+    this._timerEndSubscription.unsubscribe();
   }
 
   init(): void {
+    Precondition.notNull(
+      this.seriesValidator,
+      'seriesValidator is null or undefined.'
+    );
+    Precondition.notNull(this.timer, 'timer is null or undefined.');
+
     this.exerciseSelectorGroups.forEach(
       (g) =>
-        (this.subscription = g.onSelectionChanged
+        (this._selectionSubscription = g.onSelectionChanged
           .pipe(skip(1))
           .subscribe((selections) => this.handleSelectionChanged(selections)))
     );
 
-    this.timer.onEnd.subscribe(() => {
+    this._timerEndSubscription = this.timer.onEnd.subscribe(() => {
       this.handleTimerEnd();
       this.handleEndOfSession();
     });
@@ -106,9 +118,23 @@ export class SessionComponent implements IInitializable {
   }
 
   private handleTimerEnd(): void {
-    this.exerciseSelectorGroups.forEach((g) => g.enable());
+    this.seriesValidator.validateOneSeries();
 
-    if (this.selectedExercise === null) return;
+    if (!this.seriesValidator.areAllSeriesValidated()) {
+      this.timer.setMaxDuration(
+        this.selectedExercise.restTime * 1000,
+        true,
+        () => this.timer.enable()
+      );
+
+      return;
+    }
+
+    this.handleEndOfExercise();
+  }
+
+  private handleEndOfExercise(): void {
+    this.exerciseSelectorGroups.forEach((g) => g.enable());
 
     this._finishedExercises.addUnique(this.selectedExercise);
     this.exerciseSelectorGroups.forEach((g) =>
@@ -116,11 +142,15 @@ export class SessionComponent implements IInitializable {
         if (this._finishedExercises.includes(s.exercise)) s.disable();
       })
     );
-    this.selectedExercise = null;
+    this.selectedExercise = ExerciseService.SESSION_EXERCISE_NONE;
   }
 
   private handleEndOfSession(): void {
-    // if (!condition) return;
+    const areAllExercisesFinished =
+      this._finishedExercises.length === this.exercises.length;
+
+    if (!areAllExercisesFinished) return;
     // Redirect to home page or do something about the session that has just been finished
+    this._router.navigate(['home']);
   }
 }
