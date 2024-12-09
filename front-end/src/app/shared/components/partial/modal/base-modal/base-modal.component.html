@@ -1,0 +1,28 @@
+<button class="btn btn-primary w-100" (click)="display()">
+  {{ btnTitle }}
+</button>
+
+<section #modal class="modal modal--displayed">
+  <div class="modal-content">
+    <!-- TOP -->
+    <div class="modal-content__top">
+      <div class="d-flex flex-column">
+        <h2 class="modal__title">{{ title }}</h2>
+        <small class="">{{ description }}</small>
+      </div>
+      <button class="btn btn-secondary" (click)="reset()">
+        {{ "X" }}
+      </button>
+    </div>
+
+    <!-- BOTTOM -->
+    <div class="modal-content__bottom">
+      <button #cancelBtn class="btn btn-secondary" (click)="reset()">
+        {{ cancelMessage }}
+      </button>
+      <button #validationBtn class="btn btn-primary" (click)="onValidation()">
+        {{ validationMessage }}
+      </button>
+    </div>
+  </div>
+</section>
