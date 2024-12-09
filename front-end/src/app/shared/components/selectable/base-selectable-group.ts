@@ -52,7 +52,7 @@ export class BaseSelectableGroup implements ISelectableGroup<ISelectable> {
    *
    * @param array The array of selectables to select.
    */
-  selectAll(array: Array<ISelectable>): void {
+  selectAll(array: Array<ISelectable> = this.selectables.toArray()): void {
     array.forEach((s) => this.addSelection(s));
     this.onSelectionChanged.next(array);
   }
@@ -64,7 +64,7 @@ export class BaseSelectableGroup implements ISelectableGroup<ISelectable> {
    * selectables, it will unselect all of them. Otherwise, it will only unselect the
    * ones that are in the array.
    */
-  unselectAll(array: Array<ISelectable>): void {
+  unselectAll(array: Array<ISelectable> = this.selectables.toArray()): void {
     array.forEach((s) => {
       s.unselect();
       this.selections.remove(s);
@@ -118,10 +118,9 @@ export class BaseSelectableGroup implements ISelectableGroup<ISelectable> {
    *
    * Logs the updated selections array to the console.
    */
-  clearSelections(): void {
-    this.unselectAll(this.selections);
-    this.selections.clear();
-    console.log('Selections : ', this.selections);
+  clear(): void {
+    this.unselectAll();
+    this.updateCheckbox();
   }
 
   /**
@@ -151,7 +150,7 @@ export class BaseSelectableGroup implements ISelectableGroup<ISelectable> {
       return;
     }
 
-    this.unselectAll(selectables);
+    this.unselectAll();
   }
 
   /**

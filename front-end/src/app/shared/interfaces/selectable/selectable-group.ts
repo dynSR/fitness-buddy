@@ -17,7 +17,7 @@ export interface ISelectableGroup<T extends ISelectable> extends IInteractable {
 
   addSelection(selectable: T): void;
   removeSelection(selectable: T): void;
-  clearSelections(): void;
+  clear(): void;
 
   handleSelectableClicked(selectable: T): void;
   handleSelectionCheckboxClicked(): void;
