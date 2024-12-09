@@ -1,4 +1,4 @@
-import { ElementRef, inject, ViewChild } from '@angular/core';
+import { ElementRef, inject } from '@angular/core';
 import { ITimer, ITimerUIElements, TimerState } from './timer';
 import { TimeFormatter } from '../../../helpers/time-formatter';
 import { IInitializable } from '../../../interfaces/initializable';

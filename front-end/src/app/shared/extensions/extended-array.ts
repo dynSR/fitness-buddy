@@ -38,7 +38,7 @@ export class ExtendedArray<T> extends Array<T> {
 
   remove(item: T, beforeRemove?: () => void, afterRemove?: () => void): void {
     const index = this.indexOf(item);
-
+    // Corresponding to item not found
     if (index === -1) return;
 
     if (beforeRemove) beforeRemove();

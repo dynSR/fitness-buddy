@@ -14,7 +14,7 @@ export class ExerciseService {
       series: 4,
       repetitions: 12,
       weight: 5,
-      restTime: 5,
+      restTime: 1,
       muscleGroup: 'Biceps',
     },
     {
@@ -25,7 +25,7 @@ export class ExerciseService {
       series: 4,
       repetitions: 12,
       weight: 5,
-      restTime: 5,
+      restTime: 1,
       muscleGroup: 'Biceps',
     },
     {
@@ -36,7 +36,7 @@ export class ExerciseService {
       series: 4,
       repetitions: 12,
       weight: 5,
-      restTime: 5,
+      restTime: 1,
       muscleGroup: 'Biceps',
     },
     {
@@ -47,7 +47,7 @@ export class ExerciseService {
       series: 4,
       repetitions: 12,
       weight: 5,
-      restTime: 5,
+      restTime: 1,
       muscleGroup: 'Triceps',
     },
     {
@@ -58,7 +58,7 @@ export class ExerciseService {
       series: 4,
       repetitions: 12,
       weight: 5,
-      restTime: 5,
+      restTime: 1,
       muscleGroup: 'Triceps',
     },
     {
@@ -69,7 +69,7 @@ export class ExerciseService {
       series: 4,
       repetitions: 12,
       weight: 5,
-      restTime: 5,
+      restTime: 1,
       muscleGroup: 'Triceps',
     },
     {
@@ -80,7 +80,7 @@ export class ExerciseService {
       series: 4,
       repetitions: 12,
       weight: 5,
-      restTime: 5,
+      restTime: 1,
       muscleGroup: 'Legs',
     },
     {
@@ -91,7 +91,7 @@ export class ExerciseService {
       series: 4,
       repetitions: 12,
       weight: 5,
-      restTime: 5,
+      restTime: 1,
       muscleGroup: 'Legs',
     },
     {
@@ -102,10 +102,32 @@ export class ExerciseService {
       series: 4,
       repetitions: 12,
       weight: 5,
-      restTime: 5,
+      restTime: 1,
       muscleGroup: 'Legs',
     },
   ];
+
+  static readonly EXERCISE_NONE: Exercise = {
+    id: -1,
+    name: '',
+    description: '',
+    series: 0,
+    repetitions: 0,
+    weight: 0,
+    restTime: 0,
+    muscleGroup: '',
+  };
+
+  static readonly SESSION_EXERCISE_NONE: Exercise = {
+    id: -1,
+    name: 'session.exercise.none',
+    description: '',
+    series: 0,
+    repetitions: 0,
+    weight: 0,
+    restTime: 0,
+    muscleGroup: '',
+  };
 
   constructor() {}
 
