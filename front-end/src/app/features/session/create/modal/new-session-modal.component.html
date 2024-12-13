@@ -32,6 +32,7 @@
         class="w-100"
         [muscleGroup]="muscleGroup"
         [exercises]="getExercisesByMuscleGroup(muscleGroup)"
+        [hidden]="isExerciseGroupFiltered(muscleGroup)"
       />
       }
       <!-- End of loop -->
