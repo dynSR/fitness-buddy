@@ -18,7 +18,11 @@
     <!-- CENTER -->
     <div class="modal-content__center">
       <!-- Filters -->
-      <app-filter-group-selector [filters]="muscleGroups" class="w-100" />
+      <app-filter-group-selector
+        [filters]="muscleGroups"
+        [filtersToDisable]="['Chest', 'Back', 'Shoulders']"
+        class="w-100"
+      />
 
       <!-- Exercises groups selector per muscle group -->
       @for (muscleGroup of muscleGroups; track $index) {
