@@ -35,8 +35,6 @@ export class BaseSelectableGroup implements ISelectableGroup<ISelectable> {
       '[Enable] - selectables are not found or might be empty.'
     );
 
-    console.log('[selectOne] - Selectable : ', selectable);
-
     if (selectable.isSelected) {
       this.removeSelection(selectable);
       return;
@@ -150,7 +148,9 @@ export class BaseSelectableGroup implements ISelectableGroup<ISelectable> {
    * @param muscleGroup The muscle group of the checkbox that was clicked.
    */
   handleSelectionCheckboxClicked(): void {
-    const selectables: Array<ISelectable> = this.selectables.toArray();
+    const selectables: Array<ISelectable> = this.selectables
+      .toArray()
+      .filter((s) => s.isInteractable);
     if (selectables.some((s) => !s.isSelected)) {
       this.selectAll(selectables);
       return;
@@ -198,7 +198,10 @@ export class BaseSelectableGroup implements ISelectableGroup<ISelectable> {
     const element = this.checkbox?.nativeElement;
     if (!element) return;
 
-    element.checked = this.selectables.toArray().every((s) => s.isSelected);
+    element.checked = this.selectables
+      .toArray()
+      .filter((s) => s.isInteractable)
+      .every((s) => s.isSelected);
     element.checkVisibility();
   }
 }
